@@ -35,11 +35,11 @@ function Input({
       <input
         className={`bg-secondary-orange-3 text-p2 placeholder:text-primary-green-3 text-primary-green-3 rounded-md border-none focus:outline-none focus:ring-1 focus:ring-primary-green-3 focus:border-transparent ${
           height === 'lg'
-            ? 'h-11'
-            : height === 'md'
-            ? 'h-10'
-            : height === 'sm'
             ? 'h-9'
+            : height === 'md'
+            ? 'h-8'
+            : height === 'sm'
+            ? 'h-7'
             : ''
         } ${className}`}
         id={name}
