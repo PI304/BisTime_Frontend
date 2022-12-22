@@ -12,7 +12,7 @@ module.exports = {
       fontSize: {
         display: '3rem',
         h1: '2rem',
-        h2: '1.5rem',
+        h2: '1.7rem',
         h3: '1rem',
         p1: '0.875rem',
         p2: '0.813rem',
