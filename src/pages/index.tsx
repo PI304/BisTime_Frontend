@@ -18,7 +18,6 @@ function Home() {
             Events
           </Button>
           <h1 className="text-b2 font-bold text-center text-base-black">OR</h1>
-
           <Button size="lg" onClick={() => router.push('/events/create')}>
             Teams
           </Button>
