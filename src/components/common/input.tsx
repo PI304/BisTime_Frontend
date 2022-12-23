@@ -26,7 +26,7 @@ function Input({
   ...rest
 }: InputProps) {
   return (
-    <div className="space-y-[6px] flex flex-col">
+    <div className="w-full space-y-[6px] flex flex-col">
       {islabel && (
         <label className="text-p3 text-primary-green-3" htmlFor={name}>
           {label}
