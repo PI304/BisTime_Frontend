@@ -26,7 +26,7 @@ module.exports = {
       colors: {
         base: {
           black: '#0C0C20',
-          while: 'F6FAF9',
+          white: 'F6FAF9',
         },
         gray: {
           1: '#F2F2F7',
@@ -58,5 +58,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')],
+  variants: {
+    scrollbar: ['rounded'],
+  },
 };
