@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
 const monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Aprl',
+  'January',
+  'February',
+  'March',
+  'April',
   'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 export default function Calender() {
@@ -66,29 +66,57 @@ export default function Calender() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">
-        <button
-          className="text-2xl font-bold text-gray-700"
-          onClick={prevMonth}
-        >
-          {'<'}
+        <button className="text-primary-green-3" onClick={prevMonth}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
+          </svg>
         </button>
-        <span className="text-2xl font-bold text-gray-700">
+        <span className="text-h3 text-primary-green-3">
           {monthNames[month]} {year}
         </span>
-        <button
-          className="text-2xl font-bold text-gray-700"
-          onClick={nextMonth}
-        >
-          {'>'}
+        <button className="text-primary-green-3" onClick={nextMonth}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-4 w-full mt-4">
+      <div className="grid grid-cols-7 gap-4 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center"
+            key={index}
+          >
+            {day}
+          </div>
+        ))}
         {days.map((day, index) => (
           <div
             key={index}
-            className="w-12 h-12 rounded-full flex items-center justify-center"
+            className="w-6 h-6 rounded-full flex items-center justify-center"
           >
             {day}
           </div>
