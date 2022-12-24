@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 
-export default function Toggle() {
+interface ToggleProps {
+  className?: string;
+}
+
+export default function Toggle({ className }: ToggleProps) {
   const [enabled, setEnabled] = useState(false);
 
   return (
     <Switch
       checked={enabled}
       onChange={setEnabled}
-      className="relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3"
+      className={
+        `relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3` +
+        (className ? ` ${className}` : '')
+      }
     >
       <span>AM</span>
       <span>PM</span>
