@@ -20,6 +20,7 @@ export default function Calender() {
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
+  const [dayIsSelected, setDayIsSelected] = useState([]);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -42,9 +43,13 @@ export default function Calender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
-    console.log(daysArray);
+    // array to array of boolean
+    const dayIsSelectedArray = daysArray.map((day) => {
+      return false;
+    });
 
     setDays(daysArray);
+    setDayIsSelected(dayIsSelectedArray);
   }, [month, year]);
 
   const nextMonth = () => {
@@ -55,6 +60,8 @@ export default function Calender() {
       setMonth(month + 1);
     }
   };
+
+  console.log(dayIsSelected);
 
   const prevMonth = () => {
     if (month === 0) {
@@ -116,7 +123,16 @@ export default function Calender() {
         {days.map((day, index) => (
           <div
             key={index}
-            className="w-6 h-6 rounded-full flex items-center justify-center"
+            onClick={() => {
+              const newDayIsSelected = [...dayIsSelected];
+              newDayIsSelected[index] = !newDayIsSelected[index];
+              setDayIsSelected(newDayIsSelected);
+            }}
+            className={`rounded-full flex items-center py-[2px] justify-center transition ${
+              day === '' || dayIsSelected[index] === false
+                ? 'bg-transparent'
+                : 'bg-primary-green-1 text-white'
+            }`}
           >
             {day}
           </div>
