@@ -33,7 +33,7 @@ export default function Select() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 z-10 overflow-hidden w-full rounded-md bg-secondary-orange-3 text-h3 shadow-lg">
+            <Listbox.Options className="absolute mt-1 z-10 overflow-auto scrollbar-none scrollbar-track-transparent scrollbar-thumb-primary-green-1 scrollbar-thumb-rounded max-h-40 w-full rounded-md bg-secondary-orange-3 text-h3">
               {timezone.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}
