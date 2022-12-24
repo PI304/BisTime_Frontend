@@ -116,7 +116,7 @@ export default function Calender() {
       <div className="grid grid-cols-7 gap-3 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
           <div
-            className="w-6 h-6 rounded-full flex items-center justify-center"
+            className="py-[2px] rounded-full flex items-center justify-center"
             key={index}
           >
             {day}
