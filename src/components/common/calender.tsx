@@ -20,7 +20,7 @@ export default function Calender() {
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
-  const [dayIsSelected, setDayIsSelected] = useState([]);
+  const [chosenDays, setChosenDays] = useState([]);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -33,23 +33,21 @@ export default function Calender() {
     for (let i = 1; i <= numberOfDays; i++) {
       daysArray.push(i);
     }
-    console.log(daysArray);
 
     for (let i = 0; i < firstDayIndex; i++) {
       daysArray.unshift('');
     }
-    console.log(daysArray);
 
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
     // array to array of boolean
-    const dayIsSelectedArray = daysArray.map((day) => {
+    const chosenDaysArray = daysArray.map((day) => {
       return false;
     });
 
     setDays(daysArray);
-    setDayIsSelected(dayIsSelectedArray);
+    setChosenDays(chosenDaysArray);
   }, [month, year]);
 
   const nextMonth = () => {
@@ -60,8 +58,6 @@ export default function Calender() {
       setMonth(month + 1);
     }
   };
-
-  console.log(dayIsSelected);
 
   const prevMonth = () => {
     if (month === 0) {
@@ -124,12 +120,12 @@ export default function Calender() {
           <div
             key={index}
             onClick={() => {
-              const newDayIsSelected = [...dayIsSelected];
-              newDayIsSelected[index] = !newDayIsSelected[index];
-              setDayIsSelected(newDayIsSelected);
+              const newChosenDays = [...chosenDays];
+              newChosenDays[index] = !newChosenDays[index];
+              setChosenDays(newChosenDays);
             }}
             className={`rounded-full flex items-center py-[2px] justify-center transition ${
-              day === '' || dayIsSelected[index] === false
+              day === '' || chosenDays[index] === false
                 ? 'bg-transparent'
                 : 'bg-primary-green-1 text-white'
             }`}
