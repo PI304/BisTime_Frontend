@@ -8,13 +8,14 @@ export default function Toggle() {
     <Switch
       checked={enabled}
       onChange={setEnabled}
-      className="relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-[94px] items-center rounded-md bg-secondary-orange-3"
+      className="relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3"
     >
-      AM : PM
+      <span>AM</span>
+      <span>PM</span>
       <span
         className={`${
-          enabled ? 'translate-x-11' : 'translate-x-[2px]'
-        } absolute -left-0 flex justify-center items-center text-h3 h-9 w-12 transform rounded-md text-white bg-primary-green-1 transition`}
+          enabled ? 'translate-x-12' : 'translate-x-1'
+        } absolute -left-0 flex justify-center items-center text-h3 h-8 w-11 transform rounded-md text-white bg-primary-green-1 transition`}
       >
         {enabled ? 'PM' : 'AM'}
       </span>
