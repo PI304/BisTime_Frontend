@@ -26,7 +26,7 @@ module.exports = {
       colors: {
         base: {
           black: '#0C0C20',
-          while: 'F6FAF9',
+          white: 'F6FAF9',
         },
         gray: {
           1: '#F2F2F7',
