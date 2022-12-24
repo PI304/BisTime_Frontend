@@ -68,6 +68,12 @@ export default function Calender() {
     }
   };
 
+  const handleWeekDayClick = (index) => {
+    const newChosenDays = [...chosenDays];
+    newChosenDays[index] = !newChosenDays[index];
+    setChosenDays(newChosenDays);
+  };
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">
@@ -107,7 +113,7 @@ export default function Calender() {
           </svg>
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-4 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
+      <div className="grid grid-cols-7 gap-3 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center"
@@ -119,12 +125,8 @@ export default function Calender() {
         {days.map((day, index) => (
           <div
             key={index}
-            onClick={() => {
-              const newChosenDays = [...chosenDays];
-              newChosenDays[index] = !newChosenDays[index];
-              setChosenDays(newChosenDays);
-            }}
-            className={`rounded-full flex items-center py-[2px] justify-center transition ${
+            onClick={day === '' ? null : () => handleWeekDayClick(index)}
+            className={`rounded-full flex items-center py-[2px] justify-center transition  ${
               day === '' || chosenDays[index] === false
                 ? 'bg-transparent'
                 : 'bg-primary-green-1 text-white'
