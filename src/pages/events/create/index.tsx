@@ -9,7 +9,11 @@ interface EventForm {
 
 function Create() {
   const router = useRouter();
-  const { handleSubmit, register } = useForm<EventForm>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<EventForm>();
 
   const onSubmit = (data: EventForm) => {
     console.log(data);
@@ -27,20 +31,32 @@ function Create() {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full space-y-4 flex flex-col items-center justify-center"
         >
-          <Input
-            name="title"
-            placeholder="Enter event name"
-            height="lg"
-            register={register('title', {
-              required: true,
-              maxLength: 100,
-              minLength: 1,
-            })}
-          />
+          <div className="w-full">
+            <Input
+              name="title"
+              placeholder="Enter event name"
+              height="lg"
+              register={register('title', {
+                required: true,
+                maxLength: 100,
+                minLength: 1,
+              })}
+            />
+            {errors.title && errors.title.type === 'required' && (
+              <p className="w-full mt-2 text-left text-system-error text-xs">
+                This field is required
+              </p>
+            )}
+            {errors.title && errors.title.type === 'maxLength' && (
+              <p className="w-full mt-2 text-left text-system-error text-xs">
+                Max length is 100
+              </p>
+            )}
+          </div>
 
           <Button
             size="lg"
-            // onClick={() => router.push('/events/create/schedule')}
+            onClick={() => router.push('/events/create/schedule')}
           >
             Next
           </Button>
