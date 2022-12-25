@@ -1,31 +1,23 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 
-const timezone = [
-  { time: '00:00' },
-  { time: '01:00' },
-  { time: '02:00' },
-  { time: '03:00' },
-  { time: '04:00' },
-  { time: '05:00' },
-  { time: '06:00' },
-  { time: '07:00' },
-  { time: '08:00' },
-  { time: '09:00' },
-  { time: '10:00' },
-  { time: '11:00' },
-  { time: '12:00' },
-];
+interface SelectProps {
+  options: { value: string }[];
+}
 
-export default function Select() {
-  const [selected, setSelected] = useState(timezone[0]);
+export default function Select({ options }: SelectProps) {
+  const [selected, setSelected] = useState(options[0]);
+
+  useEffect(() => {
+    setSelected(options[0]);
+  }, [options]);
 
   return (
     <div>
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button className="relative w-16 h-10 text-primary-green-3 cursor-default rounded-md text-h3 bg-secondary-orange-3 p-[1.5px] text-center focus:outline-none focus-visible:border-primary-green-1 ">
-            <span className="block truncate">{selected.time}</span>
+            <span className="block truncate">{selected.value}</span>
           </Listbox.Button>
           <Transition
             as={Fragment}
@@ -34,9 +26,9 @@ export default function Select() {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute mt-1 z-10 overflow-auto scrollbar-none scrollbar-track-transparent scrollbar-thumb-primary-green-1 scrollbar-thumb-rounded max-h-40 w-full rounded-md bg-secondary-orange-3 text-h3">
-              {timezone.map((person, personIdx) => (
+              {options.map((option, optionIdx) => (
                 <Listbox.Option
-                  key={personIdx}
+                  key={optionIdx}
                   className={({ active }) =>
                     `relative cursor-default select-none p-2 text-center ${
                       active
@@ -44,7 +36,7 @@ export default function Select() {
                         : 'text-primary-green-3'
                     }`
                   }
-                  value={person}
+                  value={option}
                 >
                   {({ selected }) => (
                     <>
@@ -53,7 +45,7 @@ export default function Select() {
                           selected ? 'font-medium' : 'font-normal'
                         }`}
                       >
-                        {person.time}
+                        {option.value}
                       </span>
                     </>
                   )}
