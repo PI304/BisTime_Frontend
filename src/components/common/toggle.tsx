@@ -3,20 +3,23 @@ import { Switch } from '@headlessui/react';
 
 interface ToggleProps {
   enabled?: boolean;
-  toggleMenu?: [string, string];
+  toggleMenu?: string[];
   className?: string;
+  [key: string]: any;
 }
 
 export default function Toggle({
   enabled,
   toggleMenu,
   className,
+  ...rest
 }: ToggleProps) {
   const [isEnabled, setIsEnabled] = useState(enabled);
   return (
     <Switch
       checked={enabled}
       onChange={setIsEnabled}
+      {...rest}
       className={
         `relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3` +
         (className ? ` ${className}` : '')
