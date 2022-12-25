@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userSlice from './user/userSlice';
+import eventSlice from './event/eventSlice';
 import storage from 'redux-persist/lib/storage';
 import {
   persistReducer,
@@ -13,6 +14,7 @@ import {
 
 const rootReducer = combineReducers({
   user: userSlice,
+  event: eventSlice,
 });
 
 const persistConfig = {
