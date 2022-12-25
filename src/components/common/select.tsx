@@ -1,16 +1,33 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
+import type {
+  FieldPath,
+  UseFormSetValue,
+  FieldPathValue,
+  FieldValues,
+} from 'react-hook-form';
 
-interface SelectProps {
+interface SelectProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  setValue: UseFormSetValue<T>;
   options: { value: string }[];
 }
 
-export default function Select({ options }: SelectProps) {
+export default function Select<T extends FieldValues>({
+  name,
+  setValue,
+  options,
+}: SelectProps<T>) {
   const [selected, setSelected] = useState(options[0]);
 
   useEffect(() => {
     setSelected(options[0]);
   }, [options]);
+
+  useEffect(() => {
+    if (selected !== undefined)
+      setValue(name, selected as FieldPathValue<T, FieldPath<T>>);
+  }, [selected, name, setValue]);
 
   return (
     <div>
