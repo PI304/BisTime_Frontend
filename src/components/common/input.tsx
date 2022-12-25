@@ -1,3 +1,5 @@
+import type { UseFormRegisterReturn } from 'react-hook-form';
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   islabel?: boolean;
   label?: string;
@@ -9,6 +11,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   height?: 'lg' | 'md' | 'sm';
   className?: string;
+  register: UseFormRegisterReturn;
   [key: string]: any;
 }
 
@@ -22,6 +25,7 @@ function Input({
   type = 'text',
   placeholder,
   height = 'md',
+  register,
   className,
   ...rest
 }: InputProps) {
@@ -48,6 +52,7 @@ function Input({
         onChange={onChange}
         type={type}
         placeholder={placeholder}
+        {...register}
         {...rest}
       />
       {error && <div className="text-system-error text-p3">{error}</div>}
