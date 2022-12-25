@@ -3,20 +3,31 @@ import Layout from '@components/common/layout';
 import Button from '@components/common/button';
 import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
+import { setTitle } from '@features/event/eventSlice';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
 interface EventForm {
   title: string;
 }
 
 function Create() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const titleState = useAppSelector((state) => state.event.title);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<EventForm>();
+  } = useForm<EventForm>({
+    defaultValues: {
+      title: titleState,
+    },
+  });
 
-  const onSubmit = (data: EventForm) => {
-    console.log(data);
+  const onSubmit = (form: EventForm) => {
+    const { title } = form;
+    dispatch(setTitle(title));
+    if (title) router.push('/events/create/schedule');
   };
 
   return (
@@ -54,12 +65,7 @@ function Create() {
             )}
           </div>
 
-          <Button
-            size="lg"
-            onClick={() => router.push('/events/create/schedule')}
-          >
-            Next
-          </Button>
+          <Button size="lg">Next</Button>
         </form>
       </div>
     </Layout>
