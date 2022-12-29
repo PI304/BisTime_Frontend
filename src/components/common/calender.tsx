@@ -47,14 +47,26 @@ export default function Calender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
+
     const chosenDaysArray = daysArray.map((day) => {
-      return false;
+      if (day !== '') return false;
     });
 
+    console.log(chosenDaysArray);
+
     setDays(daysArray);
+
+    eventState.additional_dates.forEach((date) => {
+      const dateArray = date.split('-');
+      if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+        chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+      }
+    });
+
     setChosenDays(chosenDaysArray);
   }, [month, year]);
 
+  console.log(eventState.additional_dates);
   const nextMonth = () => {
     if (month === 11) {
       setMonth(0);
@@ -72,8 +84,6 @@ export default function Calender() {
       setMonth(month - 1);
     }
   };
-
-  console.log(eventState.additional_dates);
 
   const handleWeekDayClick = (index) => {
     const newChosenDays = [...chosenDays];
@@ -145,7 +155,9 @@ export default function Calender() {
           <div
             key={index}
             onClick={day === '' ? null : () => handleWeekDayClick(index)}
-            className={`rounded-full flex items-center py-[2px] justify-center transition  ${
+            className={`rounded-full flex items-center py-[2px] justify-center transition ${
+              day === '' ? '' : 'cursor-pointer'
+            } ${
               day === '' || chosenDays[index] === false
                 ? 'bg-transparent'
                 : 'bg-primary-green-1 text-white'
