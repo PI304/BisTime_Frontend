@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { formatDate } from '@utils/calender';
 const monthNames = [
   'January',
   'February',
@@ -28,7 +28,6 @@ export default function Calender() {
     const firstDayIndex = firstDay.getDay();
     const lastDayIndex = lastDay.getDay();
     const numberOfDays = lastDay.getDate();
-
     const daysArray = [];
     for (let i = 1; i <= numberOfDays; i++) {
       daysArray.push(i);
@@ -41,7 +40,6 @@ export default function Calender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
-    // array to array of boolean
     const chosenDaysArray = daysArray.map((day) => {
       return false;
     });
@@ -72,6 +70,8 @@ export default function Calender() {
     const newChosenDays = [...chosenDays];
     newChosenDays[index] = !newChosenDays[index];
     setChosenDays(newChosenDays);
+    const choosenDay = formatDate(year, month, days[index]);
+    console.log(choosenDay);
   };
 
   return (
