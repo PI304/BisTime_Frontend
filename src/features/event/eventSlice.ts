@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+type Date = string;
 
 interface eventState {
   title: string;
+  start_time: string;
+  end_time: string;
+  additional_dates: Set<Date>;
 }
 const initialState: eventState = {
   title: '',
+  start_time: '',
+  end_time: '',
+  additional_dates: new Set<Date>([]),
 };
 
 const eventSlice = createSlice({
@@ -15,6 +22,17 @@ const eventSlice = createSlice({
       ...state,
       title: action.payload,
     }),
+    setTime: (state, action) => ({
+      ...state,
+      start_time: action.payload,
+      end_time: action.payload,
+    }),
+    addDate: (state, action) => {
+      state.additional_dates.add(action.payload);
+    },
+    removeDate: (state, action) => {
+      state.additional_dates.delete(action.payload);
+    },
   },
 });
 
