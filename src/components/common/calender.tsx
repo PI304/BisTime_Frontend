@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import {
+  addAdditionalDate,
+  removeAdditionalDate,
+} from '@features/event/eventSlice';
+
 const monthNames = [
   'January',
   'February',
@@ -21,7 +27,8 @@ export default function Calender() {
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
-
+  const dispatch = useAppDispatch();
+  const eventState = useAppSelector((state) => state.event);
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -40,14 +47,26 @@ export default function Calender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
+
     const chosenDaysArray = daysArray.map((day) => {
-      return false;
+      if (day !== '') return false;
     });
 
+    console.log(chosenDaysArray);
+
     setDays(daysArray);
+
+    eventState.additional_dates.forEach((date) => {
+      const dateArray = date.split('-');
+      if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+        chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+      }
+    });
+
     setChosenDays(chosenDaysArray);
   }, [month, year]);
 
+  console.log(eventState.additional_dates);
   const nextMonth = () => {
     if (month === 11) {
       setMonth(0);
@@ -71,7 +90,11 @@ export default function Calender() {
     newChosenDays[index] = !newChosenDays[index];
     setChosenDays(newChosenDays);
     const choosenDay = formatDate(year, month, days[index]);
-    console.log(choosenDay);
+    if (newChosenDays[index]) {
+      dispatch(addAdditionalDate(choosenDay));
+    } else {
+      dispatch(removeAdditionalDate(choosenDay));
+    }
   };
 
   return (
@@ -132,7 +155,9 @@ export default function Calender() {
           <div
             key={index}
             onClick={day === '' ? null : () => handleWeekDayClick(index)}
-            className={`rounded-full flex items-center py-[2px] justify-center transition  ${
+            className={`rounded-full flex items-center py-[2px] justify-center transition ${
+              day === '' ? '' : 'cursor-pointer'
+            } ${
               day === '' || chosenDays[index] === false
                 ? 'bg-transparent'
                 : 'bg-primary-green-1 text-white'
