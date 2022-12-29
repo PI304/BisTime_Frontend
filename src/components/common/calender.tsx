@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import {
+  addAdditionalDate,
+  removeAdditionalDate,
+} from '@features/event/eventSlice';
+
 const monthNames = [
   'January',
   'February',
@@ -21,7 +27,8 @@ export default function Calender() {
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
-
+  const dispatch = useAppDispatch();
+  const eventState = useAppSelector((state) => state.event);
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -66,12 +73,18 @@ export default function Calender() {
     }
   };
 
+  console.log(eventState.additional_dates);
+
   const handleWeekDayClick = (index) => {
     const newChosenDays = [...chosenDays];
     newChosenDays[index] = !newChosenDays[index];
     setChosenDays(newChosenDays);
     const choosenDay = formatDate(year, month, days[index]);
-    console.log(choosenDay);
+    if (newChosenDays[index]) {
+      dispatch(addAdditionalDate(choosenDay));
+    } else {
+      dispatch(removeAdditionalDate(choosenDay));
+    }
   };
 
   return (
