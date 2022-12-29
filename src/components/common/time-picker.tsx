@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from './select';
 import Toggle from './toggle';
+import type { FieldPath, UseFormSetValue, FieldValues } from 'react-hook-form';
 
 const dayTimeZone = [
   { value: '00:00' },
@@ -33,22 +34,34 @@ const nightTimeZone = [
   { value: '24:00' },
 ];
 
-export default function TimePicker() {
-  const [dayOrNight, setDayOrNight] = useState(true);
+interface TimePickerProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  setValue: UseFormSetValue<T>;
+  dayOrNight: boolean;
+  className?: string;
+}
+
+export default function TimePicker<T extends FieldValues>({
+  name,
+  setValue,
+  dayOrNight,
+  className,
+}: TimePickerProps<T>) {
+  const [isDayOrNight, setIsDayOrNight] = useState(dayOrNight);
   const [options, setOptions] = useState(dayTimeZone);
 
   useEffect(() => {
-    if (dayOrNight) setOptions(nightTimeZone);
+    if (isDayOrNight) setOptions(nightTimeZone);
     else setOptions(dayTimeZone);
-  }, [dayOrNight, setOptions]);
+  }, [isDayOrNight]);
 
   return (
-    <div className="flex justify-center items-center">
-      <Select options={options} />
+    <div className={`flex justify-center items-center ${className}`}>
+      <Select name={name} setValue={setValue} options={options} />
       <Toggle
-        enabled={dayOrNight}
+        enabled={isDayOrNight}
         onClick={() => {
-          setDayOrNight((prev) => !prev);
+          setIsDayOrNight(!isDayOrNight);
         }}
         toggleMenu={['AM', 'PM']}
         className="ml-1"

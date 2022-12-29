@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { formatDate } from '@utils/calender';
 const monthNames = [
   'January',
   'February',
@@ -28,7 +28,6 @@ export default function Calender() {
     const firstDayIndex = firstDay.getDay();
     const lastDayIndex = lastDay.getDay();
     const numberOfDays = lastDay.getDate();
-
     const daysArray = [];
     for (let i = 1; i <= numberOfDays; i++) {
       daysArray.push(i);
@@ -41,7 +40,6 @@ export default function Calender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
-    // array to array of boolean
     const chosenDaysArray = daysArray.map((day) => {
       return false;
     });
@@ -72,12 +70,17 @@ export default function Calender() {
     const newChosenDays = [...chosenDays];
     newChosenDays[index] = !newChosenDays[index];
     setChosenDays(newChosenDays);
+    const choosenDay = formatDate(year, month, days[index]);
+    console.log(choosenDay);
   };
 
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">
-        <button className="text-primary-green-3" onClick={prevMonth}>
+        <div
+          className="text-primary-green-3 cursor-pointer"
+          onClick={prevMonth}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -92,11 +95,14 @@ export default function Calender() {
               d="M15.75 19.5L8.25 12l7.5-7.5"
             />
           </svg>
-        </button>
+        </div>
         <span className="text-h3 text-primary-green-3">
           {monthNames[month]} {year}
         </span>
-        <button className="text-primary-green-3" onClick={nextMonth}>
+        <div
+          className="text-primary-green-3 cursor-pointer"
+          onClick={nextMonth}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -111,7 +117,7 @@ export default function Calender() {
               d="M8.25 4.5l7.5 7.5-7.5 7.5"
             />
           </svg>
-        </button>
+        </div>
       </div>
       <div className="grid grid-cols-7 gap-3 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
