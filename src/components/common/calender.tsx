@@ -52,8 +52,6 @@ export default function Calender() {
       if (day !== '') return false;
     });
 
-    console.log(chosenDaysArray);
-
     setDays(daysArray);
 
     eventState.additional_dates.forEach((date) => {
@@ -66,7 +64,6 @@ export default function Calender() {
     setChosenDays(chosenDaysArray);
   }, [month, year]);
 
-  console.log(eventState.additional_dates);
   const nextMonth = () => {
     if (month === 11) {
       setMonth(0);

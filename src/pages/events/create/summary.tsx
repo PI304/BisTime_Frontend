@@ -1,8 +1,5 @@
 import { useRouter } from 'next/router';
 import Layout from '@components/common/layout';
-import Calender from '@components/common/calender';
-import Select from '@components/common/select';
-import Toggle from '@components/common/toggle';
 import Button from '@components/common/button';
 
 function Schedule() {
