@@ -27,45 +27,45 @@ const refreshToken = async () => {
   return token;
 };
 
-instance.interceptors.request.use(
-  async (config) => {
-    const token = getToken();
-    const isAccess = !!token && !!token.access;
-    if (isAccess) setAuthorHeader(token.access as string);
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  },
-);
+// instance.interceptors.request.use(
+//   async (config) => {
+//     const token = getToken();
+//     const isAccess = !!token && !!token.access;
+//     if (isAccess) setAuthorHeader(token.access as string);
+//     return config;
+//   },
+//   (error) => {
+//     Promise.reject(error);
+//   },
+// );
 
-instance.interceptors.response.use(
-  (res) => {
-    return res;
-  },
-  async (error) => {
-    const { response: res, config: reqData } = error || {};
-    const { status } = res || {};
-    const isUnAuthError = status === 401;
-    const isExpiredToken = status === 444;
+// instance.interceptors.response.use(
+//   (res) => {
+//     return res;
+//   },
+//   async (error) => {
+//     const { response: res, config: reqData } = error || {};
+//     const { status } = res || {};
+//     const isUnAuthError = status === 401;
+//     const isExpiredToken = status === 444;
 
-    if (isExpiredToken) {
-      const token = await refreshToken();
-      if (token?.access) {
-        setToken(token);
-        setAuthorHeader(token.access);
-        reqData.headers.Authorization = `Bearer ${token?.access}`;
-        return instance(reqData);
-      }
-    }
+//     if (isExpiredToken) {
+//       const token = await refreshToken();
+//       if (token?.access) {
+//         setToken(token);
+//         setAuthorHeader(token.access);
+//         reqData.headers.Authorization = `Bearer ${token?.access}`;
+//         return instance(reqData);
+//       }
+//     }
 
-    if (isUnAuthError) {
-      deleteToken();
-      window.location.href = '/auth/login';
-      return Promise.reject(error);
-    }
-  },
-);
+//     if (isUnAuthError) {
+//       deleteToken();
+//       window.location.href = '/auth/login';
+//       return Promise.reject(error);
+//     }
+//   },
+// );
 
 export { setAuthorHeader, unsetAuthorHeader };
 
