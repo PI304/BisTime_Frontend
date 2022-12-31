@@ -2269,6 +2269,7 @@ __metadata:
     react-query: ^3.39.2
     react-redux: ^8.0.5
     redux-persist: ^6.0.0
+    swr: ^2.0.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.1
     typescript: 4.8.4
@@ -3710,6 +3711,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"swr@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "swr@npm:2.0.0"
+  dependencies:
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: 4852d8318ed022a681b40a384e675f65e211104d62075c1250b02f47cc8b739cb9138a954e2191c700e2de22b010b9bd05a113c71b193abe0c351d3c4f4646d8
+  languageName: node
+  linkType: hard
+
 "tailwind-scrollbar@npm:^2.0.1":
   version: 2.0.1
   resolution: "tailwind-scrollbar@npm:2.0.1"
@@ -3921,7 +3933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.0.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.0.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:

@@ -21,8 +21,11 @@
       "@constants/*": ["./constants/*"],
       "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
-      "@utils/*": ["./utils/*"]
-    }
+      "@utils/*": ["./utils/*"],
+      "@public/*": ["../public/*"],
+      "@config": ["../config.ts"]
+    },
+    "strict": false
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
