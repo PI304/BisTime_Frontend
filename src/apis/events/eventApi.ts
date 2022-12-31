@@ -18,7 +18,7 @@ export class EventApi {
   async getEventList(params: EventParamGetType): Promise<EventDTOType[]> {
     const { data } = await this.axios({
       method: 'GET',
-      url: `/events`,
+      url: `/api/events`,
       params,
     });
     return data;
@@ -27,7 +27,7 @@ export class EventApi {
   async getEventById(id: string): Promise<EventDTOType> {
     const { data } = await this.axios({
       method: 'GET',
-      url: `/events/${id}`,
+      url: `/api/events/${id}`,
     });
     return data;
   }
@@ -35,7 +35,7 @@ export class EventApi {
   async postEvent(body: EventDTOType): Promise<EventDTOType> {
     const { data } = await this.axios({
       method: 'POST',
-      url: `/events`,
+      url: `/api/events`,
       data: body,
     });
     return data;
@@ -44,7 +44,7 @@ export class EventApi {
   async patchEvent(req: EventParamPatchType): Promise<EventDTOType> {
     const { data } = await this.axios({
       method: 'PATCH',
-      url: `/events/${req.id}`,
+      url: `/api/events/${req.id}`,
       data: req.data,
     });
     return data;
@@ -53,7 +53,7 @@ export class EventApi {
   async deleteEvent(id: string): Promise<boolean> {
     const { data } = await this.axios({
       method: 'DELETE',
-      url: `/events/${id}`,
+      url: `/api/events/${id}`,
     });
     return data;
   }
@@ -61,7 +61,7 @@ export class EventApi {
   async postEventDate(req: EventDateParamDTOType): Promise<EventDTOType> {
     const { data } = await this.axios({
       method: 'POST',
-      url: `/events/${req.id}/dates`,
+      url: `/api/events/${req.id}/dates`,
       data: req.data,
     });
     return data;
