@@ -4,7 +4,7 @@ import Button from '@components/common/button';
 import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
-import { setName, setPassword } from '@features/user/userSlice';
+import { setName } from '@features/schedule/scheduleSlice';
 import { useEffect, useState } from 'react';
 import { addAdditionalDate } from '@features/event/eventSlice';
 
@@ -35,7 +35,7 @@ function Update() {
   const onSubmit = (form: UserForm) => {
     const { name, password } = form;
     dispatch(setName(name));
-    dispatch(setPassword(password));
+    // dispatch(setPassword(password));
     if (name && password) router.push('/events/update/schedule');
   };
 
