@@ -53,18 +53,17 @@ export default function Calender({ isEditable = true }: CalenderProps) {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
+    setDays(daysArray);
 
     const chosenDaysArray = daysArray.map((day) => {
       if (day !== '') return false;
     });
-    setDays(daysArray);
     eventState.additional_dates.forEach((date) => {
       const dateArray = date.split('-');
       if (+dateArray[0] === year && +dateArray[1] === month + 1) {
         chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
       }
     });
-
     setChosenDays(chosenDaysArray);
   }, [month, year, eventState.additional_dates]);
 
@@ -167,7 +166,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
           >
             {day}
             {!isEditable && day !== '' && chosenDays[index] && (
-              <div className="absolute -bottom-[4px] w-[5px] h-[5px] rounded-full bg-gray-5"></div>
+              <div className="absolute -bottom-[4px] w-[5px] h-[5px] rounded-full bg-primary-green-1"></div>
             )}
           </div>
         ))}
