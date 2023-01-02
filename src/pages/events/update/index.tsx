@@ -3,6 +3,13 @@ import Layout from '@components/common/layout';
 import Button from '@components/common/button';
 import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
+import { useAppDispatch } from '@features/hooks';
+import { setName, setPassword } from '@features/user/userSlice';
+import { useEffect, useState } from 'react';
+import { addAdditionalDate } from '@features/event/eventSlice';
+
+const MOCK_DATA = ['2023-01-02', '2023-01-03', '2023-01-09'];
+
 interface UserForm {
   name: string;
   password: string;
@@ -10,6 +17,14 @@ interface UserForm {
 
 function Update() {
   const router = useRouter();
+  const [selectedDate, setSelectedDate] = useState<string[]>(MOCK_DATA);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    selectedDate.forEach((date) => {
+      dispatch(addAdditionalDate(date));
+    });
+  }, [selectedDate, dispatch]);
 
   const {
     handleSubmit,
@@ -19,15 +34,17 @@ function Update() {
 
   const onSubmit = (form: UserForm) => {
     const { name, password } = form;
+    dispatch(setName(name));
+    dispatch(setPassword(password));
     if (name && password) router.push('/events/update/schedule');
   };
 
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-16">
+        <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-h2 font-bold text-center text-base-black">
-            Event's Name
+            Who are you?
           </h1>
         </div>
         <form
@@ -63,6 +80,7 @@ function Update() {
               islabel
               label="Password"
               name="password"
+              type="password"
               placeholder="password"
               height="lg"
               register={register('password', {
