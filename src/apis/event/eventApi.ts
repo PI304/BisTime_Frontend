@@ -15,11 +15,10 @@ export class EventApi {
     if (axios) this.axios = axios;
   }
 
-  async getEventList(params: EventParamGetType): Promise<EventDTOType[]> {
+  async getEventList(): Promise<EventDTOType[]> {
     const { data } = await this.axios({
       method: 'GET',
       url: `/api/events`,
-      params,
     });
     return data;
   }
