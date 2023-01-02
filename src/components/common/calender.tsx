@@ -66,7 +66,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
     });
 
     setChosenDays(chosenDaysArray);
-  }, [month, year]);
+  }, [month, year, eventState.additional_dates]);
 
   const nextMonth = () => {
     if (month === 11) {
@@ -167,7 +167,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
           >
             {day}
             {!isEditable && day !== '' && chosenDays[index] && (
-              <div className="absolute -bottom-1 w-[6px] h-[6px] rounded-full bg-primary-green-1"></div>
+              <div className="absolute -bottom-[4px] w-[5px] h-[5px] rounded-full bg-gray-5"></div>
             )}
           </div>
         ))}
