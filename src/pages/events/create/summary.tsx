@@ -4,6 +4,10 @@ import Button from '@components/common/button';
 import Calender from '@components/common/calender';
 
 function Schedule() {
+  const handleShareLink = () => {
+    navigator.clipboard.writeText('link copied');
+  };
+
   const router = useRouter();
   return (
     <Layout>
@@ -17,13 +21,7 @@ function Schedule() {
         </div>
         <Calender isEditable={false} />
         <div className="w-full flex items-center justify-center mt-4">
-          <Button
-            onClick={() => {
-              router.push('/events/create/summary');
-            }}
-          >
-            Share Link
-          </Button>
+          <Button onClick={handleShareLink}>Share Link</Button>
         </div>
       </div>
     </Layout>
