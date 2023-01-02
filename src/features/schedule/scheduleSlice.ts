@@ -4,12 +4,14 @@ export interface scheduleState {
   name: string;
   event: number | undefined;
   dates: string[];
+  current: string;
   availability: string;
 }
 const initialState: scheduleState = {
   name: '',
   event: undefined,
   dates: [],
+  current: '',
   availability: '',
 };
 
@@ -33,9 +35,13 @@ const scheduleSlice = createSlice({
       ...state,
       availability: action.payload,
     }),
+    setCurrnet: (state, action) => ({
+      ...state,
+      current: action.payload,
+    }),
   },
 });
 
-export const { setName, setEvent, setDates, setAvailability } =
+export const { setName, setEvent, setDates, setAvailability, setCurrnet } =
   scheduleSlice.actions;
 export default scheduleSlice.reducer;
