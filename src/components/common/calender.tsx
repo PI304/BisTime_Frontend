@@ -21,7 +21,11 @@ const monthNames = [
   'December',
 ];
 
-export default function Calender() {
+interface CalenderProps {
+  isEditable?: boolean;
+}
+
+export default function Calender({ isEditable = true }: CalenderProps) {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
@@ -29,6 +33,7 @@ export default function Calender() {
   const [chosenDays, setChosenDays] = useState([]);
   const dispatch = useAppDispatch();
   const eventState = useAppSelector((state) => state.event);
+
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -36,6 +41,7 @@ export default function Calender() {
     const lastDayIndex = lastDay.getDay();
     const numberOfDays = lastDay.getDate();
     const daysArray = [];
+
     for (let i = 1; i <= numberOfDays; i++) {
       daysArray.push(i);
     }
@@ -51,11 +57,7 @@ export default function Calender() {
     const chosenDaysArray = daysArray.map((day) => {
       if (day !== '') return false;
     });
-
-    console.log(chosenDaysArray);
-
     setDays(daysArray);
-
     eventState.additional_dates.forEach((date) => {
       const dateArray = date.split('-');
       if (+dateArray[0] === year && +dateArray[1] === month + 1) {
@@ -66,7 +68,6 @@ export default function Calender() {
     setChosenDays(chosenDaysArray);
   }, [month, year]);
 
-  console.log(eventState.additional_dates);
   const nextMonth = () => {
     if (month === 11) {
       setMonth(0);
@@ -86,6 +87,7 @@ export default function Calender() {
   };
 
   const handleWeekDayClick = (index) => {
+    if (!isEditable) return;
     const newChosenDays = [...chosenDays];
     newChosenDays[index] = !newChosenDays[index];
     setChosenDays(newChosenDays);
@@ -155,15 +157,18 @@ export default function Calender() {
           <div
             key={index}
             onClick={day === '' ? null : () => handleWeekDayClick(index)}
-            className={`rounded-full flex items-center py-[2px] justify-center transition ${
+            className={`relative rounded-full flex items-center py-[2px] justify-center transition ${
               day === '' ? '' : 'cursor-pointer'
-            } ${
-              day === '' || chosenDays[index] === false
+            }  ${
+              day === '' || chosenDays[index] === false || !isEditable
                 ? 'bg-transparent'
                 : 'bg-primary-green-1 text-white'
             }`}
           >
             {day}
+            {!isEditable && day !== '' && chosenDays[index] && (
+              <div className="absolute -bottom-1 w-[6px] h-[6px] rounded-full bg-primary-green-1"></div>
+            )}
           </div>
         ))}
       </div>
