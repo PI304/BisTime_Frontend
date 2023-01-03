@@ -21,6 +21,7 @@ export default function useMutation(url: string): UseMutationResult {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        version: '1',
       },
       body: JSON.stringify(data),
     })
