@@ -1,5 +1,5 @@
+import { CONFIG } from '@config';
 import { useState } from 'react';
-
 interface useMutationState {
   loading: boolean;
   data?: object;
@@ -17,7 +17,7 @@ export default function useMutation(url: string): UseMutationResult {
 
   function mutation(data: any) {
     setState((prev) => ({ ...prev, loading: true }));
-    fetch(url, {
+    fetch(`${CONFIG.API_BASE_URL}/api${url}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
