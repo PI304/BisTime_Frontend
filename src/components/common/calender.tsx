@@ -5,7 +5,7 @@ import {
   addAdditionalDate,
   removeAdditionalDate,
 } from '@features/event/eventSlice';
-
+import { setCurrnet } from '@features/schedule/scheduleSlice';
 const monthNames = [
   'January',
   'February',
@@ -33,6 +33,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
   const [chosenDays, setChosenDays] = useState([]);
   const dispatch = useAppDispatch();
   const eventState = useAppSelector((state) => state.event);
+  const scheduleState = useAppSelector((state) => state.schedule);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -86,15 +87,24 @@ export default function Calender({ isEditable = true }: CalenderProps) {
   };
 
   const handleWeekDayClick = (index) => {
-    if (!isEditable) return;
-    const newChosenDays = [...chosenDays];
-    newChosenDays[index] = !newChosenDays[index];
-    setChosenDays(newChosenDays);
-    const choosenDay = formatDate(year, month, days[index]);
-    if (newChosenDays[index]) {
-      dispatch(addAdditionalDate(choosenDay));
+    if (!isEditable) {
+      if (
+        eventState.additional_dates.includes(
+          formatDate(year, month, days[index]),
+        )
+      ) {
+        dispatch(setCurrnet(formatDate(year, month, days[index])));
+      }
     } else {
-      dispatch(removeAdditionalDate(choosenDay));
+      const newChosenDays = [...chosenDays];
+      newChosenDays[index] = !newChosenDays[index];
+      setChosenDays(newChosenDays);
+      const choosenDay = formatDate(year, month, days[index]);
+      if (newChosenDays[index]) {
+        dispatch(addAdditionalDate(choosenDay));
+      } else {
+        dispatch(removeAdditionalDate(choosenDay));
+      }
     }
   };
 
@@ -156,17 +166,32 @@ export default function Calender({ isEditable = true }: CalenderProps) {
           <div
             key={index}
             onClick={day === '' ? null : () => handleWeekDayClick(index)}
-            className={`relative rounded-full flex items-center py-[2px] justify-center transition ${
+            className={`relative rounded-full flex items-center py-1 justify-center transition ${
               day === '' ? '' : 'cursor-pointer'
-            }  ${
+            } ${
+              scheduleState.current === formatDate(year, month, days[index])
+                ? 'bg-primary-green-1 text-white'
+                : ''
+            } ${
               day === '' || chosenDays[index] === false || !isEditable
-                ? 'bg-transparent'
+                ? scheduleState.current === formatDate(year, month, days[index])
+                  ? 'bg-primary-green-1 text-white'
+                  : 'bg-secondary-orange-3 text-primary-green-3'
                 : 'bg-primary-green-1 text-white'
             }`}
           >
             {day}
             {!isEditable && day !== '' && chosenDays[index] && (
-              <div className="absolute -bottom-[4px] w-[5px] h-[5px] rounded-full bg-primary-green-1"></div>
+              <div
+                className={`
+                absolute -bottom-[2px] w-[6px] h-[6px] rounded-full
+                ${
+                  scheduleState.current === formatDate(year, month, days[index])
+                    ? ''
+                    : 'bg-gray-400'
+                }
+              `}
+              ></div>
             )}
           </div>
         ))}
