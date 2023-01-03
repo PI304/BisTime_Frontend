@@ -6,6 +6,7 @@ import TimePicker from '@components/common/time-picker';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setTime } from '@features/event/eventSlice';
+import useMutation from '@apis/useMutation';
 
 type time = {
   value: string;
@@ -15,18 +16,45 @@ interface ScheuleForm {
   end_time: time;
 }
 
+interface EventMutaionResponse {
+  id: number;
+  uuid: string;
+}
+
 function Schedule() {
   const { setValue, handleSubmit } = useForm<ScheuleForm>();
   const dispatch = useAppDispatch();
   const eventState = useAppSelector((state) => state.event);
   const router = useRouter();
 
+  const [createEvent, { data, error, loading }] =
+    useMutation<EventMutaionResponse>('/events/');
+
   const onValid = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
     dispatch(
       setTime({ start_time: start_time.value, end_time: end_time.value }),
     );
-    router.push('/events/create/summary');
+
+    if (start_time.value > end_time.value) {
+      alert('시작시간이 종료시간보다 늦습니다.');
+      return;
+    }
+
+    createEvent({
+      title: eventState.title,
+      start_time: start_time.value,
+      end_time: end_time.value,
+    });
+
+    if (data) {
+      console.log(data);
+
+      router.push({
+        pathname: '/events/create/summary',
+        query: { id: data.id, uuid: data.uuid },
+      });
+    }
   };
 
   return (
@@ -52,7 +80,7 @@ function Schedule() {
           <TimePicker name="end_time" dayOrNight={true} setValue={setValue} />
         </div>
         <div className="w-full flex items-center justify-center mt-4">
-          <Button>Next</Button>
+          <Button>{loading ? 'loading' : 'Next'}</Button>
         </div>
       </form>
     </Layout>
