@@ -37,7 +37,9 @@ function Schedule() {
     );
 
     if (start_time.value > end_time.value) {
-      alert('시작시간이 종료시간보다 늦습니다.');
+      alert(
+        'Please check the time you entered. The start time must be earlier than the end time.',
+      );
       return;
     }
 
@@ -80,7 +82,7 @@ function Schedule() {
           <TimePicker name="end_time" dayOrNight={true} setValue={setValue} />
         </div>
         <div className="w-full flex items-center justify-center mt-4">
-          <Button>{loading ? 'loading' : 'Next'}</Button>
+          <Button loading={loading}>Next</Button>
         </div>
       </form>
     </Layout>
