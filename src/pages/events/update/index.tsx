@@ -5,26 +5,29 @@ import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName } from '@features/schedule/scheduleSlice';
-import { useEffect, useState } from 'react';
-import { addAdditionalDate } from '@features/event/eventSlice';
-
-const MOCK_DATA = ['2023-01-02', '2023-01-03', '2023-01-09'];
-
+import { useEffect } from 'react';
+import { setAvailability, setTime } from '@features/event/eventSlice';
+import useSWR from 'swr';
+import { eventState } from '@features/event/eventSlice';
 interface UserForm {
   name: string;
-  password: string;
 }
 
 function Update() {
   const router = useRouter();
-  const [selectedDate, setSelectedDate] = useState<string[]>(MOCK_DATA);
+  const { uuid } = router.query;
+  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}}/`);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    selectedDate.forEach((date) => {
-      dispatch(addAdditionalDate(date));
-    });
-  }, [selectedDate, dispatch]);
+    if (isLoading) return;
+    dispatch(setAvailability(data.availability));
+    const time_rage = {
+      start_time: data.start_time,
+      end_time: data.end_time,
+    };
+    dispatch(setTime(time_rage));
+  }, [dispatch, data, isLoading]);
 
   const {
     handleSubmit,
@@ -33,15 +36,23 @@ function Update() {
   } = useForm<UserForm>({});
 
   const onSubmit = (form: UserForm) => {
-    const { name, password } = form;
+    const { name } = form;
     dispatch(setName(name));
-    // dispatch(setPassword(password));
-    if (name && password) router.push('/events/update/schedule');
+    if (name)
+      router.push({
+        pathname: '/events/update/schedule',
+        query: { uuid },
+      });
   };
 
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
+        <div className="w-full flex flex-col items-center justify-center mb-8">
+          <h1 className="text-display font-bold text-center text-primary-green-1">
+            Event Title
+          </h1>
+        </div>
         <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-h2 font-bold text-center text-base-black">
             Who are you?
@@ -75,32 +86,7 @@ function Update() {
               </p>
             )}
           </div>
-          <div className="w-full mt-4">
-            <Input
-              islabel
-              label="Password"
-              name="password"
-              type="password"
-              placeholder="password"
-              height="lg"
-              register={register('password', {
-                required: true,
-                maxLength: 100,
-                minLength: 1,
-              })}
-            />
-            {errors.password && errors.password.type === 'required' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                This field is required
-              </p>
-            )}
-            {errors.password && errors.password.type === 'maxLength' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                Max length is 100
-              </p>
-            )}
-          </div>
-          <Button size="lg" className="mt-8">
+          <Button size="lg" className="mt-4">
             Next
           </Button>
         </form>

@@ -1,22 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface eventState {
+  uuid: string;
   title: string;
   start_time: string;
   end_time: string;
   additional_dates: string[];
+  availability: object;
 }
 const initialState: eventState = {
+  uuid: '',
   title: '',
   start_time: '',
   end_time: '',
   additional_dates: [],
+  availability: {},
 };
 
 const eventSlice = createSlice({
   name: 'eventReducer',
   initialState,
   reducers: {
+    setUuid: (state, action) => ({
+      ...state,
+      uuid: action.payload,
+    }),
     setTitle: (state, action) => ({
       ...state,
       title: action.payload,
@@ -36,9 +44,18 @@ const eventSlice = createSlice({
         (date) => date !== action.payload,
       ),
     }),
+    setAvailability: (state, action) => ({
+      ...state,
+      availability: action.payload,
+    }),
   },
 });
 
-export const { setTitle, setTime, addAdditionalDate, removeAdditionalDate } =
-  eventSlice.actions;
+export const {
+  setTitle,
+  setTime,
+  addAdditionalDate,
+  removeAdditionalDate,
+  setAvailability,
+} = eventSlice.actions;
 export default eventSlice.reducer;

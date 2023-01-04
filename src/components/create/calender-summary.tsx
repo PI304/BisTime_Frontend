@@ -20,7 +20,7 @@ const monthNames = [
   'December',
 ];
 
-export default function Calender() {
+export default function SummaryCalender() {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
@@ -61,7 +61,6 @@ export default function Calender() {
         chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
       }
     });
-
     setChosenDays(chosenDaysArray);
   }, [month, year, eventState.additional_dates, eventState.availability]);
 
@@ -80,18 +79,6 @@ export default function Calender() {
       setYear(year - 1);
     } else {
       setMonth(month - 1);
-    }
-  };
-
-  const handleWeekDayClick = (index) => {
-    const newChosenDays = [...chosenDays];
-    newChosenDays[index] = !newChosenDays[index];
-    setChosenDays(newChosenDays);
-    const choosenDay = formatDate(year, month, days[index]);
-    if (newChosenDays[index]) {
-      dispatch(addAdditionalDate(choosenDay));
-    } else {
-      dispatch(removeAdditionalDate(choosenDay));
     }
   };
 
@@ -152,18 +139,12 @@ export default function Calender() {
         {days.map((day, index) => (
           <div
             key={index}
-            onClick={day === '' ? null : () => handleWeekDayClick(index)}
-            className={`relative rounded-full flex items-center py-1 justify-center transition ${
-              day === '' ? '' : 'cursor-pointer'
-            }
-            ${
-              chosenDays[index]
-                ? 'bg-primary-green-1 text-secondary-orange-3'
-                : 'bg-secondary-orange-3 text-primary-green-3'
-            }
-            `}
+            className={`relative rounded-full flex items-center py-1 justify-center transition`}
           >
             {day}
+            {chosenDays[index] && (
+              <div className="absolute w-[6px] h-[6px] rounded-full bg-primary-green-1 bottom-0"></div>
+            )}
           </div>
         ))}
       </div>

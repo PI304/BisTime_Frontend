@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import Layout from '@components/common/layout';
 import Button from '@components/common/button';
-import Calender from '@components/common/calender';
 import { useState } from 'react';
+import SummaryCalender from '@components/create/calender-summary';
 
 function Schedule() {
   const router = useRouter();
@@ -29,7 +29,7 @@ function Schedule() {
             Share with your Friends
           </h1>
         </div>
-        <Calender isEditable={false} />
+        <SummaryCalender />
         <div className="w-full flex items-center justify-center mt-4">
           <Button loading={loading} onClick={handleShareLink}>
             Share Link

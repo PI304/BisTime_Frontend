@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import {
-  addAdditionalDate,
-  removeAdditionalDate,
-} from '@features/event/eventSlice';
+import { setCurrnet } from '@features/schedule/scheduleSlice';
 const monthNames = [
   'January',
   'February',
@@ -20,7 +17,7 @@ const monthNames = [
   'December',
 ];
 
-export default function Calender() {
+export default function ScheduleCalender() {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
@@ -28,6 +25,7 @@ export default function Calender() {
   const [chosenDays, setChosenDays] = useState([]);
   const dispatch = useAppDispatch();
   const eventState = useAppSelector((state) => state.event);
+  const scheduleState = useAppSelector((state) => state.schedule);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -55,13 +53,12 @@ export default function Calender() {
     });
 
     // set chosen days
-    eventState.additional_dates.forEach((date) => {
+    Object.keys(eventState.availability).forEach((date) => {
       const dateArray = date.split('-');
       if (+dateArray[0] === year && +dateArray[1] === month + 1) {
         chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
       }
     });
-
     setChosenDays(chosenDaysArray);
   }, [month, year, eventState.additional_dates, eventState.availability]);
 
@@ -84,15 +81,7 @@ export default function Calender() {
   };
 
   const handleWeekDayClick = (index) => {
-    const newChosenDays = [...chosenDays];
-    newChosenDays[index] = !newChosenDays[index];
-    setChosenDays(newChosenDays);
-    const choosenDay = formatDate(year, month, days[index]);
-    if (newChosenDays[index]) {
-      dispatch(addAdditionalDate(choosenDay));
-    } else {
-      dispatch(removeAdditionalDate(choosenDay));
-    }
+    dispatch(setCurrnet(formatDate(year, month, days[index])));
   };
 
   return (
@@ -155,15 +144,25 @@ export default function Calender() {
             onClick={day === '' ? null : () => handleWeekDayClick(index)}
             className={`relative rounded-full flex items-center py-1 justify-center transition ${
               day === '' ? '' : 'cursor-pointer'
-            }
-            ${
-              chosenDays[index]
-                ? 'bg-primary-green-1 text-secondary-orange-3'
-                : 'bg-secondary-orange-3 text-primary-green-3'
-            }
-            `}
+            } ${
+              scheduleState.current === formatDate(year, month, days[index])
+                ? 'bg-primary-green-1 text-white'
+                : ''
+            }`}
           >
             {day}
+            {day !== '' && chosenDays[index] && (
+              <div
+                className={`
+                absolute -bottom-[2px] w-[6px] h-[6px] rounded-full
+                ${
+                  scheduleState.current === formatDate(year, month, days[index])
+                    ? ''
+                    : 'bg-gray-400'
+                }
+              `}
+              ></div>
+            )}
           </div>
         ))}
       </div>
