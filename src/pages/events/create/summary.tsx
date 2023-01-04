@@ -2,13 +2,23 @@ import { useRouter } from 'next/router';
 import Layout from '@components/common/layout';
 import Button from '@components/common/button';
 import Calender from '@components/common/calender';
+import { useState } from 'react';
 
 function Schedule() {
+  const router = useRouter();
+
+  const { uuid } = router.query;
+  const [loading, setLoading] = useState(false);
+
   const handleShareLink = () => {
-    navigator.clipboard.writeText('link copied');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 200);
+    const uid = uuid as string;
+    navigator.clipboard.writeText(`localhost:3000/events/update?uuid=${uid}`);
   };
 
-  const router = useRouter();
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
@@ -21,7 +31,9 @@ function Schedule() {
         </div>
         <Calender isEditable={false} />
         <div className="w-full flex items-center justify-center mt-4">
-          <Button onClick={handleShareLink}>Share Link</Button>
+          <Button loading={loading} onClick={handleShareLink}>
+            Share Link
+          </Button>
         </div>
       </div>
     </Layout>
