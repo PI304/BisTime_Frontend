@@ -2,17 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface scheduleState {
   name: string;
-  event: number | undefined;
+  eventId: number | string | undefined;
   dates: string[];
   current: string;
-  availability: string;
+  availability: object;
 }
 const initialState: scheduleState = {
   name: '',
-  event: undefined,
+  eventId: undefined,
   dates: [],
   current: '',
-  availability: '',
+  availability: {}, // {'2021-01-01': '000000000000000111100000'} // 0 = not available, 1 = available
 };
 
 const scheduleSlice = createSlice({
@@ -33,7 +33,10 @@ const scheduleSlice = createSlice({
     }),
     setAvailability: (state, action) => ({
       ...state,
-      availability: action.payload,
+      availability: {
+        ...state.availability,
+        [action.payload.date]: action.payload.available, // current:'000000000000000111100000'
+      },
     }),
     setCurrnet: (state, action) => ({
       ...state,
