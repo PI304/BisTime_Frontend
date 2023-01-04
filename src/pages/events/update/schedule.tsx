@@ -51,7 +51,7 @@ function Schedule() {
           <Calender isEditable={false} />
         </div>
         {scheduleState.current !== '' && (
-          <div className="flex flex-col w-full space-y-2 mt-2 h-[184px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary-green-1 scrollbar-track-transparent scrollbar-thumb-rounded-full">
+          <div className="flex flex-col w-full space-y-2 mt-2 h-[368px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary-green-1 scrollbar-track-transparent scrollbar-thumb-rounded-full">
             {timeTable.map((time, index) => (
               <div
                 key={index}
@@ -60,11 +60,11 @@ function Schedule() {
                 }}
                 className="flex justify-between"
               >
-                <div className="h-14 flex text-primary-green-3 ml-1">
+                <div className="h-28 flex text-primary-green-3 ml-1">
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-14 mr-2 ${
+                  className={`w-4/5 rounded-lg h-28 mr-2 ${
                     isPossibleArray[index]
                       ? 'bg-primary-green-1'
                       : 'bg-secondary-orange-3'
