@@ -45,8 +45,8 @@ function Schedule() {
 
     createEvent({
       title: eventState.title,
-      start_time: start_time.value,
-      end_time: end_time.value,
+      startTime: start_time.value,
+      endTime: end_time.value,
     });
 
     if (data) {
