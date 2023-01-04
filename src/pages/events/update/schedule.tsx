@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
 import { useEffect, useState } from 'react';
 import ScheduleCalender from '@components/update/calender-schedule';
+import { eventState } from '@features/event/eventSlice';
+import useSWR from 'swr';
 
 const TIMEZONE = [
   '00:00',
@@ -58,31 +60,55 @@ const TIMEZONE = [
 ];
 
 function Schedule() {
-  const { setValue, handleSubmit } = useForm();
+  const { setValue, handleSubmit, watch } = useForm();
   const router = useRouter();
-  const scheduleState = useAppSelector((state) => state.schedule);
-  const eventState = useAppSelector((state) => state.event);
-  console.log(eventState.availability);
-
+  const { data, isLoading } = useSWR<eventState>(
+    `/api/events/${router.query.uuid}}/`,
+  );
+  const [event, setEvent] = useState<eventState>();
   const [timeTable, setTimeTable] = useState([]);
-  const [isPossibleArray, setIsPossibleArray] = useState<boolean[]>([]);
+  const [availability, setAvailability] = useState<boolean[]>([]);
 
   useEffect(() => {
-    setTimeTable(Object.keys(eventState.availability));
-  }, []);
+    if (isLoading) return;
+    setEvent(data);
+  }, [data, isLoading]);
+
+  useEffect(() => {
+    if (!event) return;
+    const startIndex = TIMEZONE.indexOf(event.start_time);
+    const endIndex = TIMEZONE.indexOf(event.end_time);
+    const timeRange = TIMEZONE.slice(startIndex, endIndex + 1);
+    const possibleArray = timeRange.map(() => false);
+    setAvailability(possibleArray);
+    setTimeTable(timeRange);
+  }, [event]);
+
+  // availability to string for backend
+  useEffect(() => {
+    if (!event) return;
+    let availabilityString = availability.map((a) => (a ? '1' : '0')).join('');
+    const startIndex = TIMEZONE.indexOf(event.start_time);
+    for (let i = 0; i < startIndex; i++) {
+      availabilityString = '0' + availabilityString;
+    }
+    const endIndex = TIMEZONE.indexOf(event.end_time);
+    for (let i = 0; i < 47 - endIndex; i++) {
+      availabilityString = availabilityString + '0';
+    }
+    setValue('availability', availabilityString);
+  }, [availability, event, setValue]);
+
+  const watchAllFields = watch('availability');
+  console.log(watchAllFields);
+
+  const scheduleState = useAppSelector((state) => state.schedule);
 
   const onTimeTableClick = (time: string) => {
-    console.log(scheduleState.current);
-    console.log(timeTable);
-    console.log(isPossibleArray);
-    setIsPossibleArray(
-      isPossibleArray.map((isPossible, index) => {
-        if (time === TIMEZONE[index]) {
-          return !isPossible;
-        }
-        return isPossible;
-      }),
-    );
+    const index = timeTable.indexOf(time);
+    const newAvailability = [...availability];
+    newAvailability[index] = !newAvailability[index];
+    setAvailability(newAvailability);
   };
 
   const onValid = (form) => {
@@ -113,12 +139,12 @@ function Schedule() {
                 }}
                 className="flex justify-between"
               >
-                <div className="h-28 flex text-primary-green-3 ml-1">
+                <div className="h-14 flex text-primary-green-3 ml-1">
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-28 mr-2 ${
-                    isPossibleArray[index]
+                  className={`w-4/5 rounded-lg h-14 mr-2 ${
+                    availability[index]
                       ? 'bg-primary-green-1'
                       : 'bg-secondary-orange-3'
                   }`}
