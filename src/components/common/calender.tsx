@@ -63,7 +63,7 @@ export default function Calender() {
     });
 
     setChosenDays(chosenDaysArray);
-  }, [month, year, eventState.additional_dates, eventState.availablity]);
+  }, [month, year, eventState.additional_dates, eventState.availability]);
 
   const nextMonth = () => {
     if (month === 11) {

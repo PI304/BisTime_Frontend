@@ -6,7 +6,7 @@ export interface eventState {
   start_time: string;
   end_time: string;
   additional_dates: string[];
-  availablity: object;
+  availability: object;
 }
 const initialState: eventState = {
   uuid: '',
@@ -14,7 +14,7 @@ const initialState: eventState = {
   start_time: '',
   end_time: '',
   additional_dates: [],
-  availablity: {},
+  availability: {},
 };
 
 const eventSlice = createSlice({
@@ -46,7 +46,7 @@ const eventSlice = createSlice({
     }),
     setAvailability: (state, action) => ({
       ...state,
-      availablity: action.payload,
+      availability: action.payload,
     }),
   },
 });

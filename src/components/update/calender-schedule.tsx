@@ -53,14 +53,14 @@ export default function ScheduleCalender() {
     });
 
     // set chosen days
-    Object.keys(eventState.availablity).forEach((date) => {
+    Object.keys(eventState.availability).forEach((date) => {
       const dateArray = date.split('-');
       if (+dateArray[0] === year && +dateArray[1] === month + 1) {
         chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
       }
     });
     setChosenDays(chosenDaysArray);
-  }, [month, year, eventState.additional_dates, eventState.availablity]);
+  }, [month, year, eventState.additional_dates, eventState.availability]);
 
   const nextMonth = () => {
     if (month === 11) {
