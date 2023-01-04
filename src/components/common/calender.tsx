@@ -121,7 +121,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
@@ -143,7 +143,7 @@ export default function Calender({ isEditable = true }: CalenderProps) {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
