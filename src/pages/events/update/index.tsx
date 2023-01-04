@@ -5,25 +5,29 @@ import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName } from '@features/schedule/scheduleSlice';
-import { useEffect, useState } from 'react';
-import { addAdditionalDate } from '@features/event/eventSlice';
-
-const MOCK_DATA = ['2023-01-02', '2023-01-03', '2023-01-09'];
-
+import { useEffect } from 'react';
+import { setAvailability, setTime } from '@features/event/eventSlice';
+import useSWR from 'swr';
+import { eventState } from '@features/event/eventSlice';
 interface UserForm {
   name: string;
 }
 
 function Update() {
   const router = useRouter();
-  const [selectedDate, setSelectedDate] = useState<string[]>(MOCK_DATA);
+  const { uuid } = router.query;
+  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}}/`);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    selectedDate.forEach((date) => {
-      dispatch(addAdditionalDate(date));
-    });
-  }, [selectedDate, dispatch]);
+    if (isLoading) return;
+    dispatch(setAvailability(data.availability));
+    const time_rage = {
+      start_time: data.start_time,
+      end_time: data.end_time,
+    };
+    dispatch(setTime(time_rage));
+  }, [dispatch, data, isLoading]);
 
   const {
     handleSubmit,
@@ -34,7 +38,11 @@ function Update() {
   const onSubmit = (form: UserForm) => {
     const { name } = form;
     dispatch(setName(name));
-    if (name) router.push('/events/update/schedule');
+    if (name)
+      router.push({
+        pathname: '/events/update/schedule',
+        query: { uuid },
+      });
   };
 
   return (
