@@ -4,11 +4,15 @@ import Button from '@components/common/button';
 import Calender from '@components/common/calender';
 
 function Schedule() {
+  const router = useRouter();
+
+  const { uuid } = router.query;
+
   const handleShareLink = () => {
-    navigator.clipboard.writeText('link copied');
+    const uid = uuid as string;
+    navigator.clipboard.writeText(`localhost:3000/events/update?uuid=${uid}`);
   };
 
-  const router = useRouter();
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
