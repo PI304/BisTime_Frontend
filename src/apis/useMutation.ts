@@ -23,7 +23,7 @@ export default function useMutation<T = any>(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        version: '1',
+        Accept: 'application/json; version=1',
       },
       body: JSON.stringify(data),
     })
