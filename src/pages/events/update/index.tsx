@@ -5,8 +5,6 @@ import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName } from '@features/schedule/scheduleSlice';
-import { useEffect } from 'react';
-import { setAvailability, setTime } from '@features/event/eventSlice';
 import useSWR from 'swr';
 import { eventState } from '@features/event/eventSlice';
 interface UserForm {
@@ -19,15 +17,6 @@ function Update() {
   const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}}/`);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (isLoading) return;
-    dispatch(setAvailability(data.availability));
-    const time_rage = {
-      start_time: data.start_time,
-      end_time: data.end_time,
-    };
-    dispatch(setTime(time_rage));
-  }, [dispatch, data, isLoading]);
 
   const {
     handleSubmit,
