@@ -5,15 +5,11 @@ import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import useSWR from 'swr';
-import eventApi from '@apis/event/eventApi';
 interface EventForm {
   title: string;
 }
 
 function Create() {
-  const { data, error, isLoading } = useSWR('/events', eventApi.getEventList);
-
   const router = useRouter();
   const dispatch = useAppDispatch();
   const titleState = useAppSelector((state) => state.event.title);

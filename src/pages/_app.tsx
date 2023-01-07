@@ -13,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{
+        refreshInterval: 3000,
         fetcher: (url: string) => instance.get(url).then((res) => res.data),
       }}
     >

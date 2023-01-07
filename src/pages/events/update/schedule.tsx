@@ -2,9 +2,13 @@ import { useRouter } from 'next/router';
 import Layout from '@components/common/layout';
 import Button from '@components/common/button';
 import { useForm } from 'react-hook-form';
-import { useAppSelector } from '@features/hooks';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useEffect, useState } from 'react';
 import ScheduleCalender from '@components/update/calender-schedule';
+import { eventState } from '@features/event/eventSlice';
+import { setAvailability as setScheduleAvailability } from '@features/schedule/scheduleSlice';
+import useSWR from 'swr';
+import useMutation from '@apis/useMutation';
 
 const TIMEZONE = [
   '00:00',
@@ -57,30 +61,58 @@ const TIMEZONE = [
   '23:30',
 ];
 
-function Schedule() {
-  const { setValue, handleSubmit } = useForm();
-  const router = useRouter();
-  const scheduleState = useAppSelector((state) => state.schedule);
-  const eventState = useAppSelector((state) => state.event);
-  console.log(eventState.availability);
+interface Scheule {
+  name: string;
+  availability: string[];
+}
 
+function Schedule() {
+  const { handleSubmit } = useForm();
+  const router = useRouter();
+  const { data, isLoading, mutate } = useSWR<eventState>(
+    `/api/events/${router.query.uuid}}/`,
+  );
+
+  const [updateSchedule, { data: updateData, error, loading }] = useMutation(
+    `/api/events/${router.query.uuid}/schedules/`,
+  );
+
+  // 이벤트 정보 가져옴
+  const [event, setEvent] = useState<eventState>();
   const [timeTable, setTimeTable] = useState([]);
-  const [isPossibleArray, setIsPossibleArray] = useState<boolean[]>([]);
+
+  // 유저 스케줄 가져옴 여기서는 사용하지 않음
+  const [schedule, setSchedule] = useState<Scheule>();
+
+  const scheduleState = useAppSelector((state) => state.schedule);
+  console.log(scheduleState);
 
   useEffect(() => {
-    setTimeTable(Object.keys(eventState.availability));
-  }, []);
+    if (isLoading) return;
+    setEvent(data);
+  }, [data, isLoading]);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (isLoading) return;
+    if (!event) return;
+    const startIndex = TIMEZONE.indexOf(event.start_time);
+    const endIndex = TIMEZONE.indexOf(event.end_time);
+    const timeRange = TIMEZONE.slice(startIndex, endIndex + 1);
+    setTimeTable(timeRange);
+  }, [event, isLoading]);
 
   const onTimeTableClick = (time: string) => {
-    console.log(scheduleState.current);
-    console.log(timeTable);
-    console.log(isPossibleArray);
-    setIsPossibleArray(
-      isPossibleArray.map((isPossible, index) => {
-        if (time === TIMEZONE[index]) {
-          return !isPossible;
-        }
-        return isPossible;
+    const index = TIMEZONE.indexOf(time);
+    const availability = scheduleState.availability[scheduleState.current];
+    const newAvailability =
+      availability.slice(0, index) +
+      (availability[index] === '0' ? '1' : '0') +
+      availability.slice(index + 1);
+    dispatch(
+      setScheduleAvailability({
+        date: scheduleState.current,
+        availability: newAvailability,
       }),
     );
   };
@@ -97,7 +129,7 @@ function Schedule() {
       >
         <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-display font-bold text-center text-base-black">
-            Event Title
+            {event && event.title ? event.title : 'Event Title'}
           </h1>
         </div>
         <div className="w-full flex items-center justify-center">
@@ -113,12 +145,14 @@ function Schedule() {
                 }}
                 className="flex justify-between"
               >
-                <div className="h-28 flex text-primary-green-3 ml-1">
+                <div className="h-14 flex text-primary-green-3 ml-1">
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-28 mr-2 ${
-                    isPossibleArray[index]
+                  className={`w-4/5 rounded-lg h-14 mr-2 ${
+                    scheduleState.availability[scheduleState.current][
+                      TIMEZONE.indexOf(time)
+                    ] === '1'
                       ? 'bg-primary-green-1'
                       : 'bg-secondary-orange-3'
                   }`}

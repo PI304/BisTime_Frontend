@@ -10,7 +10,7 @@ const initialState: scheduleState = {
   name: '',
   event: undefined,
   current: '',
-  availability: {}, // {'2021-01-01': '000000000000000111100000'} // 0 = not available, 1 = available
+  availability: {},
 };
 
 const scheduleSlice = createSlice({
@@ -29,7 +29,7 @@ const scheduleSlice = createSlice({
       ...state,
       availability: {
         ...state.availability,
-        [action.payload.date]: action.payload.available, // current:'000000000000000111100000'
+        [action.payload.date]: action.payload.availability,
       },
     }),
     setCurrnet: (state, action) => ({

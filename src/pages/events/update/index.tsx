@@ -4,9 +4,7 @@ import Button from '@components/common/button';
 import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
-import { setName } from '@features/schedule/scheduleSlice';
-import { useEffect } from 'react';
-import { setAvailability, setTime } from '@features/event/eventSlice';
+import { setName, setAvailability } from '@features/schedule/scheduleSlice';
 import useSWR from 'swr';
 import { eventState } from '@features/event/eventSlice';
 interface UserForm {
@@ -19,15 +17,6 @@ function Update() {
   const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}}/`);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (isLoading) return;
-    dispatch(setAvailability(data.availability));
-    const time_rage = {
-      start_time: data.start_time,
-      end_time: data.end_time,
-    };
-    dispatch(setTime(time_rage));
-  }, [dispatch, data, isLoading]);
 
   const {
     handleSubmit,
@@ -36,13 +25,27 @@ function Update() {
   } = useForm<UserForm>({});
 
   const onSubmit = (form: UserForm) => {
+    if (isLoading || !data) return;
+
     const { name } = form;
     dispatch(setName(name));
-    if (name)
-      router.push({
-        pathname: '/events/update/schedule',
-        query: { uuid },
-      });
+
+    // 이미 있는 유저인지 확인하고 다른 path로 보내야함
+
+    // 새로운 유저인 경우
+    Object.keys(data.availability).forEach((key) => {
+      dispatch(
+        setAvailability({
+          date: key,
+          availability: '000000000000000000000000000000000000000000000000',
+        }),
+      );
+    });
+
+    router.push({
+      pathname: '/events/update/schedule',
+      query: { uuid },
+    });
   };
 
   return (
@@ -50,7 +53,7 @@ function Update() {
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-display font-bold text-center text-primary-green-1">
-            Event Title
+            {data ? `${data.title}` : 'Event Title'}
           </h1>
         </div>
         <div className="w-full flex flex-col items-center justify-center mb-8">
