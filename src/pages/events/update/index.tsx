@@ -4,7 +4,7 @@ import Button from '@components/common/button';
 import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
-import { setName } from '@features/schedule/scheduleSlice';
+import { setName, setAvailability } from '@features/schedule/scheduleSlice';
 import useSWR from 'swr';
 import { eventState } from '@features/event/eventSlice';
 interface UserForm {
@@ -25,13 +25,27 @@ function Update() {
   } = useForm<UserForm>({});
 
   const onSubmit = (form: UserForm) => {
+    if (isLoading || !data) return;
+
     const { name } = form;
     dispatch(setName(name));
-    if (name)
-      router.push({
-        pathname: '/events/update/schedule',
-        query: { uuid },
-      });
+
+    // 이미 있는 유저인지 확인하고 다른 path로 보내야함
+
+    // 새로운 유저인 경우
+    Object.keys(data.availability).forEach((key) => {
+      dispatch(
+        setAvailability({
+          date: key,
+          availability: '000000000000000000000000000000000000000000000000',
+        }),
+      );
+    });
+
+    router.push({
+      pathname: '/events/update/schedule',
+      query: { uuid },
+    });
   };
 
   return (
