@@ -50,7 +50,7 @@ function Update() {
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-display font-bold text-center text-primary-green-1">
-            Event Title
+            {data ? `${data.title}` : 'Event Title'}
           </h1>
         </div>
         <div className="w-full flex flex-col items-center justify-center mb-8">
