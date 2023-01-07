@@ -29,7 +29,7 @@ const scheduleSlice = createSlice({
       ...state,
       availability: {
         ...state.availability,
-        [action.payload.date]: action.payload.available, // current:'000000000000000111100000'
+        [action.payload.date]: action.payload.availability, // current:'000000000000000111100000'
       },
     }),
     setCurrnet: (state, action) => ({
