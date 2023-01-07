@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { eventState } from '@features/event/eventSlice';
 import { setCurrnet } from '@features/schedule/scheduleSlice';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
 const monthNames = [
   'January',
   'February',
@@ -24,8 +27,12 @@ export default function ScheduleCalender() {
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
   const dispatch = useAppDispatch();
-  const eventState = useAppSelector((state) => state.event);
   const scheduleState = useAppSelector((state) => state.schedule);
+
+  const router = useRouter();
+  const { data, isLoading } = useSWR<eventState>(
+    `/api/events/${router.query.uuid}}/`,
+  );
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -38,29 +45,29 @@ export default function ScheduleCalender() {
     for (let i = 1; i <= numberOfDays; i++) {
       daysArray.push(i);
     }
-
     for (let i = 0; i < firstDayIndex; i++) {
       daysArray.unshift('');
     }
-
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
     setDays(daysArray);
 
-    const chosenDaysArray = daysArray.map((day) => {
-      if (day !== '') return false;
-    });
+    if (isLoading) return;
 
-    // set chosen days
-    Object.keys(eventState.availability).forEach((date) => {
-      const dateArray = date.split('-');
-      if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-        chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-      }
-    });
-    setChosenDays(chosenDaysArray);
-  }, [month, year, eventState.additional_dates, eventState.availability]);
+    if (data) {
+      const chosenDaysArray = daysArray.map((day) => {
+        if (day !== '') return false;
+      });
+      Object.keys(data.availability).forEach((date) => {
+        const dateArray = date.split('-');
+        if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+          chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+        }
+      });
+      setChosenDays(chosenDaysArray);
+    }
+  }, [month, year, data, isLoading]);
 
   const nextMonth = () => {
     if (month === 11) {
