@@ -4,9 +4,9 @@ import Calender from '@components/common/calender';
 import Button from '@components/common/button';
 import TimePicker from '@components/common/time-picker';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { setTime } from '@features/event/eventSlice';
+import { useAppSelector } from '@features/hooks';
 import useMutation from '@apis/useMutation';
+import { useEffect } from 'react';
 
 type time = {
   value: string;
@@ -23,41 +23,32 @@ interface EventMutaionResponse {
 
 function Schedule() {
   const { setValue, handleSubmit } = useForm<ScheuleForm>();
-  const dispatch = useAppDispatch();
   const eventState = useAppSelector((state) => state.event);
   const router = useRouter();
 
-  const [createEvent, { data, error, loading }] =
-    useMutation<EventMutaionResponse>('/events/');
+  const [createEvent, { data, loading }] =
+    useMutation<EventMutaionResponse>('/api/events/');
 
   const onValid = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
-    dispatch(
-      setTime({ start_time: start_time.value, end_time: end_time.value }),
-    );
-
     if (start_time.value > end_time.value) {
       alert(
         'Please check the time you entered. The start time must be earlier than the end time.',
       );
       return;
     }
-
     createEvent({
       title: eventState.title,
       startTime: start_time.value,
       endTime: end_time.value,
     });
-
-    if (data) {
-      console.log(data);
-
-      router.push({
-        pathname: '/events/create/summary',
-        query: { id: data.id, uuid: data.uuid },
-      });
-    }
   };
+
+  useEffect(() => {
+    if (data) {
+      router.push(`/events/create/summary?uuid=${data.uuid}`);
+    }
+  }, [data, router]);
 
   return (
     <Layout>
