@@ -129,7 +129,7 @@ function Schedule() {
       >
         <div className="w-full flex flex-col items-center justify-center mb-8">
           <h1 className="text-display font-bold text-center text-base-black">
-            {event.title ? event.title : 'Event Title'}
+            {event && event.title ? event.title : 'Event Title'}
           </h1>
         </div>
         <div className="w-full flex items-center justify-center">
