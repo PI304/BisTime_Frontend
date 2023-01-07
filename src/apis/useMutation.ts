@@ -19,7 +19,7 @@ export default function useMutation<T = any>(
 
   function mutation(data: any) {
     setState((prev) => ({ ...prev, loading: true }));
-    fetch(`${CONFIG.API_BASE_URL}/api${url}`, {
+    fetch(`${CONFIG.API_BASE_URL}${url}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
