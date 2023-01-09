@@ -63,11 +63,67 @@ const TIMEZONE = [
 
 type EventScheduleResult = {
   name: string;
+  date: string;
   availability: string;
 };
 interface EventScheduleResponse {
   results: EventScheduleResult[];
 }
+
+interface PossibleMembersArray {
+  date: PossibleMembers;
+}
+
+type PossibleMembers = {
+  '00:00': string[];
+  '00:30': string[];
+  '01:00': string[];
+  '01:30': string[];
+  '02:00': string[];
+  '02:30': string[];
+  '03:00': string[];
+  '03:30': string[];
+  '04:00': string[];
+  '04:30': string[];
+  '05:00': string[];
+  '05:30': string[];
+  '06:00': string[];
+  '06:30': string[];
+  '07:00': string[];
+  '07:30': string[];
+  '08:00': string[];
+  '08:30': string[];
+  '09:00': string[];
+  '09:30': string[];
+  '10:00': string[];
+  '10:30': string[];
+  '11:00': string[];
+  '11:30': string[];
+  '12:00': string[];
+  '12:30': string[];
+  '13:00': string[];
+  '13:30': string[];
+  '14:00': string[];
+  '14:30': string[];
+  '15:00': string[];
+  '15:30': string[];
+  '16:00': string[];
+  '16:30': string[];
+  '17:00': string[];
+  '17:30': string[];
+  '18:00': string[];
+  '18:30': string[];
+  '19:00': string[];
+  '19:30': string[];
+  '20:00': string[];
+  '20:30': string[];
+  '21:00': string[];
+  '21:30': string[];
+  '22:00': string[];
+  '22:30': string[];
+  '23:00': string[];
+  '23:30': string[];
+};
 
 function Schedule() {
   const { handleSubmit } = useForm();
@@ -90,18 +146,39 @@ function Schedule() {
   // 이벤트 멤버들
   // {'준이', '박태준', '민지', '우기'}
   const [members, setMembers] = useState<Set<string>>(new Set());
+  const [possibleMembers, setPossibleMembers] =
+    useState<PossibleMembersArray>();
+
   useEffect(() => {
     if (schedulesLoading) return;
     if (!schedules) return;
+
     const newMembers = new Set<string>();
     const { results } = schedules;
     results.forEach((result) => {
       newMembers.add(result.name);
     });
     setMembers(newMembers);
+    const newPossibleMembers = {};
+    results.forEach((result) => {
+      const { date, availability } = result;
+      [...availability].forEach((time, index) => {
+        if (time === '1') {
+          if (!newPossibleMembers[date]) {
+            newPossibleMembers[date] = {};
+          }
+          if (!newPossibleMembers[date][TIMEZONE[index]]) {
+            newPossibleMembers[date][TIMEZONE[index]] = [];
+          }
+          newPossibleMembers[date][TIMEZONE[index]].push(result.name);
+        }
+      });
+    });
+    setPossibleMembers(newPossibleMembers);
   }, [schedules, schedulesLoading]);
 
   const scheduleState = useAppSelector((state) => state.schedule);
+  console.log(schedules, possibleMembers);
 
   useEffect(() => {
     if (isLoading) return;
@@ -156,6 +233,7 @@ function Schedule() {
         <div className="w-full flex items-center justify-center">
           <ScheduleCalender />
         </div>
+
         {scheduleState.current !== '' && (
           <div className="flex flex-col w-full space-y-2 mt-2 h-[368px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary-green-1 scrollbar-track-transparent scrollbar-thumb-rounded-full">
             {timeTable.map((time, index) => (
@@ -170,7 +248,7 @@ function Schedule() {
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-14 mr-2 flex items-end justify-end ${
+                  className={`w-4/5 rounded-lg h-14 mr-2 flex items-end justify-between ${
                     scheduleState.availability[scheduleState.current][
                       TIMEZONE.indexOf(time)
                     ] === '1'
@@ -178,6 +256,27 @@ function Schedule() {
                       : 'bg-secondary-orange-3'
                   }`}
                 >
+                  <div className="flex mb-1 ml-1 space-x-1 mr-3 items-center">
+                    {possibleMembers &&
+                      possibleMembers[scheduleState.current] &&
+                      possibleMembers[scheduleState.current][time] &&
+                      possibleMembers[scheduleState.current][time].map(
+                        (member, index) => (
+                          <div
+                            key={index}
+                            className={`w-5 h-5 text-p5 rounded-full ${
+                              scheduleState.availability[scheduleState.current][
+                                TIMEZONE.indexOf(time)
+                              ] === '1'
+                                ? 'bg-base-white'
+                                : 'hidden'
+                            }`}
+                          >
+                            {member}
+                          </div>
+                        ),
+                      )}
+                  </div>
                   <span
                     className={`text-h3 mr-2 mb-1 ${
                       scheduleState.availability[scheduleState.current][
