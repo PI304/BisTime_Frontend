@@ -219,8 +219,6 @@ function Schedule() {
     });
   };
 
-  // set to array
-
   return (
     <Layout>
       <form
@@ -259,15 +257,25 @@ function Schedule() {
                   }`}
                 >
                   <div className="flex mb-1 ml-1 space-x-1 mr-3 items-center">
-                    {/* {possibleMembers.size > 0 &&
-                      [...possibleMembers].map((member, index) => (
-                        <div
-                          key={index}
-                          className="w-6 text-p5 flex border border-base-white justify-center items-center text-base-white bg-primary-green-1 aspect-square rounded-full"
-                        >
-                          {member}
-                        </div>
-                      ))} */}
+                    {possibleMembers &&
+                      possibleMembers[scheduleState.current] &&
+                      possibleMembers[scheduleState.current][time] &&
+                      possibleMembers[scheduleState.current][time].map(
+                        (member, index) => (
+                          <div
+                            key={index}
+                            className={`w-5 h-5 text-p5 rounded-full ${
+                              scheduleState.availability[scheduleState.current][
+                                TIMEZONE.indexOf(time)
+                              ] === '1'
+                                ? 'bg-base-white'
+                                : 'hidden'
+                            }`}
+                          >
+                            {member}
+                          </div>
+                        ),
+                      )}
                   </div>
                   <span
                     className={`text-h3 mr-2 mb-1 ${
