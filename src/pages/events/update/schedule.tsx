@@ -170,14 +170,31 @@ function Schedule() {
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-14 mr-2 ${
+                  className={`w-4/5 rounded-lg h-14 mr-2 flex items-end justify-end ${
                     scheduleState.availability[scheduleState.current][
                       TIMEZONE.indexOf(time)
                     ] === '1'
                       ? 'bg-primary-green-1'
                       : 'bg-secondary-orange-3'
                   }`}
-                ></div>
+                >
+                  <span
+                    className={`text-h3 mr-2 mb-1 ${
+                      scheduleState.availability[scheduleState.current][
+                        TIMEZONE.indexOf(time)
+                      ] === '1'
+                        ? 'text-base-white'
+                        : 'text-secondary-orange-3'
+                    }`}
+                  >
+                    {+event.availability[scheduleState.current][
+                      TIMEZONE.indexOf(time)
+                    ] +
+                      1 +
+                      ' / ' +
+                      members.size}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
