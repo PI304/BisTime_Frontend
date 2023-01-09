@@ -61,9 +61,12 @@ const TIMEZONE = [
   '23:30',
 ];
 
-interface Scheule {
+type EventScheduleResult = {
   name: string;
-  availability: string[];
+  availability: string;
+};
+interface EventScheduleResponse {
+  results: EventScheduleResult[];
 }
 
 function Schedule() {
@@ -73,6 +76,9 @@ function Schedule() {
     `/api/events/${router.query.uuid}`,
   );
 
+  const { data: schedules, isLoading: schedulesLoading } =
+    useSWR<EventScheduleResponse>(`/api/events/${router.query.uuid}/schedules`);
+
   const [updateSchedule, { data: updateData, error, loading }] = useMutation(
     `/api/events/${router.query.uuid}/schedules`,
   );
@@ -81,11 +87,21 @@ function Schedule() {
   const [event, setEvent] = useState<eventState>();
   const [timeTable, setTimeTable] = useState([]);
 
-  // 유저 스케줄 가져옴 여기서는 사용하지 않음
-  const [schedule, setSchedule] = useState<Scheule>();
+  // 이벤트 멤버들
+  // {'준이', '박태준', '민지', '우기'}
+  const [members, setMembers] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    if (schedulesLoading) return;
+    if (!schedules) return;
+    const newMembers = new Set<string>();
+    const { results } = schedules;
+    results.forEach((result) => {
+      newMembers.add(result.name);
+    });
+    setMembers(newMembers);
+  }, [schedules, schedulesLoading]);
 
   const scheduleState = useAppSelector((state) => state.schedule);
-  console.log(scheduleState);
 
   useEffect(() => {
     if (isLoading) return;
@@ -154,14 +170,31 @@ function Schedule() {
                   {time}
                 </div>
                 <div
-                  className={`w-4/5 rounded-lg h-14 mr-2 ${
+                  className={`w-4/5 rounded-lg h-14 mr-2 flex items-end justify-end ${
                     scheduleState.availability[scheduleState.current][
                       TIMEZONE.indexOf(time)
                     ] === '1'
                       ? 'bg-primary-green-1'
                       : 'bg-secondary-orange-3'
                   }`}
-                ></div>
+                >
+                  <span
+                    className={`text-h3 mr-2 mb-1 ${
+                      scheduleState.availability[scheduleState.current][
+                        TIMEZONE.indexOf(time)
+                      ] === '1'
+                        ? 'text-base-white'
+                        : 'text-secondary-orange-3'
+                    }`}
+                  >
+                    {+event.availability[scheduleState.current][
+                      TIMEZONE.indexOf(time)
+                    ] +
+                      1 +
+                      ' / ' +
+                      members.size}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

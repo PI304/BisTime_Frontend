@@ -146,12 +146,25 @@ export default function ScheduleCalender() {
             {day}
           </div>
         ))}
+
         {days.map((day, index) => (
           <div
             key={index}
-            onClick={day === '' ? null : () => handleWeekDayClick(index)}
+            onClick={
+              day !== '' &&
+              Object.keys(scheduleState.availability).includes(
+                formatDate(year, month, days[index]),
+              )
+                ? () => handleWeekDayClick(index)
+                : null
+            }
             className={`relative rounded-full flex items-center py-1 justify-center transition ${
-              day === '' ? '' : 'cursor-pointer'
+              day !== '' &&
+              Object.keys(scheduleState.availability).includes(
+                formatDate(year, month, days[index]),
+              )
+                ? 'cursor-pointer'
+                : ''
             } ${
               scheduleState.current === formatDate(year, month, days[index])
                 ? 'bg-primary-green-1 text-white'
