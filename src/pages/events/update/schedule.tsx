@@ -74,7 +74,7 @@ function Schedule() {
   );
 
   const [updateSchedule, { data: updateData, error, loading }] = useMutation(
-    `/api/events/${router.query.uuid}/schedules/`,
+    `/api/events/${router.query.uuid}/schedules`,
   );
 
   // 이벤트 정보 가져옴
@@ -117,8 +117,13 @@ function Schedule() {
     );
   };
 
-  const onValid = (form) => {
-    router.push('/events/create/summary');
+  const onValid = () => {
+    const name = scheduleState.name;
+    const availability = Object.values(scheduleState.availability);
+    updateSchedule({
+      name,
+      availability,
+    });
   };
 
   return (
@@ -162,7 +167,7 @@ function Schedule() {
           </div>
         )}
         <div className="w-full flex items-center justify-center mt-4">
-          <Button>Submit</Button>
+          <Button loading={loading}>Submit</Button>
         </div>
       </form>
     </Layout>
