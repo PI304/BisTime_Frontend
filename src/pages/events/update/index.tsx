@@ -14,7 +14,7 @@ interface UserForm {
 function Update() {
   const router = useRouter();
   const { uuid } = router.query;
-  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}}/`);
+  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}`);
 
   const dispatch = useAppDispatch();
 

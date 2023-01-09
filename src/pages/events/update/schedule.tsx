@@ -69,8 +69,8 @@ interface Scheule {
 function Schedule() {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { data, isLoading, mutate } = useSWR<eventState>(
-    `/api/events/${router.query.uuid}}/`,
+  const { data, isLoading } = useSWR<eventState>(
+    `/api/events/${router.query.uuid}`,
   );
 
   const [updateSchedule, { data: updateData, error, loading }] = useMutation(
