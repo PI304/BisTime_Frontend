@@ -11,10 +11,19 @@ interface UserForm {
   name: string;
 }
 
+type EventDateResult = {
+  date: string;
+};
+interface EventDateResponse {
+  results: EventDateResult[];
+}
+
 function Update() {
   const router = useRouter();
   const { uuid } = router.query;
   const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}`);
+  const { data: eventDates, isLoading: eventDatesLoading } =
+    useSWR<EventDateResponse>(`/api/events/${uuid}/dates`);
 
   const dispatch = useAppDispatch();
 
@@ -26,6 +35,7 @@ function Update() {
 
   const onSubmit = (form: UserForm) => {
     if (isLoading || !data) return;
+    if (eventDatesLoading || !eventDates) return;
 
     const { name } = form;
     dispatch(setName(name));
@@ -33,10 +43,10 @@ function Update() {
     // 이미 있는 유저인지 확인하고 다른 path로 보내야함
 
     // 새로운 유저인 경우
-    Object.keys(data.availability).forEach((key) => {
+    eventDates.results.forEach((date) => {
       dispatch(
         setAvailability({
-          date: key,
+          date: date.date,
           availability: '000000000000000000000000000000000000000000000000',
         }),
       );
