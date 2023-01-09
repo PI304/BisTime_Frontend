@@ -61,9 +61,12 @@ const TIMEZONE = [
   '23:30',
 ];
 
-interface Scheule {
+type EventScheduleResult = {
   name: string;
-  availability: string[];
+  availability: string;
+};
+interface EventScheduleResponse {
+  results: EventScheduleResult[];
 }
 
 function Schedule() {
@@ -73,6 +76,9 @@ function Schedule() {
     `/api/events/${router.query.uuid}`,
   );
 
+  const { data: schedules, isLoading: schedulesLoading } =
+    useSWR<EventScheduleResponse>(`/api/events/${router.query.uuid}/schedules`);
+
   const [updateSchedule, { data: updateData, error, loading }] = useMutation(
     `/api/events/${router.query.uuid}/schedules`,
   );
@@ -81,11 +87,21 @@ function Schedule() {
   const [event, setEvent] = useState<eventState>();
   const [timeTable, setTimeTable] = useState([]);
 
-  // 유저 스케줄 가져옴 여기서는 사용하지 않음
-  const [schedule, setSchedule] = useState<Scheule>();
+  // 이벤트 멤버들
+  // {'준이', '박태준', '민지', '우기'}
+  const [members, setMembers] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    if (schedulesLoading) return;
+    if (!schedules) return;
+    const newMembers = new Set<string>();
+    const { results } = schedules;
+    results.forEach((result) => {
+      newMembers.add(result.name);
+    });
+    setMembers(newMembers);
+  }, [schedules, schedulesLoading]);
 
   const scheduleState = useAppSelector((state) => state.schedule);
-  console.log(scheduleState);
 
   useEffect(() => {
     if (isLoading) return;
