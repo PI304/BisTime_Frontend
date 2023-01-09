@@ -159,7 +159,7 @@ function Schedule() {
       newMembers.add(result.name);
     });
     setMembers(newMembers);
-    const newPossibleMembers = {};
+    const newPossibleMembers = possibleMembers;
     results.forEach((result) => {
       const { date, availability } = result;
       [...availability].forEach((time, index) => {
