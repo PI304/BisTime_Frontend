@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 type time = {
   value: string;
 };
+
 interface ScheuleForm {
   start_time: time;
   end_time: time;
@@ -46,7 +47,10 @@ function Schedule() {
 
   useEffect(() => {
     if (data) {
-      router.push(`/events/create/summary?uuid=${data.uuid}`);
+      router.push({
+        pathname: '/events/create/summary',
+        query: { uuid: data.uuid },
+      });
     }
   }, [data, router]);
 

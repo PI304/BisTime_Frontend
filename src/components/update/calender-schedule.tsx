@@ -30,9 +30,8 @@ export default function ScheduleCalender() {
   const scheduleState = useAppSelector((state) => state.schedule);
 
   const router = useRouter();
-  const { data, isLoading } = useSWR<eventState>(
-    `/api/events/${router.query.uuid}}/`,
-  );
+
+  const { data, isLoading } = useSWR(`/api/events/${router.query.uuid}/dates`);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -52,21 +51,23 @@ export default function ScheduleCalender() {
       daysArray.push('');
     }
     setDays(daysArray);
+    const chosenDaysArray = daysArray.map((day) => {
+      if (day !== '') return false;
+    });
 
     if (isLoading) return;
 
-    if (data) {
-      const chosenDaysArray = daysArray.map((day) => {
-        if (day !== '') return false;
-      });
-      Object.keys(data.availability).forEach((date) => {
-        const dateArray = date.split('-');
-        if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-          chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-        }
-      });
-      setChosenDays(chosenDaysArray);
+    if (data && data.results.length > 0) {
+      data.results
+        .map((date) => date.date)
+        .forEach((date) => {
+          const dateArray = date.split('-');
+          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+          }
+        });
     }
+    setChosenDays(chosenDaysArray);
   }, [month, year, data, isLoading]);
 
   const nextMonth = () => {
