@@ -7,6 +7,7 @@ module.exports = {
   ],
   rules: {
     // ESLint 규칙을 지정합니다. extends에서 지정된 규칙을 덮어 쓸수도 있습니다.
+    'react/no-unescaped-entities': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

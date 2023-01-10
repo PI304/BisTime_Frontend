@@ -5,5 +5,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  return <div className="w-full h-screen px-5 py-12 ">{children}</div>;
+  return (
+    <div className="font-Gmarket w-full h-screen px-5 py-12">{children}</div>
+  );
 }
