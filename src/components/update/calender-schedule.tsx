@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { eventState } from '@features/event/eventSlice';
 import { setCurrnet } from '@features/schedule/scheduleSlice';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
@@ -34,6 +33,7 @@ export default function ScheduleCalender() {
   const { data, isLoading } = useSWR(`/api/events/${router.query.uuid}/dates`);
 
   useEffect(() => {
+    if (isLoading) return;
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const firstDayIndex = firstDay.getDay();
@@ -50,12 +50,11 @@ export default function ScheduleCalender() {
     for (let i = lastDayIndex; i < 6; i++) {
       daysArray.push('');
     }
+
     setDays(daysArray);
     const chosenDaysArray = daysArray.map((day) => {
       if (day !== '') return false;
     });
-
-    if (isLoading) return;
 
     if (data && data.results.length > 0) {
       data.results

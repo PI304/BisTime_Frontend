@@ -28,7 +28,7 @@ function Schedule() {
   const router = useRouter();
 
   const [createEvent, { data, loading }] =
-    useMutation<EventMutaionResponse>('/api/events/');
+    useMutation<EventMutaionResponse>('/api/events');
 
   const onValid = (form: ScheuleForm) => {
     const { start_time, end_time } = form;

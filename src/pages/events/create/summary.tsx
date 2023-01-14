@@ -1,23 +1,45 @@
 import { useRouter } from 'next/router';
 import Layout from '@components/common/layout';
 import Button from '@components/common/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SummaryCalender from '@components/create/calender-summary';
+import { useAppSelector } from '@features/hooks';
+import useMutation from '@apis/useMutation';
+import Loader from '@components/common/loader';
+interface EventMutaionResponse {
+  id: number;
+  uuid: string;
+}
 
 function Schedule() {
   const router = useRouter();
-
   const { uuid } = router.query;
-  const [loading, setLoading] = useState(false);
+
+  const [copyLoading, setCopyLoading] = useState(false);
+
+  const eventState = useAppSelector((state) => state.event);
+  const [createEventDate, { data: dates, loading: isLoader }] =
+    useMutation<EventMutaionResponse>(`/api/events/${uuid}/dates`);
+
+  useEffect(() => {
+    if (eventState.additional_dates && uuid) {
+      createEventDate({ additionalDates: eventState.additional_dates });
+    }
+  }, [eventState.additional_dates, uuid]);
 
   const handleShareLink = () => {
-    setLoading(true);
+    setCopyLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      setCopyLoading(false);
     }, 200);
+
     const uid = uuid as string;
-    navigator.clipboard.writeText(`localhost:3000/events/update?uuid=${uid}`);
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/events/update?uuid=${uid}`,
+    );
   };
+
+  if (isLoader) return <Loader />;
 
   return (
     <Layout>
@@ -31,7 +53,7 @@ function Schedule() {
         </div>
         <SummaryCalender />
         <div className="w-full flex items-center justify-center mt-4">
-          <Button loading={loading} onClick={handleShareLink}>
+          <Button loading={copyLoading} onClick={handleShareLink}>
             Share Link
           </Button>
         </div>

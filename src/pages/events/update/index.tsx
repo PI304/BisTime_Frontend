@@ -6,7 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName, setAvailability } from '@features/schedule/scheduleSlice';
 import useSWR from 'swr';
-import { eventState } from '@features/event/eventSlice';
+import Loader from '@components/common/loader';
+import { Event } from 'types/event';
 interface UserForm {
   name: string;
 }
@@ -21,9 +22,11 @@ interface EventDateResponse {
 function Update() {
   const router = useRouter();
   const { uuid } = router.query;
-  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}`);
-  const { data: eventDates, isLoading: eventDatesLoading } =
+  const { data, isLoading } = useSWR<Event>(`/api/events/${uuid}`);
+  const { data: eventDate, isLoading: eventDateLoading } =
     useSWR<EventDateResponse>(`/api/events/${uuid}/dates`);
+
+  console.log(eventDate);
 
   const dispatch = useAppDispatch();
 
@@ -35,7 +38,7 @@ function Update() {
 
   const onSubmit = (form: UserForm) => {
     if (isLoading || !data) return;
-    if (eventDatesLoading || !eventDates) return;
+    if (eventDateLoading || !eventDate) return;
 
     const { name } = form;
     dispatch(setName(name));
@@ -43,10 +46,10 @@ function Update() {
     // 이미 있는 유저인지 확인하고 다른 path로 보내야함
 
     // 새로운 유저인 경우
-    eventDates.results.forEach((date) => {
+    eventDate.results.forEach((result) => {
       dispatch(
         setAvailability({
-          date: date.date,
+          date: result.date,
           availability: '000000000000000000000000000000000000000000000000',
         }),
       );
@@ -58,11 +61,13 @@ function Update() {
     });
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-8">
-          <h1 className="text-display font-bold text-center text-primary-green-1">
+        <div className="w-full flex flex-col items-center justify-center mb-16">
+          <h1 className="text-4xl font-bold text-center text-primary-green-1">
             {data ? `${data.title}` : 'Event Title'}
           </h1>
         </div>

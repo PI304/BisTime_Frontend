@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { eventState } from '@features/event/eventSlice';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useAppSelector } from '@features/hooks';
 import useMutation from '@apis/useMutation';
+import { Event } from 'types/event';
 
 const monthNames = [
   'January',
@@ -20,11 +20,6 @@ const monthNames = [
   'December',
 ];
 
-interface EventMutaionResponse {
-  id: number;
-  uuid: string;
-}
-
 export default function SummaryCalender() {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
@@ -34,21 +29,8 @@ export default function SummaryCalender() {
   const router = useRouter();
   const { uuid } = router.query;
 
+  const { data, isLoading } = useSWR<Event>(`/api/events/${uuid}`);
   const eventState = useAppSelector((state) => state.event);
-  const { data, isLoading } = useSWR<eventState>(`/api/events/${uuid}`);
-
-  const [createEventDate, { data: dates, loading }] =
-    useMutation<EventMutaionResponse>(`/api/events/${uuid}/dates`);
-
-  useEffect(() => {
-    if (
-      eventState.additional_dates &&
-      eventState.additional_dates.length > 0 &&
-      uuid
-    ) {
-      createEventDate({ additionalDates: eventState.additional_dates });
-    }
-  }, [eventState.additional_dates, uuid]);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);

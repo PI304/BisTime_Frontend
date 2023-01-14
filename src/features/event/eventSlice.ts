@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Event } from 'types/event';
 
-export interface eventState {
-  uuid: string;
-  title: string;
-  start_time: string;
-  end_time: string;
-  additional_dates: string[];
-  availability: object;
-}
-const initialState: eventState = {
+const initialState: Event = {
   uuid: '',
   title: '',
   start_time: '',
