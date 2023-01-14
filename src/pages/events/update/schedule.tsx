@@ -314,7 +314,7 @@ function Schedule() {
       </form>
       <Modal
         isModal={isModalOpen}
-        message="Successfully Updated Schedule!"
+        onAccept={() => console.log('accept')}
         onCloseModal={() => router.push(`/events/update?uuid=${uuid}`)}
       />
     </Layout>
