@@ -9,6 +9,7 @@ import { setAvailability as setScheduleAvailability } from '@features/schedule/s
 import useSWR from 'swr';
 import useMutation from '@apis/useMutation';
 import { Event } from 'types/event';
+import Modal from '@components/common/modal';
 
 const TIMEZONE = [
   '00:00',
@@ -131,7 +132,7 @@ function Schedule() {
   const { data, isLoading } = useSWR<Event>(`/api/events/${router.query.uuid}`);
   const { data: schedules, isLoading: schedulesLoading } =
     useSWR<EventScheduleResponse>(`/api/events/${router.query.uuid}/schedules`);
-  const [updateSchedule, { data: updateData, error, loading }] = useMutation(
+  const [updateSchedule, { data: updateData, loading }] = useMutation(
     `/api/events/${router.query.uuid}/schedules`,
   );
 
@@ -140,6 +141,7 @@ function Schedule() {
   const [members, setMembers] = useState<Set<string>>(new Set());
   const [possibleMembers, setPossibleMembers] =
     useState<PossibleMembersArray>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const scheduleState = useAppSelector((state) => state.schedule);
 
@@ -155,22 +157,22 @@ function Schedule() {
       newMembers.add(result.name);
     });
     setMembers(newMembers); // 이벤트에 참여한 멤버들
-    const newPossibleMembers = possibleMembers;
-    results.forEach((result) => {
-      const { date, availability } = result;
-      [...availability].forEach((time, index) => {
-        if (time === '1') {
-          if (!newPossibleMembers[date]) {
-            newPossibleMembers[date] = {};
-          }
-          if (!newPossibleMembers[date][TIMEZONE[index]]) {
-            newPossibleMembers[date][TIMEZONE[index]] = [];
-          }
-          newPossibleMembers[date][TIMEZONE[index]].push(result.name);
-        }
-      });
-    });
-    setPossibleMembers(newPossibleMembers); // 해당 시간대에 가능한 멤버들
+    // const newPossibleMembers = possibleMembers;
+    // results.forEach((result) => {
+    //   const { date, availability } = result;
+    //   [...availability].forEach((time, index) => {
+    //     if (time === '1') {
+    //       if (!newPossibleMembers[date]) {
+    //         newPossibleMembers[date] = {};
+    //       }
+    //       if (!newPossibleMembers[date][TIMEZONE[index]]) {
+    //         newPossibleMembers[date][TIMEZONE[index]] = [];
+    //       }
+    //       newPossibleMembers[date][TIMEZONE[index]].push(result.name);
+    //     }
+    //   });
+    // });
+    // setPossibleMembers(newPossibleMembers); // 해당 시간대에 가능한 멤버들
   }, [schedules, schedulesLoading, possibleMembers]);
 
   useEffect(() => {
@@ -210,7 +212,11 @@ function Schedule() {
       name,
       availability,
     });
+
+    setIsModalOpen(true);
   };
+
+  console.log(updateData);
 
   // 스케줄 이름이 없거나, 스케줄이 없으면 이전페이지로 이동
   const { uuid } = router.query;
@@ -260,7 +266,7 @@ function Schedule() {
                       : 'bg-secondary-orange-3'
                   }`}
                 >
-                  <div className="flex mb-1 ml-1 space-x-1 mr-3 items-center">
+                  {/* <div className="flex mb-1 ml-1 space-x-1 mr-3 items-center">
                     {possibleMembers &&
                       possibleMembers[scheduleState.current] &&
                       possibleMembers[scheduleState.current][time] &&
@@ -280,8 +286,8 @@ function Schedule() {
                           </div>
                         ),
                       )}
-                  </div>
-                  <span
+                  </div> */}
+                  {/* <span
                     className={`text-h3 mr-2 mb-1 ${
                       scheduleState.availability[scheduleState.current][
                         TIMEZONE.indexOf(time)
@@ -296,7 +302,7 @@ function Schedule() {
                       1 +
                       ' / ' +
                       members.size}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             ))}
@@ -306,6 +312,11 @@ function Schedule() {
           <Button loading={loading}>Submit</Button>
         </div>
       </form>
+      <Modal
+        isModal={isModalOpen}
+        message="Successfully Updated Schedule!"
+        onCloseModal={() => router.push(`/events/update?uuid=${uuid}`)}
+      />
     </Layout>
   );
 }
