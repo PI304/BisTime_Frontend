@@ -16,7 +16,9 @@ function Schedule() {
       setLoading(false);
     }, 200);
     const uid = uuid as string;
-    navigator.clipboard.writeText(`localhost:3000/events/update?uuid=${uid}`);
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/events/update?uuid=${uid}`,
+    );
   };
 
   return (
