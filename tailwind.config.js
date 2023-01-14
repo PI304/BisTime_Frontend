@@ -56,6 +56,22 @@ module.exports = {
           success: '#3267DD',
         },
       },
+      animation: {
+        bounce1: 'bounce 2s ease-in-out infinite ',
+        bounce2: 'bounce 2s 0.5s ease-in-out infinite ',
+        bounce3: 'bounce 2s 1s ease-in-out infinite ',
+      },
+      keyframes: {
+        bounce: {
+          '0%, 20%': { trasnsform: `translate(0,0)` },
+          '50%': {
+            transform: 'translateY(-150%)',
+          },
+          '85%, 100%': {
+            trasnsform: `translate(0,0)`,
+          },
+        },
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')],
