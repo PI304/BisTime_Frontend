@@ -1,4 +1,7 @@
+import { useRouter } from 'next/router';
+
 export default function Navigate() {
+  const router = useRouter();
   return (
     <div className="fixed top-0 w-full bg-white flex h-[60px] items-center">
       <svg
@@ -15,7 +18,14 @@ export default function Navigate() {
           d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
         />
       </svg>
-      <div className="text-[20px] ml-2 font-bold">BISTIMES</div>
+      <div
+        onClick={() => {
+          router.push('/');
+        }}
+        className="text-[20px] ml-2 font-bold cursor-pointer"
+      >
+        BISTIMES
+      </div>
     </div>
   );
 }
