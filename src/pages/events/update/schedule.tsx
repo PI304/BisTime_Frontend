@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useEffect, useState } from 'react';
 import ScheduleCalender from '@components/update/calender-schedule';
-import { eventState } from '@features/event/eventSlice';
 import { setAvailability as setScheduleAvailability } from '@features/schedule/scheduleSlice';
 import useSWR from 'swr';
 import useMutation from '@apis/useMutation';
+import { Event } from 'types/event';
 
 const TIMEZONE = [
   '00:00',
@@ -128,9 +128,7 @@ type PossibleMembers = {
 function Schedule() {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { data, isLoading } = useSWR<eventState>(
-    `/api/events/${router.query.uuid}`,
-  );
+  const { data, isLoading } = useSWR<Event>(`/api/events/${router.query.uuid}`);
 
   const { data: schedules, isLoading: schedulesLoading } =
     useSWR<EventScheduleResponse>(`/api/events/${router.query.uuid}/schedules`);
@@ -140,7 +138,7 @@ function Schedule() {
   );
 
   // 이벤트 정보 가져옴
-  const [event, setEvent] = useState<eventState>();
+  const [event, setEvent] = useState<Event>();
   const [timeTable, setTimeTable] = useState([]);
 
   // 이벤트 멤버들
