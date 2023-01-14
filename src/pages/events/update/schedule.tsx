@@ -129,34 +129,32 @@ function Schedule() {
   const { handleSubmit } = useForm();
   const router = useRouter();
   const { data, isLoading } = useSWR<Event>(`/api/events/${router.query.uuid}`);
-
   const { data: schedules, isLoading: schedulesLoading } =
     useSWR<EventScheduleResponse>(`/api/events/${router.query.uuid}/schedules`);
-
   const [updateSchedule, { data: updateData, error, loading }] = useMutation(
     `/api/events/${router.query.uuid}/schedules`,
   );
 
-  // 이벤트 정보 가져옴
   const [event, setEvent] = useState<Event>();
   const [timeTable, setTimeTable] = useState([]);
-
-  // 이벤트 멤버들
-  // {'준이', '박태준', '민지', '우기'}
   const [members, setMembers] = useState<Set<string>>(new Set());
   const [possibleMembers, setPossibleMembers] =
     useState<PossibleMembersArray>();
 
+  const scheduleState = useAppSelector((state) => state.schedule);
+
+  console.log(scheduleState, schedules);
+
   useEffect(() => {
     if (schedulesLoading) return;
     if (!schedules) return;
-
+    if (schedules.results.length === 0) return;
     const newMembers = new Set<string>();
     const { results } = schedules;
     results.forEach((result) => {
       newMembers.add(result.name);
     });
-    setMembers(newMembers);
+    setMembers(newMembers); // 이벤트에 참여한 멤버들
     const newPossibleMembers = possibleMembers;
     results.forEach((result) => {
       const { date, availability } = result;
@@ -172,11 +170,8 @@ function Schedule() {
         }
       });
     });
-    setPossibleMembers(newPossibleMembers);
-  }, [schedules, schedulesLoading]);
-
-  const scheduleState = useAppSelector((state) => state.schedule);
-  console.log(schedules, possibleMembers);
+    setPossibleMembers(newPossibleMembers); // 해당 시간대에 가능한 멤버들
+  }, [schedules, schedulesLoading, possibleMembers]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -217,24 +212,35 @@ function Schedule() {
     });
   };
 
+  // 스케줄 이름이 없거나, 스케줄이 없으면 이전페이지로 이동
+  const { uuid } = router.query;
+  useEffect(() => {
+    if (!uuid) return;
+    if (
+      scheduleState.name === '' ||
+      Object.keys(scheduleState.availability).length === 0
+    ) {
+      router.push(`/events/update?uuid=${uuid}`);
+    }
+  }, [scheduleState.name, router, scheduleState.availability, uuid]);
+
   return (
     <Layout>
       <form
         onSubmit={handleSubmit(onValid)}
         className="w-full flex flex-col items-center justify-center h-full"
       >
-        <div className="w-full flex flex-col items-center justify-center mb-8">
-          <h1 className="text-display font-bold text-center text-base-black">
+        <div className="w-full flex flex-col items-center justify-center mb-16">
+          <h1 className="text-4xl font-bold text-center text-primary-green-1">
             {event && event.title ? event.title : 'Event Title'}
           </h1>
         </div>
         <div className="w-full flex items-center justify-center">
           <ScheduleCalender />
         </div>
-
         {scheduleState.current !== '' && (
           <div className="flex flex-col w-full space-y-2 mt-2 h-[368px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary-green-1 scrollbar-track-transparent scrollbar-thumb-rounded-full">
-            {timeTable.map((time, index) => (
+            {timeTable?.map((time, index) => (
               <div
                 key={index}
                 onClick={() => {
@@ -247,7 +253,7 @@ function Schedule() {
                 </div>
                 <div
                   className={`w-4/5 rounded-lg h-14 mr-2 flex items-end justify-between ${
-                    scheduleState.availability[scheduleState.current][
+                    scheduleState?.availability[scheduleState.current][
                       TIMEZONE.indexOf(time)
                     ] === '1'
                       ? 'bg-primary-green-1'
