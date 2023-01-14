@@ -66,7 +66,7 @@ function Update() {
   return (
     <Layout>
       <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-8">
+        <div className="w-full flex flex-col items-center justify-center mb-16">
           <h1 className="text-4xl font-bold text-center text-primary-green-1">
             {data ? `${data.title}` : 'Event Title'}
           </h1>
