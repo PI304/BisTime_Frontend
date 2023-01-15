@@ -74,7 +74,13 @@ function Schedule() {
         </div>
 
         <div className="w-full flex items-center justify-center mt-4">
-          <Button>Start</Button>
+          <Button
+            onClick={() => {
+              router.push(`/events/update/checkschedule?uuid=${uuid}`);
+            }}
+          >
+            Start
+          </Button>
         </div>
       </div>
     </Layout>

@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from '@features/hooks';
 import Navigate from '@components/common/navigate';
 import Date from '@components/update/date';
 import RankMarker from '@components/update/rank-marger';
+import { useState } from 'react';
 
 function Schedule() {
   const router = useRouter();
-
   const eventState = useAppSelector((state) => state.event);
   const scheduleState = useAppSelector((state) => state.schedule);
   const dispatch = useAppDispatch();
@@ -17,6 +17,9 @@ function Schedule() {
 
   console.log('eventState', eventState);
   console.log('scheduleState', scheduleState);
+  const DAYS = Object.keys(scheduleState.availability);
+  const [currentDay, setCurrentDay] = useState(DAYS[0]);
+  console.log(DAYS);
 
   return (
     <Layout>
@@ -49,9 +52,61 @@ function Schedule() {
           <div className="bg-gray-4 w-[1px] h-full absolute rounded-full bottom-0 left-12" />
         </div>
 
-        <div className="w-full flex items-center justify-center mt-4">
-          <Button>Next</Button>
-        </div>
+        {currentDay === DAYS[0] && (
+          <div className="w-full flex items-center justify-center mt-4">
+            <Button
+              onClick={() => {
+                setCurrentDay(DAYS[DAYS.indexOf(currentDay) + 1]);
+              }}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+        {currentDay !== DAYS[0] && currentDay !== DAYS[DAYS.length - 1] && (
+          <div className="flex w-full justify-between">
+            <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
+              <Button
+                onClick={() => {
+                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) - 1]);
+                }}
+              >
+                Before
+              </Button>
+            </div>
+            <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
+              <Button
+                onClick={() => {
+                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) + 1]);
+                }}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )}
+        {currentDay === DAYS[DAYS.length - 1] && (
+          <div className="flex w-full justify-between">
+            <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
+              <Button
+                onClick={() => {
+                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) - 1]);
+                }}
+              >
+                Before
+              </Button>
+            </div>
+            <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
+              <Button
+                onClick={() => {
+                  alert('end');
+                }}
+              >
+                End
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
