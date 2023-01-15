@@ -9,13 +9,11 @@ interface RankMarkerProps {
 export default function RankMarker({ date, className }: RankMarkerProps) {
   const eventState = useAppSelector((state) => state.event);
   const availability = eventState.availability[date];
-
   const possibility = {};
 
   [...availability].forEach((v, i) => {
     if (possibility[i] === undefined) possibility[i] = v;
   });
-
   const sortedPossibility = Object.entries(possibility).sort(
     (a, b) => +b[1] - +a[1],
   );
