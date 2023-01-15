@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
 import useMutation from '@apis/useMutation';
 import { useEffect } from 'react';
+import Navigate from '@components/common/navigate';
 
 type time = {
   value: string;
@@ -56,12 +57,13 @@ function Schedule() {
 
   return (
     <Layout>
+      <Navigate left="back" />
       <form
         onSubmit={handleSubmit(onValid)}
         className="w-full flex flex-col items-center justify-center h-full"
       >
         <div className="w-full flex flex-col items-center justify-center mb-16">
-          <h1 className="text-h2 font-bold text-center text-base-black">
+          <h1 className="text-h2 font-normal text-center text-base-black">
             Choose WeekDays
           </h1>
         </div>

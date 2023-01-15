@@ -37,7 +37,7 @@ function Input({
         </label>
       )}
       <input
-        className={`bg-secondary-orange-3 text-p2 placeholder:text-primary-green-3 text-primary-green-3 rounded-md border-none focus:outline-none focus:ring-1 focus:ring-primary-green-3 focus:border-transparent ${
+        className={`bg-secondary-orange-3 text-p2 font-medium placeholder:text-primary-green-3 text-primary-green-3 rounded-md border-none focus:outline-none focus:ring-1 focus:ring-primary-green-3 focus:border-transparent ${
           height === 'lg'
             ? 'h-9'
             : height === 'md'

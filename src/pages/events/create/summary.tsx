@@ -6,6 +6,7 @@ import SummaryCalender from '@components/create/calender-summary';
 import { useAppSelector } from '@features/hooks';
 import useMutation from '@apis/useMutation';
 import Loader from '@components/common/loader';
+import Navigate from '@components/common/navigate';
 interface EventMutaionResponse {
   id: number;
   uuid: string;
@@ -43,9 +44,10 @@ function Schedule() {
 
   return (
     <Layout>
+      <Navigate left="back" />
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex flex-col items-center justify-center mb-8">
-          <h1 className="text-h2 font-bold text-center text-base-black">
+          <h1 className="text-h2 font-normal text-center text-base-black">
             Complete! <br />
             Copy the Link and <br />
             Share with your Friends
