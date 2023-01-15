@@ -16,7 +16,6 @@ export default function Navigate({
   user,
 }: NavigateProps) {
   const router = useRouter();
-
   return (
     <div className={`fixed top-0 w-full bg-white flex h-[60px] items-center`}>
       {left === 'menu' && (
@@ -26,7 +25,7 @@ export default function Navigate({
           viewBox="0 0 24 24"
           stroke-width="2"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 cursor-pointer"
         >
           <path
             stroke-linecap="round"
@@ -40,9 +39,12 @@ export default function Navigate({
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          stroke-width="2"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 cursor-pointer"
+          onClick={() => {
+            router.back();
+          }}
         >
           <path
             stroke-linecap="round"
