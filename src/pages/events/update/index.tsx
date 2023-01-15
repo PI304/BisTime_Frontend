@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName, setAvailability } from '@features/schedule/scheduleSlice';
 import {
+  setUuid,
   setTitle,
   setTime,
   setAvailability as setEventAvailability,
@@ -69,9 +70,10 @@ function Update() {
   // event 정보를 가져온 후에 eventSlice에 저장
   useEffect(() => {
     if (isLoading || !data) return;
-    dispatch(setEventAvailability(data.availability));
+    dispatch(setUuid(data.uuid));
     dispatch(setTitle(data.title));
     dispatch(setTime({ start_time: data.start_time, end_time: data.end_time }));
+    dispatch(setEventAvailability(data.availability));
   }, [data, isLoading, dispatch]);
 
   if (isLoading) return <Loader />;

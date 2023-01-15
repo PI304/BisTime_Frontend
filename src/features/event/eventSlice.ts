@@ -50,6 +50,7 @@ const eventSlice = createSlice({
 });
 
 export const {
+  setUuid,
   setTitle,
   setTime,
   addAdditionalDate,
