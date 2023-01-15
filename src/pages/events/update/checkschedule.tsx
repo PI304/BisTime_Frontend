@@ -30,10 +30,10 @@ function Schedule() {
       />
       <div className="w-full flex flex-col items-center justify-start h-full">
         <div className="w-full flex justify-between mt-4">
-          {currentDate && <Date date={currentDate} />}
+          <Date className="-mt-2" date={currentDate} />
           <RankMarker />
         </div>
-        <div className="space-y-2 w-full relative">
+        <div className="mt-4 space-y-2 w-full relative">
           {[1, 2, 3, 4, 5, 6].map((item, index) => (
             <div key={index} className="w-full flex h-14">
               <div className="flex-col h-full justify-between items-center">
