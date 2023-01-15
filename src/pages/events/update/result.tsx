@@ -9,6 +9,7 @@ import Loader from '@components/common/loader';
 import { setMembers } from '@features/event/eventSlice';
 import ResultCalender from '@components/update/calender-result';
 import Modal from '@components/common/modal';
+import useMutation from '@apis/useMutation';
 
 type EventScheduleResult = {
   name: string;
@@ -24,7 +25,9 @@ export default function Result() {
   const { data, isLoading } = useSWR<EventScheduleResponse>(
     `/api/events/${router.query.uuid}/schedules`,
   );
-
+  const [updateSchedule, { loading, data: update }] = useMutation(
+    `/api/events/${router.query.uuid}/schedules`,
+  );
   const [showModal, setShowModal] = useState(false);
 
   const eventState = useAppSelector((state) => state.event);
@@ -46,9 +49,19 @@ export default function Result() {
 
   const onAccept = () => {
     setShowModal(false);
-    console.log('accept');
-    // router.push(`/events/update?uuid=${router.query.uuid}`);
+    const possiblity = Object.values(scheduleState.availability);
+    updateSchedule({
+      name: scheduleState.name,
+      availability: possiblity,
+    });
   };
+
+  useEffect(() => {
+    if (loading) return;
+    if (update) {
+      router.push(`/events/update?uuid=${router.query.uuid}`);
+    }
+  }, [loading, update, router]);
 
   const { uuid } = router.query;
   useEffect(() => {
