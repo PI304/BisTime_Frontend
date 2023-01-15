@@ -158,7 +158,7 @@ export default function Calender() {
             }
             ${
               chosenDays[index]
-                ? 'bg-primary-green-1 text-secondary-orange-3'
+                ? 'bg-primary-green-1 text-white'
                 : 'bg-secondary-orange-3 text-primary-green-3'
             }
             `}
