@@ -7,6 +7,7 @@ import Date from '@components/update/date';
 import RankMarker from '@components/update/rank-marger';
 import { useEffect, useState } from 'react';
 import { TIMEZONE } from '@utils/calender';
+import { setAvailability } from '@features/schedule/scheduleSlice';
 
 function Schedule() {
   const router = useRouter();
@@ -14,9 +15,6 @@ function Schedule() {
   const scheduleState = useAppSelector((state) => state.schedule);
   const dispatch = useAppDispatch();
   const { uuid } = router.query;
-
-  console.log('eventState', eventState);
-  console.log('scheduleState', scheduleState);
 
   useEffect(() => {
     if (!uuid) return;
@@ -41,7 +39,21 @@ function Schedule() {
   const timeRange = TIMEZONE.slice(start_time_index, end_time_index + 1);
   const possiblity = availability.slice(start_time_index, end_time_index + 1);
 
-  console.log(timeRange, possiblity);
+  const myAvailability = scheduleState.availability[currentDate].slice(
+    start_time_index,
+    end_time_index + 1,
+  );
+
+  const onCheckerClick = (time: string) => {
+    const index = TIMEZONE.indexOf(time);
+    const availability = scheduleState.availability[currentDate];
+    const possiblity = [...availability];
+    possiblity[index] = possiblity[index] === '0' ? '1' : '0';
+    const newAvailability = possiblity.join('');
+    dispatch(
+      setAvailability({ date: currentDate, availability: newAvailability }),
+    );
+  };
 
   return (
     <Layout>
@@ -68,7 +80,14 @@ function Schedule() {
                   {possiblity[index] + ' / ' + eventState.members.length}
                 </div>
               </div>
-              <div className="bg-primary-green-2 ml-6 rounded-xl h-full w-full" />
+              <div
+                onClick={() => onCheckerClick(time)}
+                className={`ml-6 rounded-xl h-full w-full cursor-pointer transition ${
+                  myAvailability[index] === '1'
+                    ? 'bg-primary-green-1'
+                    : 'bg-primary-green-2'
+                }`}
+              />
             </div>
           ))}
           <div className="bg-gray-4 w-[1px] h-full absolute rounded-full bottom-0 left-12" />
