@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/calender';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { setCurrnet } from '@features/schedule/scheduleSlice';
+import { useAppSelector } from '@features/hooks';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 const monthNames = [
@@ -25,7 +24,6 @@ export default function ScheduleCalender() {
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
-  const dispatch = useAppDispatch();
   const scheduleState = useAppSelector((state) => state.schedule);
 
   const router = useRouter();
@@ -88,7 +86,7 @@ export default function ScheduleCalender() {
   };
 
   const handleWeekDayClick = (index) => {
-    dispatch(setCurrnet(formatDate(year, month, days[index])));
+    // dispatch(setCurrnet(formatDate(year, month, days[index])));
   };
 
   return (
