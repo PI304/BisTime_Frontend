@@ -33,7 +33,7 @@ function Create() {
 
   return (
     <Layout>
-      <Navigate />
+      <Navigate left="back" />
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex flex-col items-center justify-center mb-16">
           <h1 className="text-h2 font-normal text-center text-base-black">

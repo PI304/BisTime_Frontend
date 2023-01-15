@@ -57,7 +57,7 @@ function Schedule() {
 
   return (
     <Layout>
-      <Navigate />
+      <Navigate left="back" />
       <form
         onSubmit={handleSubmit(onValid)}
         className="w-full flex flex-col items-center justify-center h-full"
