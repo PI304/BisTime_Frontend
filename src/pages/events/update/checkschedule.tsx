@@ -12,14 +12,12 @@ function Schedule() {
   const eventState = useAppSelector((state) => state.event);
   const scheduleState = useAppSelector((state) => state.schedule);
   const dispatch = useAppDispatch();
-
   const { uuid } = router.query;
 
   console.log('eventState', eventState);
   console.log('scheduleState', scheduleState);
   const DAYS = Object.keys(scheduleState.availability);
-  const [currentDay, setCurrentDay] = useState(DAYS[0]);
-  console.log(DAYS);
+  const [currentDate, setCurrentDate] = useState(DAYS[0]);
 
   return (
     <Layout>
@@ -32,7 +30,7 @@ function Schedule() {
       />
       <div className="w-full flex flex-col items-center justify-start h-full">
         <div className="w-full flex justify-between mt-4">
-          <Date />
+          {currentDate && <Date date={currentDate} />}
           <RankMarker />
         </div>
         <div className="space-y-2 w-full relative">
@@ -52,23 +50,23 @@ function Schedule() {
           <div className="bg-gray-4 w-[1px] h-full absolute rounded-full bottom-0 left-12" />
         </div>
 
-        {currentDay === DAYS[0] && (
+        {currentDate === DAYS[0] && (
           <div className="w-full flex items-center justify-center mt-4">
             <Button
               onClick={() => {
-                setCurrentDay(DAYS[DAYS.indexOf(currentDay) + 1]);
+                setCurrentDate(DAYS[DAYS.indexOf(currentDate) + 1]);
               }}
             >
               Next
             </Button>
           </div>
         )}
-        {currentDay !== DAYS[0] && currentDay !== DAYS[DAYS.length - 1] && (
+        {currentDate !== DAYS[0] && currentDate !== DAYS[DAYS.length - 1] && (
           <div className="flex w-full justify-between">
             <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
               <Button
                 onClick={() => {
-                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) - 1]);
+                  setCurrentDate(DAYS[DAYS.indexOf(currentDate) - 1]);
                 }}
               >
                 Before
@@ -77,7 +75,7 @@ function Schedule() {
             <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
               <Button
                 onClick={() => {
-                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) + 1]);
+                  setCurrentDate(DAYS[DAYS.indexOf(currentDate) + 1]);
                 }}
               >
                 Next
@@ -85,12 +83,12 @@ function Schedule() {
             </div>
           </div>
         )}
-        {currentDay === DAYS[DAYS.length - 1] && (
+        {currentDate === DAYS[DAYS.length - 1] && (
           <div className="flex w-full justify-between">
             <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
               <Button
                 onClick={() => {
-                  setCurrentDay(DAYS[DAYS.indexOf(currentDay) - 1]);
+                  setCurrentDate(DAYS[DAYS.indexOf(currentDate) - 1]);
                 }}
               >
                 Before

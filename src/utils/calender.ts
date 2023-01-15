@@ -55,4 +55,11 @@ const TIMEZONE = [
   '23:00',
   '23:30',
 ];
-export { formatDate, TIMEZONE };
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+const getDay = (year: number, month: number, day: number) => {
+  const date = new Date(year, month, day);
+  return DAYS[date.getDay()];
+};
+
+export { formatDate, getDay, TIMEZONE };
