@@ -93,7 +93,7 @@ export default function Result() {
       />
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex items-center justify-center">
-          <ResultCalender />
+          <ResultCalender className={`${showModal ? 'hidden' : ''}`} />
         </div>
 
         <div className="w-full flex items-center justify-center mt-4">

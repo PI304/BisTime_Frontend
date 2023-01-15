@@ -18,7 +18,11 @@ const monthNames = [
   'December',
 ];
 
-export default function ResultCalender() {
+interface ResultCalenderProps {
+  className?: string;
+}
+
+export default function ResultCalender({ className }: ResultCalenderProps) {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
@@ -70,7 +74,7 @@ export default function ResultCalender() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center -z-10">
+    <div className={`w-full flex flex-col items-center ${className}`}>
       <div className="flex w-full justify-between items-center">
         <div
           className="text-primary-green-3 cursor-pointer"
