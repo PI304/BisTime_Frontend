@@ -39,8 +39,9 @@ module.exports = {
         primary: {
           green: {
             1: '#52B69A',
-            2: '#95DEAF',
+            2: '#E9F4EF',
             3: '#64736F',
+            4: '#2AAB87',
           },
         },
         secondary: {

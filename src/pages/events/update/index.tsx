@@ -5,9 +5,17 @@ import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName, setAvailability } from '@features/schedule/scheduleSlice';
+import {
+  setUuid,
+  setTitle,
+  setTime,
+  setAvailability as setEventAvailability,
+} from '@features/event/eventSlice';
 import useSWR from 'swr';
 import Loader from '@components/common/loader';
 import { Event } from 'types/event';
+import Navigate from '@components/common/navigate';
+import { useEffect } from 'react';
 interface UserForm {
   name: string;
 }
@@ -25,8 +33,6 @@ function Update() {
   const { data, isLoading } = useSWR<Event>(`/api/events/${uuid}`);
   const { data: eventDate, isLoading: eventDateLoading } =
     useSWR<EventDateResponse>(`/api/events/${uuid}/dates`);
-
-  console.log(eventDate);
 
   const dispatch = useAppDispatch();
 
@@ -61,18 +67,23 @@ function Update() {
     });
   };
 
+  // event 정보를 가져온 후에 eventSlice에 저장
+  useEffect(() => {
+    if (isLoading || !data) return;
+    dispatch(setUuid(data.uuid));
+    dispatch(setTitle(data.title));
+    dispatch(setTime({ start_time: data.start_time, end_time: data.end_time }));
+    dispatch(setEventAvailability(data.availability));
+  }, [data, isLoading, dispatch]);
+
   if (isLoading) return <Loader />;
 
   return (
     <Layout>
+      <Navigate left="menu" center="title" title={data.title} />
       <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-16">
-          <h1 className="text-4xl font-bold text-center text-primary-green-1">
-            {data ? `${data.title}` : 'Event Title'}
-          </h1>
-        </div>
         <div className="w-full flex flex-col items-center justify-center mb-8">
-          <h1 className="text-h2 font-bold text-center text-base-black">
+          <h1 className="text-h2 font-normal text-center text-base-black">
             Who are you?
           </h1>
         </div>
