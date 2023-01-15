@@ -8,6 +8,7 @@ const initialState: Event = {
   end_time: '',
   additional_dates: [],
   availability: {},
+  members: [],
 };
 
 const eventSlice = createSlice({
@@ -41,6 +42,10 @@ const eventSlice = createSlice({
       ...state,
       availability: action.payload,
     }),
+    setMembers: (state, action) => ({
+      ...state,
+      members: action.payload,
+    }),
   },
 });
 
@@ -50,5 +55,6 @@ export const {
   addAdditionalDate,
   removeAdditionalDate,
   setAvailability,
+  setMembers,
 } = eventSlice.actions;
 export default eventSlice.reducer;
