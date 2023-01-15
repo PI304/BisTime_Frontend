@@ -6,6 +6,7 @@ interface NavigateProps {
   right?: 'user' | 'none';
   title?: string;
   user?: string;
+  className?: string;
 }
 
 export default function Navigate({
@@ -14,13 +15,14 @@ export default function Navigate({
   right = 'none',
   title,
   user,
+  className,
 }: NavigateProps) {
   const router = useRouter();
   return (
     <div
       className={`fixed top-0 max-w-[335px] w-full bg-white flex h-[60px] items-center ${
         center === 'title' ? 'justify-between' : ''
-      }`}
+      } ${className}`}
     >
       {left === 'menu' && (
         <svg
