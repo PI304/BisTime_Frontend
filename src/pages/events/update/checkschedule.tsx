@@ -6,6 +6,7 @@ import Navigate from '@components/common/navigate';
 import Date from '@components/update/date';
 import RankMarker from '@components/update/rank-marger';
 import { useEffect, useState } from 'react';
+import { TIMEZONE } from '@utils/calender';
 
 function Schedule() {
   const router = useRouter();
@@ -33,6 +34,15 @@ function Schedule() {
   if (!eventState.title) return null;
   if (!scheduleState.name) return null;
 
+  const availability = eventState.availability[currentDate];
+  const start_time_index = TIMEZONE.indexOf(eventState.start_time);
+  const end_time_index = TIMEZONE.indexOf(eventState.end_time);
+
+  const timeRange = TIMEZONE.slice(start_time_index, end_time_index + 1);
+  const possiblity = availability.slice(start_time_index, end_time_index + 1);
+
+  console.log(timeRange, possiblity);
+
   return (
     <Layout>
       <Navigate
@@ -48,14 +58,14 @@ function Schedule() {
           <RankMarker date={currentDate} />
         </div>
         <div className="mt-4 space-y-2 w-full relative">
-          {[1, 2, 3, 4, 5, 6].map((item, index) => (
+          {timeRange.map((time, index) => (
             <div key={index} className="w-full flex h-14">
               <div className="flex-col h-full justify-between items-center">
                 <div className="text-[14px] font-medium w-full h-1/2  flex justify-center items-center">
-                  16:00
+                  {time}
                 </div>
                 <div className="text-[12px] font-light w-full h-1/2 flex justify-center items-center">
-                  7 / 8
+                  {possiblity[index] + ' / ' + eventState.members.length}
                 </div>
               </div>
               <div className="bg-primary-green-2 ml-6 rounded-xl h-full w-full" />
