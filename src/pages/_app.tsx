@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         fetcher: (url: string) => instance.get(url).then((res) => res.data),
       }}
     >
-      <div className="mx-auto w-full max-w-[375px]">
+      <div className="font-Gmarket mx-auto w-full max-w-[375px]">
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Component {...pageProps} />
