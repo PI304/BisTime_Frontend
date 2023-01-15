@@ -140,7 +140,7 @@ function Schedule() {
             <div className="w-[calc(50%-4px)] flex items-center justify-center mt-4">
               <Button
                 onClick={() => {
-                  alert('end');
+                  router.push(`/events/update/result?uuid=${uuid}`);
                 }}
               >
                 End
