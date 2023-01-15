@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@features/hooks';
 import Navigate from '@components/common/navigate';
 import Date from '@components/update/date';
 import RankMarker from '@components/update/rank-marger';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Schedule() {
   const router = useRouter();
@@ -16,8 +16,22 @@ function Schedule() {
 
   console.log('eventState', eventState);
   console.log('scheduleState', scheduleState);
+
+  useEffect(() => {
+    if (!uuid) return;
+    if (
+      scheduleState.name === '' ||
+      Object.keys(scheduleState.availability).length === 0
+    ) {
+      router.push(`/events/update?uuid=${uuid}`);
+    }
+  }, [scheduleState.name, router, scheduleState.availability, uuid]);
+
   const DAYS = Object.keys(scheduleState.availability);
   const [currentDate, setCurrentDate] = useState(DAYS[0]);
+
+  if (!eventState.title) return null;
+  if (!scheduleState.name) return null;
 
   return (
     <Layout>
@@ -31,7 +45,7 @@ function Schedule() {
       <div className="w-full flex flex-col items-center justify-start h-full">
         <div className="w-full flex justify-between mt-4">
           <Date className="-mt-2" date={currentDate} />
-          <RankMarker />
+          <RankMarker date={currentDate} />
         </div>
         <div className="mt-4 space-y-2 w-full relative">
           {[1, 2, 3, 4, 5, 6].map((item, index) => (
