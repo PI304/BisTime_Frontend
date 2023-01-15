@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 interface NavigateProps {
   left?: 'menu' | 'back' | 'none';
-  center?: 'logo' | 'eventName' | 'none';
+  center?: 'logo' | 'title' | 'none';
   right?: 'user' | 'none';
   title?: string;
   user?: string;
@@ -17,7 +17,11 @@ export default function Navigate({
 }: NavigateProps) {
   const router = useRouter();
   return (
-    <div className={`fixed top-0 w-full bg-white flex h-[60px] items-center`}>
+    <div
+      className={`fixed top-0 max-w-[335px] w-full bg-white flex h-[60px] items-center ${
+        center === 'title' ? 'justify-between' : ''
+      }`}
+    >
       {left === 'menu' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -64,13 +68,14 @@ export default function Navigate({
           BISTIMES
         </div>
       )}
-      {center === 'eventName' && (
+      {center === 'title' && (
         <div className="text-[20px] font-medium">{title}</div>
       )}
       {center === 'none' && <div className="w-6 h-6" />}
       {right === 'user' && (
         <div className="text-[16px] font-medium">{user}</div>
       )}
+      {right === 'none' && <div className="w-6 h-6" />}
     </div>
   );
 }
