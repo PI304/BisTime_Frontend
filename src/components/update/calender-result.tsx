@@ -23,9 +23,8 @@ export default function ResultCalender() {
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
-  const [chosenDays, setChosenDays] = useState([]);
-  const scheduleState = useAppSelector((state) => state.schedule);
 
+  const scheduleState = useAppSelector((state) => state.schedule);
   const router = useRouter();
 
   const { data, isLoading } = useSWR(`/api/events/${router.query.uuid}/dates`);
@@ -50,21 +49,6 @@ export default function ResultCalender() {
     }
 
     setDays(daysArray);
-    const chosenDaysArray = daysArray.map((day) => {
-      if (day !== '') return false;
-    });
-
-    if (data && data.results.length > 0) {
-      data.results
-        .map((date) => date.date)
-        .forEach((date) => {
-          const dateArray = date.split('-');
-          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-          }
-        });
-    }
-    setChosenDays(chosenDaysArray);
   }, [month, year, data, isLoading]);
 
   const nextMonth = () => {
@@ -143,28 +127,28 @@ export default function ResultCalender() {
         {days.map((day, index) => (
           <div
             key={index}
-            className={`relative rounded-full flex items-center py-1 justify-center transition ${
-              day !== '' &&
-              Object.keys(scheduleState.availability).includes(
-                formatDate(year, month, days[index]),
-              )
-                ? 'cursor-pointer'
-                : ''
-            } ${
-              scheduleState.current === formatDate(year, month, days[index])
-                ? 'bg-primary-green-1 text-white'
-                : ''
-            }`}
+            className="relative rounded-full flex items-center py-1 justify-center transition"
           >
             {day}
-            {day !== '' && chosenDays[index] && (
+            {day !== '' && (
               <div
                 className={`
                 absolute -bottom-[2px] w-[6px] h-[6px] rounded-full
                 ${
-                  scheduleState.current === formatDate(year, month, days[index])
-                    ? ''
-                    : 'bg-gray-400'
+                  Object.keys(scheduleState.availability).includes(
+                    formatDate(year, month, days[index]),
+                  ) &&
+                  [
+                    ...scheduleState.availability[
+                      formatDate(year, month, days[index])
+                    ],
+                  ].includes('1')
+                    ? 'bg-primary-green-1'
+                    : Object.keys(scheduleState.availability).includes(
+                        formatDate(year, month, days[index]),
+                      )
+                    ? 'bg-gray-6'
+                    : 'bg-secondary-orange-3'
                 }
               `}
               ></div>
