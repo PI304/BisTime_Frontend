@@ -33,7 +33,7 @@ export default function Select<T extends FieldValues>({
     <div>
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="relative w-16 h-10 text-primary-green-3 cursor-default rounded-md text-h3 bg-secondary-orange-3 p-[1.5px] text-center focus:outline-none focus-visible:border-primary-green-1 ">
+          <Listbox.Button className="relative w-16 h-10 text-primary-green-3 cursor-default rounded-md text-[15px] bg-secondary-orange-3 p-[1.5px] text-center focus:outline-none focus-visible:border-primary-green-1 ">
             <span className="block truncate">{selected.value}</span>
           </Listbox.Button>
           <Transition
@@ -42,7 +42,7 @@ export default function Select<T extends FieldValues>({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 z-10 overflow-auto scrollbar-none scrollbar-track-transparent scrollbar-thumb-primary-green-1 scrollbar-thumb-rounded max-h-40 w-full rounded-md bg-secondary-orange-3 text-h3">
+            <Listbox.Options className="absolute mt-1 z-10 overflow-auto scrollbar-none scrollbar-track-transparent scrollbar-thumb-primary-green-1 scrollbar-thumb-rounded max-h-40 w-full rounded-md bg-secondary-orange-3 text-[15px]">
               {options.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
