@@ -21,7 +21,7 @@ export default function Toggle({
       onChange={setIsEnabled}
       {...rest}
       className={
-        `relative inline-flex text-primary-green-3 text-h3 justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3` +
+        `relative inline-flex text-primary-green-3 text-[15px] justify-around h-10 w-24 items-center rounded-md bg-secondary-orange-3` +
         (className ? ` ${className}` : '')
       }
     >
@@ -39,14 +39,14 @@ export default function Toggle({
       <span
         className={`${
           isEnabled ? 'translate-x-12' : 'translate-x-1'
-        } absolute -left-0 flex justify-center items-center text-h3 h-8 w-11 transform rounded-md text-white bg-primary-green-1 transition`}
+        } absolute -left-0 flex justify-center items-center text-[15px] h-8 w-11 transform rounded-md text-white bg-primary-green-1 transition`}
       >
         {toggleMenu ? (
-          <span className="text-h3">
+          <span className="text-[15px]">
             {isEnabled ? toggleMenu[1] : toggleMenu[0]}
           </span>
         ) : (
-          <span className="text-h3">{isEnabled ? 'ON' : 'OFF'}</span>
+          <span className="text-[15px]">{isEnabled ? 'ON' : 'OFF'}</span>
         )}
       </span>
     </Switch>
