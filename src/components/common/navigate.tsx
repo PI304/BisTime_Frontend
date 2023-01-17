@@ -67,7 +67,7 @@ export default function Navigate({
           }}
           className="text-[20px] ml-2 font-bold cursor-pointer"
         >
-          BISTIMES
+          BISTIME
         </div>
       )}
       {center === 'title' && (
