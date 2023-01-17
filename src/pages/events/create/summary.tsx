@@ -40,6 +40,13 @@ function Schedule() {
     );
   };
 
+  const handleSchedule = () => {
+    window.open(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/events/update?uuid=${uuid}`,
+      '_blank',
+    );
+  };
+
   if (isLoader) return <Loader />;
 
   return (
@@ -54,9 +61,16 @@ function Schedule() {
           </h1>
         </div>
         <SummaryCalender />
-        <div className="w-full flex items-center justify-center mt-4">
-          <Button loading={copyLoading} onClick={handleShareLink}>
+        <div className="w-full flex-col space-y-3 items-center justify-center mt-4">
+          <Button
+            className="font-medium"
+            loading={copyLoading}
+            onClick={handleShareLink}
+          >
             Share Link
+          </Button>
+          <Button className="font-medium" onClick={handleSchedule}>
+            Update Your Schedule First
           </Button>
         </div>
       </div>
