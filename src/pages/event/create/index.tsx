@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import Navigate from '@components/common/navigate';
+import ProgressBar from '@components/common/progress-bar';
+import ErrorMessage from '@components/common/error-message';
 interface EventForm {
   title: string;
 }
@@ -28,46 +30,42 @@ function Create() {
   const onSubmit = (form: EventForm) => {
     const { title } = form;
     dispatch(setTitle(title));
-    if (title) router.push('/events/create/schedule');
+    if (title) router.push('/event/create/schedule');
   };
 
   return (
     <Layout>
-      <Navigate left="back" />
-      <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-16">
-          <h1 className="text-h2 font-normal text-center text-base-black">
-            Event's Name
-          </h1>
+      <Navigate back />
+      <ProgressBar progress="1/3" className="mt-3" />
+      <div className="w-full flex flex-col mt-9">
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-18 text-left w-full">친구들과 공유할</div>
+          <div className="text-18 text-left w-full">모임의 이름을</div>
+          <div className="text-18 text-left w-full">정해주세요.</div>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full space-y-4 flex flex-col items-center justify-center"
+          className="mt-9 w-full space-y-5 flex flex-col items-center justify-center"
         >
           <div className="w-full">
             <Input
               name="title"
-              placeholder="Enter event name"
+              placeholder="50자 이내로 작성하세요."
               height="lg"
               register={register('title', {
                 required: true,
-                maxLength: 100,
+                maxLength: 50,
                 minLength: 1,
               })}
             />
             {errors.title && errors.title.type === 'required' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                This field is required
-              </p>
+              <ErrorMessage message="모임 이름을 입력해주세요." />
             )}
             {errors.title && errors.title.type === 'maxLength' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                Max length is 100
-              </p>
+              <ErrorMessage message="50자 이내로 작성해주세요." />
             )}
           </div>
-
-          <Button size="lg">Next</Button>
+          <Button>다음</Button>
         </form>
       </div>
     </Layout>

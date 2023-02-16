@@ -5,5 +5,5 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  return <div className="w-full h-screen px-5 py-[60px]">{children}</div>;
+  return <div className="w-full h-screen px-5 pt-15">{children}</div>;
 }
