@@ -20,23 +20,18 @@ function Create() {
   const {
     handleSubmit,
     register,
-    watch,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<EventForm>({
     defaultValues: {
       title: titleState,
     },
   });
 
-  const title = watch('title');
-
   const onSubmit = (form: EventForm) => {
     const { title } = form;
     dispatch(setTitle(title));
     if (title) router.push('/event/create/schedule');
   };
-
-  console.log(isDirty);
 
   return (
     <Layout>
