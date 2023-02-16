@@ -19,7 +19,7 @@ function Home() {
           </div>
         </div>
         <div className="w-full space-y-2 flex flex-col items-center justify-center">
-          <Button onClick={() => router.push('/events/create')}>
+          <Button onClick={() => router.push('/event/create')}>
             모임 만들러 가기
           </Button>
         </div>
