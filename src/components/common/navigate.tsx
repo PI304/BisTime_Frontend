@@ -15,9 +15,18 @@ export default function Navigate({
   const router = useRouter();
   return (
     <div
-      className={`fixed top-0 max-w-[335px] w-full bg-white flex h-15 items-center ${className}`}
+      className={`fixed top-0 max-w-[335px] w-full bg-white flex py-4 items-center ${className}`}
     >
-      {back && ArrowLeftSVG}
+      {back && (
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            router.back();
+          }}
+        >
+          {ArrowLeftSVG}
+        </div>
+      )}
       <div
         onClick={() => {
           router.push('/');
