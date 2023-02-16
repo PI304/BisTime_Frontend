@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
+import Layout from '@components/common/Layout/Layout';
+import Button from '@components/common/Button';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useEffect } from 'react';
 import ScheduleCalender from '@components/update/calender-schedule';
 import useSWR from 'swr';
-import Navigate from '@components/common/navigate';
-import Loader from '@components/common/loader';
+import Navigate from '@components/common/Navigate/Navigate';
+import Loader from '@components/common/Loader/Loader';
 import { setMembers } from '@features/event/eventSlice';
 
 type EventScheduleResult = {

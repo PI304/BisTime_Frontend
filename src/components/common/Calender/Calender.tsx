@@ -5,20 +5,6 @@ import {
   addAdditionalDate,
   removeAdditionalDate,
 } from '@features/event/eventSlice';
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
 
 export default function Calender() {
   const [date, setDate] = useState(new Date());
@@ -98,17 +84,18 @@ export default function Calender() {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">
-        <div
-          className="text-primary-green-3 cursor-pointer"
-          onClick={prevMonth}
-        >
+        <span className="text-primary-green-3">
+          {year}년 {month + 1}월
+        </span>
+        <div className="text-primary-green-3 cursor-pointer flex">
           <svg
+            onClick={prevMonth}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4 mr-2"
           >
             <path
               strokeLinecap="round"
@@ -116,21 +103,14 @@ export default function Calender() {
               d="M15.75 19.5L8.25 12l7.5-7.5"
             />
           </svg>
-        </div>
-        <span className="text-h3 text-primary-green-3">
-          {monthNames[month]} {year}
-        </span>
-        <div
-          className="text-primary-green-3 cursor-pointer"
-          onClick={nextMonth}
-        >
           <svg
+            onClick={nextMonth}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4"
           >
             <path
               strokeLinecap="round"
@@ -140,8 +120,8 @@ export default function Calender() {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-7 gap-3 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
-        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+      <div className="grid grid-cols-7 gap-3 w-full mt-2 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
+        {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             className="py-[2px] rounded-full flex items-center justify-center"
             key={index}

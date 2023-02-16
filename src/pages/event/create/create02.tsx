@@ -1,13 +1,14 @@
+import useMutation from '@apis/useMutation';
+import Button from '@components/common/Button';
+import Calender from '@components/common/Calender';
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
+import ProgressBar from '@components/common/ProgressBar';
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Calender from '@components/common/calender';
-import Button from '@components/common/button';
-import TimePicker from '@components/common/time-picker';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
-import useMutation from '@apis/useMutation';
 import { useEffect } from 'react';
-import Navigate from '@components/common/navigate';
+import { TimePicker } from '@components/common/TimePicker';
 
 type time = {
   value: string;
@@ -31,7 +32,7 @@ function Schedule() {
   const [createEvent, { data, loading }] =
     useMutation<EventMutaionResponse>('/api/events');
 
-  const onValid = (form: ScheuleForm) => {
+  const onSubmit = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
     if (start_time.value > end_time.value) {
       alert(
@@ -57,15 +58,18 @@ function Schedule() {
 
   return (
     <Layout>
-      <Navigate left="back" />
+      <Navigate back />
+      <ProgressBar progress="w-1/2" className="mt-3" />
       <form
-        onSubmit={handleSubmit(onValid)}
-        className="w-full flex flex-col items-center justify-center h-full"
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-9 w-full space-y-5 flex flex-col items-center justify-center"
       >
-        <div className="w-full flex flex-col items-center justify-center mb-16">
-          <h1 className="text-h2 font-normal text-center text-base-black">
-            Choose WeekDays
-          </h1>
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-18 text-left w-full">모임을 희망하는</div>
+          <div className="text-18 text-left w-full">날짜를 선택하세요.</div>
+          <div className="text-18 text-left w-full">
+            여러 날의 선택이 가능합니다.
+          </div>
         </div>
         <div className="w-full flex items-center justify-center">
           <Calender />

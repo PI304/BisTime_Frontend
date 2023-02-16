@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
+import Layout from '@components/common/Layout/Layout';
+import Button from '@components/common/Button';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import Navigate from '@components/common/navigate';
+import Navigate from '@components/common/Navigate/Navigate';
 import Date from '@components/update/date';
 import RankMarker from '@components/update/rank-marger';
 import { useEffect, useState } from 'react';

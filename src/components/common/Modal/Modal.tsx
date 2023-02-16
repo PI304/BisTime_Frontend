@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface ModalProps {
   message?: string;
   isModal: boolean;
