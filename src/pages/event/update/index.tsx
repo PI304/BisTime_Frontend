@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
-import Input from '@components/common/input';
+import Layout from '@components/common/Layout/Layout';
+import Button from '@components/common/Button';
+import Input from '@components/common/Input/Input';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setName, setAvailability } from '@features/schedule/scheduleSlice';
@@ -12,9 +12,9 @@ import {
   setAvailability as setEventAvailability,
 } from '@features/event/eventSlice';
 import useSWR from 'swr';
-import Loader from '@components/common/loader';
+import Loader from '@components/common/Loader/Loader';
 import { Event } from 'types/event';
-import Navigate from '@components/common/navigate';
+import Navigate from '@components/common/Navigate/Navigate';
 import { useEffect } from 'react';
 interface UserForm {
   name: string;

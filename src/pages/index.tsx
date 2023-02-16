@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
-import Navigate from '@components/common/navigate';
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
+import Button from '@components/common/Button';
 
 function Home() {
   const router = useRouter();
@@ -19,7 +19,7 @@ function Home() {
           </div>
         </div>
         <div className="w-full space-y-2 flex flex-col items-center justify-center">
-          <Button onClick={() => router.push('/event/create')}>
+          <Button onClick={() => router.push('/event/create/create01')}>
             모임 만들러 가기
           </Button>
         </div>

@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
-import Input from '@components/common/input';
 import { useForm } from 'react-hook-form';
 import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import Navigate from '@components/common/navigate';
-import ProgressBar from '@components/common/progress-bar';
-import ErrorMessage from '@components/common/error-message';
+import Navigate from '@components/common/Navigate/Navigate';
+import ProgressBar from '@components/common/ProgressBar/ProgressBar';
+import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
+import Layout from '@components/common/Layout';
+import Input from '@components/common/Input';
+import Button from '@components/common/Button';
 interface EventForm {
   title: string;
 }
@@ -30,13 +30,13 @@ function Create() {
   const onSubmit = (form: EventForm) => {
     const { title } = form;
     dispatch(setTitle(title));
-    if (title) router.push('/event/create/schedule');
+    if (title) router.push('/event/create/create02');
   };
 
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="1/3" className="mt-3" />
+      <ProgressBar progress="w-1/4" className="mt-3" />
       <div className="w-full flex flex-col mt-9">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">친구들과 공유할</div>

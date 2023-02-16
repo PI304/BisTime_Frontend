@@ -1,5 +1,6 @@
+import Image from 'next/image';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { ArrowLeftSVG } from 'styles/svgs';
 
 interface NavigateProps {
   back?: boolean;
@@ -24,7 +25,7 @@ export default function Navigate({
             router.back();
           }}
         >
-          {ArrowLeftSVG}
+          <Image src="/public/icons/caret_left.svg" alt="back" />
         </div>
       )}
       <div

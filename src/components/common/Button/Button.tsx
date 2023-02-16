@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'lg' | 'md' | 'sm';
   children: React.ReactNode;

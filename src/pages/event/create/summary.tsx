@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import Layout from '@components/common/layout';
-import Button from '@components/common/button';
+import Layout from '@components/common/Layout/Layout';
+import Button from '@components/common/Button';
 import { useEffect, useState } from 'react';
-import SummaryCalender from '@components/create/calender-summary';
+import SummaryCalender from '@components/event/calender-summary';
 import { useAppSelector } from '@features/hooks';
 import useMutation from '@apis/useMutation';
-import Loader from '@components/common/loader';
-import Navigate from '@components/common/navigate';
+import Loader from '@components/common/Loader/Loader';
+import Navigate from '@components/common/Navigate/Navigate';
 interface EventMutaionResponse {
   id: number;
   uuid: string;

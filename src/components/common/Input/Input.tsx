@@ -1,5 +1,6 @@
-import type { UseFormRegisterReturn } from 'react-hook-form';
+import React from 'react';
 
+import type { UseFormRegisterReturn } from 'react-hook-form';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   islabel?: boolean;
   label?: string;
@@ -15,7 +16,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   [key: string]: any;
 }
 
-function Input({
+export default function Input({
   islabel = false,
   label,
   name,
@@ -59,5 +60,3 @@ function Input({
     </div>
   );
 }
-
-export default Input;

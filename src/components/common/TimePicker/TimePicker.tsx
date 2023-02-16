@@ -1,8 +1,10 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
-import Select from './select';
-import Toggle from './toggle';
-import type { FieldPath, UseFormSetValue, FieldValues } from 'react-hook-form';
 
+import Select from '../Select';
+import Toggle from './Toggle';
+
+import type { FieldPath, UseFormSetValue, FieldValues } from 'react-hook-form';
 const dayTimeZone = [
   { value: '00:00' },
   { value: '00:30' },

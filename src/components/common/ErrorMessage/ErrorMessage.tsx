@@ -1,4 +1,4 @@
-import { ErrorSVG } from 'styles/svgs';
+import { ErrorSVG } from '@public/svg';
 
 interface ErrorMessageProps {
   message: string;
