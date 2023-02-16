@@ -15,7 +15,7 @@ export default function Navigate({
   const router = useRouter();
   return (
     <div
-      className={`fixed top-0 max-w-[335px] w-full bg-white flex h-16 items-center ${className}`}
+      className={`fixed top-0 max-w-[335px] w-full bg-white flex h-15 items-center ${className}`}
     >
       {back && ArrowLeftSVG}
       <div

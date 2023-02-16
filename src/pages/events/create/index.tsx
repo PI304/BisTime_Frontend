@@ -34,11 +34,11 @@ function Create() {
   return (
     <Layout>
       <Navigate back />
-      <div className="w-full flex flex-col items-center justify-center h-full">
+      <div className="w-full flex flex-col">
         <div className="w-full flex flex-col items-center justify-center mb-16">
-          <h1 className="text-h2 font-normal text-center text-base-black">
-            Event's Name
-          </h1>
+          <div className="text-18 text-left w-full">친구들과 공유할</div>
+          <div className="text-18 text-left w-full">모임의 이름을</div>
+          <div className="text-18 text-left w-full">정해주세요.</div>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}

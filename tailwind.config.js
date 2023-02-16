@@ -65,6 +65,9 @@ module.exports = {
         b2: ['1.125rem', { fontWeight: 700 }],
         b3: ['0.75rem', { fontWeight: 700 }],
       },
+      spacing: {
+        15: '3.75rem',
+      },
       colors: {
         base: {
           black: '#0C0C20',
