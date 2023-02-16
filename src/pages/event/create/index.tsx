@@ -7,6 +7,7 @@ import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import Navigate from '@components/common/navigate';
 import ProgressBar from '@components/common/progress-bar';
+import ErrorMessage from '@components/common/error-message';
 interface EventForm {
   title: string;
 }
@@ -19,18 +20,23 @@ function Create() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    watch,
+    formState: { errors, isDirty },
   } = useForm<EventForm>({
     defaultValues: {
       title: titleState,
     },
   });
 
+  const title = watch('title');
+
   const onSubmit = (form: EventForm) => {
     const { title } = form;
     dispatch(setTitle(title));
-    if (title) router.push('/events/create/schedule');
+    if (title) router.push('/event/create/schedule');
   };
+
+  console.log(isDirty);
 
   return (
     <Layout>
@@ -58,14 +64,10 @@ function Create() {
               })}
             />
             {errors.title && errors.title.type === 'required' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                모임의 이름을 정해주세요.
-              </p>
+              <ErrorMessage message="모임 이름을 입력해주세요." />
             )}
             {errors.title && errors.title.type === 'maxLength' && (
-              <p className="w-full mt-2 text-left text-system-error text-xs">
-                최대 50자까지 입력 가능합니다.
-              </p>
+              <ErrorMessage message="50자 이내로 작성해주세요." />
             )}
           </div>
           <Button>다음</Button>
