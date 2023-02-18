@@ -60,10 +60,7 @@ function Create() {
             여러 날의 선택이 가능합니다.
           </div>
           {errors.date && (
-            <ErrorMessage
-              className="mt-0"
-              message={errors.date.message as string}
-            />
+            <ErrorMessage message={errors.date.message as string} />
           )}
         </div>
         <div className="w-full flex items-center justify-center">

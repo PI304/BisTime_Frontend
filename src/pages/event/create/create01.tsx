@@ -59,7 +59,10 @@ function Create() {
               })}
             />
             {errors.title && errors.title.type === 'required' && (
-              <ErrorMessage message="모임 이름을 입력해주세요." />
+              <ErrorMessage
+                className="mt-2"
+                message="모임 이름을 입력해주세요."
+              />
             )}
             {errors.title && errors.title.type === 'maxLength' && (
               <ErrorMessage message="50자 이내로 작성해주세요." />

@@ -11,7 +11,7 @@ export default function ErrorMessage({
 }: ErrorMessageProps) {
   return (
     <p
-      className={`w-full mt-2 text-left flex text-system-error text-12 font-light ${className}`}
+      className={`w-full text-left flex text-system-error text-12 font-light ${className}`}
     >
       <span className="mr-0.5">
         <Image
