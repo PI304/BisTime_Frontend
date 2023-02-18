@@ -1,11 +1,6 @@
 import instance from '@apis/_axios/instance';
 
-import {
-  Event,
-  EventDatePostParam,
-  EventPatchParam,
-  EventDate,
-} from './eventApi.type';
+import { EventDatePostParam, EventPatchParam } from './eventApi.type';
 
 export class EventApi {
   async getEventList(): Promise<Event[]> {
@@ -33,6 +28,15 @@ export class EventApi {
     return data;
   }
 
+  async postEventDate(req: EventDatePostParam): Promise<Event> {
+    const { data } = await instance({
+      method: 'POST',
+      url: `/api/events/${req.id}/dates`,
+      data: req.data,
+    });
+    return data;
+  }
+
   async patchEvent(req: EventPatchParam): Promise<Event> {
     const { data } = await instance({
       method: 'PATCH',
@@ -54,15 +58,6 @@ export class EventApi {
     const { data } = await instance({
       method: 'GET',
       url: `/api/events/${uuid}/dates`,
-    });
-    return data;
-  }
-
-  async postEventDate(req: EventDatePostParam): Promise<Event> {
-    const { data } = await instance({
-      method: 'POST',
-      url: `/api/events/${req.id}/dates`,
-      data: req.data,
     });
     return data;
   }
