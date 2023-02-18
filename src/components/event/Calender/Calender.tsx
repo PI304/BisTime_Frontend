@@ -1,36 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
-import { useAppSelector } from '@features/hooks';
-import useMutation from '@apis/useMutation';
-import { Event } from 'types/event';
 
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-export default function SummaryCalender() {
+export default function Calender() {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date.getMonth());
   const [year, setYear] = useState(date.getFullYear());
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
   const router = useRouter();
-  const { uuid } = router.query;
-
-  const { data, isLoading } = useSWR<Event>(`/api/events/${uuid}`);
-  const eventState = useAppSelector((state) => state.event);
 
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
@@ -50,25 +27,7 @@ export default function SummaryCalender() {
       daysArray.push('');
     }
     setDays(daysArray);
-
-    if (isLoading) return;
-
-    if (data) {
-      const chosenDaysArray = daysArray.map((day) => {
-        if (day !== '') return false;
-      });
-
-      if (eventState.additional_dates) {
-        eventState.additional_dates.forEach((date) => {
-          const dateArray = date.split('-');
-          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-          }
-        });
-      }
-      setChosenDays(chosenDaysArray);
-    }
-  }, [month, year, data, isLoading]);
+  }, [month, year]);
 
   const nextMonth = () => {
     if (month === 11) {
@@ -91,17 +50,18 @@ export default function SummaryCalender() {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">
-        <div
-          className="text-primary-green-3 cursor-pointer"
-          onClick={prevMonth}
-        >
+        <span className="text-primary-green-3">
+          {year}년 {month + 1}월
+        </span>
+        <div className="text-primary-green-3 cursor-pointer flex">
           <svg
+            onClick={prevMonth}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4 mr-2"
           >
             <path
               strokeLinecap="round"
@@ -109,21 +69,14 @@ export default function SummaryCalender() {
               d="M15.75 19.5L8.25 12l7.5-7.5"
             />
           </svg>
-        </div>
-        <span className="text-h3 text-primary-green-3">
-          {monthNames[month]} {year}
-        </span>
-        <div
-          className="text-primary-green-3 cursor-pointer"
-          onClick={nextMonth}
-        >
           <svg
+            onClick={nextMonth}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4"
           >
             <path
               strokeLinecap="round"
@@ -133,8 +86,8 @@ export default function SummaryCalender() {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-7 gap-3 w-full mt-4 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
-        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+      <div className="grid grid-cols-7 gap-3 w-full mt-2 text-h3 p-4 rounded-lg text-primary-green-3 bg-secondary-orange-3">
+        {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
           <div
             className="py-[2px] rounded-full flex items-center justify-center"
             key={index}
@@ -145,12 +98,17 @@ export default function SummaryCalender() {
         {days.map((day, index) => (
           <div
             key={index}
-            className={`relative rounded-full flex items-center py-1 justify-center transition`}
+            className={`relative rounded-full flex items-center py-1 justify-center transition ${
+              day === '' ? '' : 'cursor-pointer'
+            }
+            ${
+              chosenDays[index]
+                ? 'bg-primary-green-1 text-white'
+                : 'bg-secondary-orange-3 text-primary-green-3'
+            }
+            `}
           >
             {day}
-            {chosenDays[index] && (
-              <div className="absolute w-[6px] h-[6px] rounded-full bg-primary-green-1 bottom-0"></div>
-            )}
           </div>
         ))}
       </div>
