@@ -1,15 +1,14 @@
 import useMutation from '@apis/useMutation';
 import Button from '@components/common/Button';
-import Calender from '@components/common/Calender';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
 import { useEffect } from 'react';
 import { TimePicker } from '@components/common/TimePicker';
 import ErrorMessage from '@components/common/ErrorMessage';
+import { usePostEventMutation } from '@apis/event/eventApi.mutation';
 
 type time = {
   value: string;
@@ -18,11 +17,6 @@ type time = {
 interface ScheuleForm {
   start_time: time;
   end_time: time;
-}
-
-interface EventMutaionResponse {
-  id: number;
-  uuid: string;
 }
 
 function Create() {
@@ -35,11 +29,8 @@ function Create() {
     formState: { errors },
   } = useForm<ScheuleForm>();
   const eventState = useAppSelector((state) => state.event);
-  const router = useRouter();
 
-  const [createEvent, { data, loading }] =
-    useMutation<EventMutaionResponse>('/api/events');
-
+  const { mutate, isLoading } = usePostEventMutation();
   const onSubmit = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
     if (start_time.value > end_time.value) {
@@ -49,7 +40,7 @@ function Create() {
       });
       return;
     }
-    createEvent({
+    mutate({
       title: eventState.title,
       startTime: start_time.value,
       endTime: end_time.value,
@@ -59,15 +50,6 @@ function Create() {
     () => clearErrors(),
     [clearErrors, watch('start_time'), watch('end_time')],
   );
-
-  useEffect(() => {
-    if (data) {
-      router.push({
-        pathname: '/events/create/summary',
-        query: { uuid: data.uuid },
-      });
-    }
-  }, [data, router]);
 
   return (
     <Layout>
@@ -103,7 +85,7 @@ function Create() {
           />
         </div>
         <div className="w-full flex items-center justify-center mt-5">
-          <Button loading={loading}>이벤트 만들기</Button>
+          <Button loading={isLoading}>이벤트 만들기</Button>
         </div>
       </form>
     </Layout>
