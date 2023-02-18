@@ -19,11 +19,11 @@ export const usePostEventMutation = () => {
   );
 };
 
-export const usePostEventDateMutation = () => {
+export const usePostEventDateMutation = (uuid: string) => {
   const router = useRouter();
   return useMutation<Event, AxiosError, EventDatePostParam>(
     ['event'],
-    (body) => eventApi.postEventDate(body),
+    (body) => eventApi.postEventDate(uuid, body),
     {
       onSuccess: (data) => {
         router.push({

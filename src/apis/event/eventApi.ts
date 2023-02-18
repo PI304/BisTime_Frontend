@@ -28,11 +28,11 @@ export class EventApi {
     return data;
   }
 
-  async postEventDate(req: EventDatePostParam): Promise<Event> {
+  async postEventDate(uuid: string, body: EventDatePostParam): Promise<Event> {
     const { data } = await instance({
       method: 'POST',
-      url: `/api/events/${req.id}/dates`,
-      data: req.data,
+      url: `/api/events/${uuid}/dates`,
+      data: body,
     });
     return data;
   }
