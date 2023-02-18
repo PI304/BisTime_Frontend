@@ -1,31 +1,37 @@
-export type EventDTOType = {
+export type Event = {
+  id: number;
+  uuid: string;
   title: string;
-  start_time: string;
-  end_time: string;
+  startTime: string;
+  endTime: string;
+  availability: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type EventParamGetType = {};
-export type EventParamPutType = {
+export type EventGetParam = {};
+export type EventPutParam = {
   id: string;
-  data: EventDTOType;
+  data: Event;
 };
-
-export type EventParamPatchType = {
+export type EventPatchParam = {
   id: string;
-  data: Partial<EventDTOType>;
+  data: Partial<Event>;
 };
 
-type DateDTOType = {
-  additional_dates: string[];
+type Date = {
+  additionalDates: string[];
 };
 
 export type EventDate = {
   id: string;
-  event: EventDTOType;
-  date: DateDTOType;
+  event: Event;
+  date: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type EventDateParamDTOType = {
+export type EventDatePostParam = {
   id: string;
-  data: DateDTOType;
+  data: Date;
 };
