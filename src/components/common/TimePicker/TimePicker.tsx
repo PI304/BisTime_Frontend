@@ -63,6 +63,7 @@ interface TimePickerProps<T extends FieldValues> {
   name: FieldPath<T>;
   setValue: UseFormSetValue<T>;
   dayOrNight: boolean;
+  label?: string;
   className?: string;
 }
 
@@ -70,6 +71,7 @@ export default function TimePicker<T extends FieldValues>({
   name,
   setValue,
   dayOrNight,
+  label,
   className,
 }: TimePickerProps<T>) {
   const [isDayOrNight, setIsDayOrNight] = useState(dayOrNight);
@@ -81,16 +83,21 @@ export default function TimePicker<T extends FieldValues>({
   }, [isDayOrNight]);
 
   return (
-    <div className={`flex justify-center items-center ${className}`}>
-      <Select name={name} setValue={setValue} options={options} />
-      <Toggle
-        enabled={isDayOrNight}
-        onClick={() => {
-          setIsDayOrNight(!isDayOrNight);
-        }}
-        toggleMenu={['AM', 'PM']}
-        className="ml-1"
-      />
+    <div className="flex flex-col">
+      <div className="text-16 text-primary-green-3 text-left w-full">
+        {label}
+      </div>
+      <div className={`flex justify-center items-center ${className}`}>
+        <Select name={name} setValue={setValue} options={options} />
+        <Toggle
+          enabled={isDayOrNight}
+          onClick={() => {
+            setIsDayOrNight(!isDayOrNight);
+          }}
+          toggleMenu={['오전', '오후']}
+          className="ml-1"
+        />
+      </div>
     </div>
   );
 }

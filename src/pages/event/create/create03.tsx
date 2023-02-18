@@ -24,7 +24,7 @@ interface EventMutaionResponse {
   uuid: string;
 }
 
-function Schedule() {
+function Create() {
   const { setValue, handleSubmit } = useForm<ScheuleForm>();
   const eventState = useAppSelector((state) => state.event);
   const router = useRouter();
@@ -59,34 +59,38 @@ function Schedule() {
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="1/2" className="mt-3" />
+      <ProgressBar progress="w-3/4" className="mt-3" />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-9 w-full space-y-5 flex flex-col items-center justify-center"
       >
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">모임을 희망하는</div>
-          <div className="text-18 text-left w-full">날짜를 선택하세요.</div>
           <div className="text-18 text-left w-full">
-            여러 날의 선택이 가능합니다.
+            모임 시간을 설정하세요.
           </div>
+          <div className="text-18 text-left w-full">30분 단위로</div>
+          <div className="text-18 text-left w-full">가능여부를 조사합니다.</div>
         </div>
-        <div className="w-full flex items-center justify-center">
-          <Calender />
-        </div>
+
         <div className="w-full flex items-center justify-between mt-4">
           <TimePicker
             name="start_time"
+            label="시작시간"
             dayOrNight={false}
             setValue={setValue}
           />
-          <TimePicker name="end_time" dayOrNight={true} setValue={setValue} />
+          <TimePicker
+            name="end_time"
+            label="종료시간"
+            dayOrNight={true}
+            setValue={setValue}
+          />
         </div>
-        <div className="w-full flex items-center justify-center mt-4">
-          <Button loading={loading}>Next</Button>
+        <div className="w-full flex items-center justify-center mt-5">
+          <Button loading={loading}>이벤트 만들기</Button>
         </div>
       </form>
     </Layout>
   );
 }
-export default Schedule;
+export default Create;
