@@ -3,32 +3,45 @@ import Calender from '@components/common/Calender';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
+import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { TimePicker } from '@components/common/TimePicker';
+import moment from 'moment';
+import ErrorMessage from '@components/common/ErrorMessage';
+import { useEffect } from 'react';
 
-type time = {
-  value: string;
-};
+function Create() {
+  const {
+    setValue,
+    handleSubmit,
+    setError,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
 
-interface ScheuleForm {
-  start_time: time;
-  end_time: time;
-}
+  const router = useRouter();
+  const eventState = useAppSelector((state) => state.event);
+  const onSubmit = () => {
+    const today = moment();
+    eventState.additional_dates.map((date) => {
+      const someDate = moment(date);
+      console.log(someDate.diff(today, 'days'));
+      if (someDate.diff(today) <= 0) {
+        console.log('오늘 이전의 날짜는 선택할 수 없습니다.');
+        setError('date', {
+          type: 'manual',
+          message: '오늘 이전의 날짜는 선택할 수 없습니다.',
+        });
+        return;
+      }
+    });
 
-function Schedule() {
-  const { setValue, handleSubmit, setError } = useForm<ScheuleForm>();
-
-  const onSubmit = (form: ScheuleForm) => {
-    const { start_time, end_time } = form;
-    if (start_time.value > end_time.value) {
-      setError('end_time', {
-        type: 'manual',
-        message: '시작 시간이 종료 시간보다 늦을 수 없습니다.',
-      });
-      return;
-    }
+    router.push('/event/create/create03');
   };
+
+  useEffect(() => {
+    clearErrors('date');
+  }, [eventState.additional_dates, clearErrors]);
 
   return (
     <Layout>
@@ -44,6 +57,9 @@ function Schedule() {
           <div className="text-18 text-left w-full">
             여러 날의 선택이 가능합니다.
           </div>
+          {errors.date && (
+            <ErrorMessage message={errors.date.message as string} />
+          )}
         </div>
         <div className="w-full flex items-center justify-center">
           <Calender />
@@ -55,4 +71,4 @@ function Schedule() {
     </Layout>
   );
 }
-export default Schedule;
+export default Create;
