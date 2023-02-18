@@ -2,15 +2,13 @@ import { useRouter } from 'next/router';
 import Layout from '@components/common/Layout/Layout';
 import Button from '@components/common/Button';
 import { useEffect, useState } from 'react';
-import SummaryCalender from '@components/event/calender-summary';
+import Calender from '@components/event/Calender';
 import { useAppSelector } from '@features/hooks';
-import useMutation from '@apis/useMutation';
 import Loader from '@components/common/Loader/Loader';
 import Navigate from '@components/common/Navigate/Navigate';
-interface EventMutaionResponse {
-  id: number;
-  uuid: string;
-}
+import ProgressBar from '@components/common/ProgressBar';
+import { useGetEventDateQuery } from '@apis/event/eventApi.query';
+import { usePostEventDateMutation } from '@apis/event/eventApi.mutation';
 
 function Schedule() {
   const router = useRouter();
@@ -19,14 +17,23 @@ function Schedule() {
   const [copyLoading, setCopyLoading] = useState(false);
 
   const eventState = useAppSelector((state) => state.event);
-  const [createEventDate, { data: dates, loading: isLoader }] =
-    useMutation<EventMutaionResponse>(`/api/events/${uuid}/dates`);
+
+  const { data } = useGetEventDateQuery(uuid as string);
+  const {
+    mutate,
+    isLoading,
+    data: eventDate,
+  } = usePostEventDateMutation(uuid as string);
 
   useEffect(() => {
     if (eventState.additional_dates && uuid) {
-      createEventDate({ additionalDates: eventState.additional_dates });
+      mutate({
+        additionalDates: eventState.additional_dates,
+      });
     }
   }, [eventState.additional_dates, uuid]);
+
+  console.log(eventDate);
 
   const handleShareLink = () => {
     setCopyLoading(true);
@@ -47,30 +54,32 @@ function Schedule() {
     );
   };
 
-  if (isLoader) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <Layout>
-      <Navigate left="back" />
-      <div className="w-full flex flex-col items-center justify-center h-full">
-        <div className="w-full flex flex-col items-center justify-center mb-8">
-          <h1 className="text-h2 font-normal text-center text-base-black">
-            Complete! <br />
-            Copy the Link and <br />
-            Share with your Friends
-          </h1>
+      <Navigate back />
+      <ProgressBar progress="w-full" className="mt-3" />
+      <div className="mt-9 w-full space-y-5 flex flex-col items-center justify-center">
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-18 text-left w-full">
+            이벤트 링크가 생성되었습니다.
+          </div>
+          <div className="text-18 text-left w-full">가장 먼저 자신의</div>
+          <div className="text-18 text-left w-full">일정을 등록하고,</div>
+          <div className="text-18 text-left w-full">
+            친구들에게 링크를 공유하세요.
+          </div>
         </div>
-        <SummaryCalender />
+        <div className="w-full flex items-center justify-center">
+          <Calender />
+        </div>
         <div className="w-full flex-col space-y-3 items-center justify-center mt-4">
-          <Button
-            className="font-medium"
-            loading={copyLoading}
-            onClick={handleShareLink}
-          >
-            Share Link
-          </Button>
           <Button className="font-medium" onClick={handleSchedule}>
-            Update Your Schedule First
+            내 일정 등록하기
+          </Button>
+          <Button loading={copyLoading} onClick={handleShareLink}>
+            링크 복사하기
           </Button>
         </div>
       </div>

@@ -1,31 +1,13 @@
-export type EventDTOType = {
-  title: string;
-  start_time: string;
-  end_time: string;
-};
-
-export type EventParamGetType = {};
-export type EventParamPutType = {
+export type EventGetParam = {};
+export type EventPutParam = {
   id: string;
-  data: EventDTOType;
+  data: Event;
 };
-
-export type EventParamPatchType = {
+export type EventPatchParam = {
   id: string;
-  data: Partial<EventDTOType>;
+  data: Partial<Event>;
 };
 
-type DateDTOType = {
-  additional_dates: string[];
-};
-
-export type EventDate = {
-  id: string;
-  event: EventDTOType;
-  date: DateDTOType;
-};
-
-export type EventDateParamDTOType = {
-  id: string;
-  data: DateDTOType;
+export type EventDatePostParam = {
+  additionalDates: Date;
 };

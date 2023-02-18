@@ -1,60 +1,49 @@
-import useMutation from '@apis/useMutation';
 import Button from '@components/common/Button';
 import Calender from '@components/common/Calender';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
+import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useAppSelector } from '@features/hooks';
+import moment from 'moment';
+import ErrorMessage from '@components/common/ErrorMessage';
 import { useEffect } from 'react';
-import { TimePicker } from '@components/common/TimePicker';
 
-type time = {
-  value: string;
-};
+function Create() {
+  const {
+    handleSubmit,
+    setError,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
 
-interface ScheuleForm {
-  start_time: time;
-  end_time: time;
-}
-
-interface EventMutaionResponse {
-  id: number;
-  uuid: string;
-}
-
-function Schedule() {
-  const { setValue, handleSubmit } = useForm<ScheuleForm>();
-  const eventState = useAppSelector((state) => state.event);
   const router = useRouter();
+  const eventState = useAppSelector((state) => state.event);
+  const onSubmit = () => {
+    const today = moment();
 
-  const [createEvent, { data, loading }] =
-    useMutation<EventMutaionResponse>('/api/events');
+    let isDateValid = true;
 
-  const onSubmit = (form: ScheuleForm) => {
-    const { start_time, end_time } = form;
-    if (start_time.value > end_time.value) {
-      alert(
-        'Please check the time you entered. The start time must be earlier than the end time.',
-      );
-      return;
-    }
-    createEvent({
-      title: eventState.title,
-      startTime: start_time.value,
-      endTime: end_time.value,
+    eventState.additional_dates.map((date) => {
+      const someDate = moment(date);
+      if (someDate.diff(today) <= 0) {
+        isDateValid = false;
+      }
     });
+
+    if (!isDateValid) {
+      setError('date', {
+        type: 'manual',
+        message: '오늘 이전의 날짜는 선택할 수 없습니다.',
+      });
+      return;
+    } else router.push('/event/create/create03');
   };
 
   useEffect(() => {
-    if (data) {
-      router.push({
-        pathname: '/events/create/summary',
-        query: { uuid: data.uuid },
-      });
-    }
-  }, [data, router]);
+    clearErrors('date');
+  }, [eventState.additional_dates, clearErrors]);
 
   return (
     <Layout>
@@ -62,7 +51,7 @@ function Schedule() {
       <ProgressBar progress="w-1/2" className="mt-3" />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-9 w-full space-y-5 flex flex-col items-center justify-center"
+        className="mt-6 w-full space-y-5 flex flex-col items-center justify-center"
       >
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">모임을 희망하는</div>
@@ -70,23 +59,18 @@ function Schedule() {
           <div className="text-18 text-left w-full">
             여러 날의 선택이 가능합니다.
           </div>
+          {errors.date && (
+            <ErrorMessage message={errors.date.message as string} />
+          )}
         </div>
         <div className="w-full flex items-center justify-center">
           <Calender />
         </div>
-        <div className="w-full flex items-center justify-between mt-4">
-          <TimePicker
-            name="start_time"
-            dayOrNight={false}
-            setValue={setValue}
-          />
-          <TimePicker name="end_time" dayOrNight={true} setValue={setValue} />
-        </div>
-        <div className="w-full flex items-center justify-center mt-4">
-          <Button loading={loading}>Next</Button>
+        <div className="w-full flex items-center justify-center mt-5">
+          <Button>다음</Button>
         </div>
       </form>
     </Layout>
   );
 }
-export default Schedule;
+export default Create;
