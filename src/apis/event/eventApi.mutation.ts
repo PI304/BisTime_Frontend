@@ -20,17 +20,7 @@ export const usePostEventMutation = () => {
 };
 
 export const usePostEventDateMutation = (uuid: string) => {
-  const router = useRouter();
-  return useMutation<Event, AxiosError, EventDatePostParam>(
-    ['event'],
-    (body) => eventApi.postEventDate(uuid, body),
-    {
-      onSuccess: (data) => {
-        router.push({
-          pathname: `/event/create/summary`,
-          query: { uuid: data.uuid },
-        });
-      },
-    },
+  return useMutation<Event, AxiosError, EventDatePostParam>(['event'], (body) =>
+    eventApi.postEventDate(uuid, body),
   );
 };
