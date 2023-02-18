@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
 import { useEffect } from 'react';
 import { TimePicker } from '@components/common/TimePicker';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 type time = {
   value: string;
@@ -25,7 +26,14 @@ interface EventMutaionResponse {
 }
 
 function Create() {
-  const { setValue, handleSubmit } = useForm<ScheuleForm>();
+  const {
+    setValue,
+    handleSubmit,
+    setError,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm<ScheuleForm>();
   const eventState = useAppSelector((state) => state.event);
   const router = useRouter();
 
@@ -35,9 +43,10 @@ function Create() {
   const onSubmit = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
     if (start_time.value > end_time.value) {
-      alert(
-        'Please check the time you entered. The start time must be earlier than the end time.',
-      );
+      setError('start_time', {
+        type: 'manual',
+        message: '시작시간이 종료시간보다 늦을 수 없습니다.',
+      });
       return;
     }
     createEvent({
@@ -46,6 +55,10 @@ function Create() {
       endTime: end_time.value,
     });
   };
+  useEffect(
+    () => clearErrors(),
+    [clearErrors, watch('start_time'), watch('end_time')],
+  );
 
   useEffect(() => {
     if (data) {
@@ -70,6 +83,9 @@ function Create() {
           </div>
           <div className="text-18 text-left w-full">30분 단위로</div>
           <div className="text-18 text-left w-full">가능여부를 조사합니다.</div>
+          {errors.start_time && (
+            <ErrorMessage message={errors.start_time.message} />
+          )}
         </div>
 
         <div className="w-full flex items-center justify-between mt-4">
