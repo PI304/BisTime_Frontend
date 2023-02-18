@@ -25,7 +25,12 @@ export default function Navigate({
             router.back();
           }}
         >
-          <Image src="/public/icons/caret_left.svg" alt="back" />
+          <Image
+            src="/svg/icons/caret_left.svg"
+            width={24}
+            height={24}
+            alt="back"
+          />
         </div>
       )}
       <div

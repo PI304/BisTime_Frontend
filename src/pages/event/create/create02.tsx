@@ -1,4 +1,3 @@
-import useMutation from '@apis/useMutation';
 import Button from '@components/common/Button';
 import Calender from '@components/common/Calender';
 import Layout from '@components/common/Layout';
@@ -6,8 +5,6 @@ import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useAppSelector } from '@features/hooks';
-import { useEffect } from 'react';
 import { TimePicker } from '@components/common/TimePicker';
 
 type time = {
@@ -19,42 +16,19 @@ interface ScheuleForm {
   end_time: time;
 }
 
-interface EventMutaionResponse {
-  id: number;
-  uuid: string;
-}
-
 function Schedule() {
-  const { setValue, handleSubmit } = useForm<ScheuleForm>();
-  const eventState = useAppSelector((state) => state.event);
-  const router = useRouter();
-
-  const [createEvent, { data, loading }] =
-    useMutation<EventMutaionResponse>('/api/events');
+  const { setValue, handleSubmit, setError } = useForm<ScheuleForm>();
 
   const onSubmit = (form: ScheuleForm) => {
     const { start_time, end_time } = form;
     if (start_time.value > end_time.value) {
-      alert(
-        'Please check the time you entered. The start time must be earlier than the end time.',
-      );
+      setError('end_time', {
+        type: 'manual',
+        message: '시작 시간이 종료 시간보다 늦을 수 없습니다.',
+      });
       return;
     }
-    createEvent({
-      title: eventState.title,
-      startTime: start_time.value,
-      endTime: end_time.value,
-    });
   };
-
-  useEffect(() => {
-    if (data) {
-      router.push({
-        pathname: '/events/create/summary',
-        query: { uuid: data.uuid },
-      });
-    }
-  }, [data, router]);
 
   return (
     <Layout>
@@ -74,16 +48,8 @@ function Schedule() {
         <div className="w-full flex items-center justify-center">
           <Calender />
         </div>
-        <div className="w-full flex items-center justify-between mt-4">
-          <TimePicker
-            name="start_time"
-            dayOrNight={false}
-            setValue={setValue}
-          />
-          <TimePicker name="end_time" dayOrNight={true} setValue={setValue} />
-        </div>
-        <div className="w-full flex items-center justify-center mt-4">
-          <Button loading={loading}>Next</Button>
+        <div className="w-full flex items-center justify-center mt-5">
+          <Button>다음</Button>
         </div>
       </form>
     </Layout>
