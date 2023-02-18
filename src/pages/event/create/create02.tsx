@@ -51,7 +51,7 @@ function Create() {
       <ProgressBar progress="w-1/2" className="mt-3" />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-9 w-full space-y-5 flex flex-col items-center justify-center"
+        className="mt-6 w-full space-y-5 flex flex-col items-center justify-center"
       >
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">모임을 희망하는</div>
