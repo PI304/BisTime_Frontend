@@ -1,4 +1,3 @@
-import useMutation from '@apis/useMutation';
 import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';

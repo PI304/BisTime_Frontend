@@ -20,7 +20,6 @@ function Create() {
 
   const router = useRouter();
   const eventState = useAppSelector((state) => state.event);
-  console.log(eventState.additional_dates);
   const onSubmit = () => {
     const today = moment();
 
