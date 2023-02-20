@@ -9,5 +9,5 @@ export type EventPatchParam = {
 };
 
 export type EventDatePostParam = {
-  additionalDates: Date;
+  additionalDates: string[];
 };

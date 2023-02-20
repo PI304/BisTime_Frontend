@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Event } from 'types/event';
 
-const initialState: Event = {
+interface globalEvent extends Partial<Event> {
+  additionalDates: string[];
+}
+
+const initialState: globalEvent = {
   uuid: '',
   title: '',
-  start_time: '',
-  end_time: '',
-  additional_dates: [],
-  availability: {},
-  members: [],
+  startTime: '',
+  endTime: '',
+  availability: '',
+
+  additionalDates: [],
 };
 
 const eventSlice = createSlice({
@@ -30,21 +33,17 @@ const eventSlice = createSlice({
     }),
     addAdditionalDate: (state, action) => ({
       ...state,
-      additional_dates: [...state.additional_dates, action.payload],
+      additional_dates: [...state.additionalDates, action.payload],
     }),
     removeAdditionalDate: (state, action) => ({
       ...state,
-      additional_dates: state.additional_dates.filter(
+      additional_dates: state.additionalDates.filter(
         (date) => date !== action.payload,
       ),
     }),
     setAvailability: (state, action) => ({
       ...state,
       availability: action.payload,
-    }),
-    setMembers: (state, action) => ({
-      ...state,
-      members: action.payload,
     }),
   },
 });
@@ -56,6 +55,5 @@ export const {
   addAdditionalDate,
   removeAdditionalDate,
   setAvailability,
-  setMembers,
 } = eventSlice.actions;
 export default eventSlice.reducer;

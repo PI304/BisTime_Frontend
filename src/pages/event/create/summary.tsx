@@ -4,7 +4,7 @@ import Button from '@components/common/Button';
 import { useEffect, useState } from 'react';
 import Calender from '@components/event/Calender';
 import { useAppSelector } from '@features/hooks';
-import Loader from '@components/common/Loader/Loader';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
 import { useGetEventDateQuery } from '@apis/event/eventApi.query';
@@ -26,14 +26,15 @@ function Schedule() {
   } = usePostEventDateMutation(uuid as string);
 
   useEffect(() => {
-    if (eventState.additional_dates && uuid) {
+    if (eventState.additionalDates && uuid) {
       mutate({
-        additionalDates: eventState.additional_dates,
+        additionalDates: eventState.additionalDates,
       });
     }
-  }, [eventState.additional_dates, uuid]);
+  }, [eventState.additionalDates, uuid]);
 
-  console.log(eventDate);
+  console.log('event');
+  console.log('eventDate', eventDate);
 
   const handleShareLink = () => {
     setCopyLoading(true);
