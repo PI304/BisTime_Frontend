@@ -28,16 +28,16 @@ const eventSlice = createSlice({
     }),
     setTime: (state, action) => ({
       ...state,
-      start_time: action.payload.start_time,
-      end_time: action.payload.end_time,
+      starTime: action.payload.start_time,
+      endTime: action.payload.end_time,
     }),
     addAdditionalDate: (state, action) => ({
       ...state,
-      additional_dates: [...state.additionalDates, action.payload],
+      additionalDates: [...state.additionalDates, action.payload],
     }),
     removeAdditionalDate: (state, action) => ({
       ...state,
-      additional_dates: state.additionalDates.filter(
+      additionalDates: state.additionalDates.filter(
         (date) => date !== action.payload,
       ),
     }),

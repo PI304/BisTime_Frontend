@@ -81,6 +81,8 @@ export default function Calender() {
     }
   };
 
+  console.log(eventState.additionalDates);
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full justify-between items-center">

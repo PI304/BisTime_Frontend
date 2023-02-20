@@ -14,8 +14,8 @@ type time = {
 };
 
 interface ScheuleForm {
-  start_time: time;
-  end_time: time;
+  startTime: time;
+  endTime: time;
 }
 
 function Create() {
@@ -31,9 +31,9 @@ function Create() {
 
   const { mutate, isLoading } = usePostEventMutation();
   const onSubmit = (form: ScheuleForm) => {
-    const { start_time, end_time } = form;
-    if (start_time.value > end_time.value) {
-      setError('start_time', {
+    const { startTime, endTime } = form;
+    if (startTime.value > endTime.value) {
+      setError('startTime', {
         type: 'manual',
         message: '시작시간이 종료시간보다 늦을 수 없습니다.',
       });
@@ -41,13 +41,13 @@ function Create() {
     }
     mutate({
       title: eventState.title,
-      startTime: start_time.value,
-      endTime: end_time.value,
+      startTime: startTime.value,
+      endTime: endTime.value,
     });
   };
   useEffect(
     () => clearErrors(),
-    [clearErrors, watch('start_time'), watch('end_time')],
+    [clearErrors, watch('startTime'), watch('endTime')],
   );
 
   return (
@@ -64,20 +64,20 @@ function Create() {
           </div>
           <div className="text-18 text-left w-full">30분 단위로</div>
           <div className="text-18 text-left w-full">가능여부를 조사합니다.</div>
-          {errors.start_time && (
-            <ErrorMessage message={errors.start_time.message} />
+          {errors.startTime && (
+            <ErrorMessage message={errors.startTime.message} />
           )}
         </div>
 
         <div className="w-full flex items-center justify-between mt-4">
           <TimePicker
-            name="start_time"
+            name="startTime"
             label="시작시간"
             dayOrNight={false}
             setValue={setValue}
           />
           <TimePicker
-            name="end_time"
+            name="endTime"
             label="종료시간"
             dayOrNight={true}
             setValue={setValue}
