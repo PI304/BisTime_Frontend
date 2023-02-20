@@ -33,9 +33,6 @@ function Schedule() {
     }
   }, [eventState.additionalDates, uuid]);
 
-  console.log('event');
-  console.log('eventDate', eventDate);
-
   const handleShareLink = () => {
     setCopyLoading(true);
     setTimeout(() => {

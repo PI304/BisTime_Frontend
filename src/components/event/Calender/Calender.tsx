@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '@features/hooks';
+import { useGetEventDateQuery } from '@apis/event/eventApi.query';
+import Loader from '@components/common/Loader/loader';
 
 export default function Calender() {
   const [date, setDate] = useState(new Date());
@@ -8,7 +11,10 @@ export default function Calender() {
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
   const router = useRouter();
+  const eventState = useAppSelector((state) => state.event);
+  const { uuid } = router.query;
 
+  const { data, isLoading } = useGetEventDateQuery(uuid as string);
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -27,7 +33,23 @@ export default function Calender() {
       daysArray.push('');
     }
     setDays(daysArray);
-  }, [month, year]);
+
+    if (data) {
+      const chosenDaysArray = daysArray.map((day) => {
+        if (day !== '') return false;
+      });
+
+      if (eventState.additionalDates) {
+        eventState.additionalDates.forEach((date) => {
+          const dateArray = date.split('-');
+          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+          }
+        });
+      }
+      setChosenDays(chosenDaysArray);
+    }
+  }, [month, year, data, isLoading]);
 
   const nextMonth = () => {
     if (month === 11) {
@@ -46,6 +68,8 @@ export default function Calender() {
       setMonth(month - 1);
     }
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -98,17 +122,12 @@ export default function Calender() {
         {days.map((day, index) => (
           <div
             key={index}
-            className={`relative rounded-full flex items-center py-1 justify-center transition ${
-              day === '' ? '' : 'cursor-pointer'
-            }
-            ${
-              chosenDays[index]
-                ? 'bg-primary-green-1 text-white'
-                : 'bg-secondary-orange-3 text-primary-green-3'
-            }
-            `}
+            className={`relative rounded-full flex items-center py-1 justify-center transition`}
           >
             {day}
+            {chosenDays[index] && (
+              <div className="absolute w-[6px] h-[6px] rounded-full bg-primary-green-1 bottom-0"></div>
+            )}
           </div>
         ))}
       </div>
