@@ -5,7 +5,7 @@ export default function Event() {
   return (
     <Layout>
       <Navigate back link />
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col pt-2">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
             <div className="text-24">주니 생일</div>
@@ -13,6 +13,11 @@ export default function Event() {
               <p>1월 10일 오후 6:24</p>
               <p>12명 응답</p>
             </div>
+          </div>
+          <div className="flex space-x-1">
+            <div className="w-1 aspect-square rounded-full bg-gray-5" />
+            <div className="w-1 aspect-square rounded-full bg-gray-5" />
+            <div className="w-1 aspect-square rounded-full bg-gray-5" />
           </div>
         </div>
         <div className="mt-4">
