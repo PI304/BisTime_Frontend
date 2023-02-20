@@ -25,7 +25,7 @@ function Create() {
 
     let isDateValid = true;
 
-    eventState.additional_dates.map((date) => {
+    eventState.additionalDates.map((date) => {
       const someDate = moment(date);
       if (someDate.diff(today) <= 0) {
         isDateValid = false;
@@ -43,7 +43,7 @@ function Create() {
 
   useEffect(() => {
     clearErrors('date');
-  }, [eventState.additional_dates, clearErrors]);
+  }, [eventState.additionalDates, clearErrors]);
 
   return (
     <Layout>

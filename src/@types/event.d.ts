@@ -9,10 +9,6 @@ interface Event {
   updatedAt: string;
 }
 
-interface Date {
-  additionalDates: string[];
-}
-
 interface EventDate {
   id: string;
   event: Event;

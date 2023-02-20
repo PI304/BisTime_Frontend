@@ -41,7 +41,7 @@ export default function Calender() {
     });
 
     // set chosen days
-    eventState.additional_dates.forEach((date) => {
+    eventState.additionalDates.forEach((date) => {
       const dateArray = date.split('-');
       if (+dateArray[0] === year && +dateArray[1] === month + 1) {
         chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
@@ -49,7 +49,7 @@ export default function Calender() {
     });
 
     setChosenDays(chosenDaysArray);
-  }, [month, year, eventState.additional_dates, eventState.availability]);
+  }, [month, year, eventState.additionalDates, eventState.availability]);
 
   const nextMonth = () => {
     if (month === 11) {
