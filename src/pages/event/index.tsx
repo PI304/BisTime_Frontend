@@ -4,7 +4,7 @@ import Navigate from '@components/common/Navigate';
 import DashBoard from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
-import { formatDate } from '@utils/formatDate';
+import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
@@ -72,6 +72,8 @@ export default function Event() {
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
 
+  console.log('event', event);
+
   if (isLoading) return <Loader />;
   return (
     <Layout>
@@ -92,7 +94,9 @@ export default function Event() {
           </div>
         </div>
         <div>
-          <DashBoard />
+          {Object.keys(event?.availability || {}).map((date) => (
+            <DashBoard key={date} date={formatDateWithDayOfWeek(date)} />
+          ))}
         </div>
       </div>
     </Layout>
