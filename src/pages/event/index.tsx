@@ -71,8 +71,8 @@ export default function Event() {
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
-
-  console.log('event', event);
+  const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
+  const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
 
   if (isLoading) return <Loader />;
   return (
@@ -95,7 +95,14 @@ export default function Event() {
         </div>
         <div>
           {Object.keys(event?.availability || {}).map((date) => (
-            <DashBoard key={date} date={formatDateWithDayOfWeek(date)} />
+            <DashBoard
+              key={date}
+              members={members}
+              date={formatDateWithDayOfWeek(date)}
+              startIdx={startIndex}
+              endIdx={endIndex}
+              availability={event?.availability[date]}
+            />
           ))}
         </div>
       </div>
