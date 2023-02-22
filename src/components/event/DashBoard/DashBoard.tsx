@@ -77,7 +77,7 @@ export default function DashBoard({
   return (
     <div className="mt-4">
       <div className="text-12">{date}</div>
-      <div className="grid grid-cols-6 grid-rows-1">
+      <div className="grid mt-1 grid-cols-6 gap-y-1 grid-rows-1">
         {members &&
           availability
             ?.slice(startIdx, endIdx)
