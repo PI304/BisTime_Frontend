@@ -1,7 +1,11 @@
-export default function DashBoard() {
+interface DashBoardProps {
+  date: string;
+}
+
+export default function DashBoard({ date }: DashBoardProps) {
   return (
     <div className="mt-4">
-      <div className="text-12">2023년 1월 14일 (토)</div>
+      <div className="text-12">{date}</div>
       <div className="grid grid-cols-6 grid-rows-1">
         {[1, 2, 3, 4, 5, 6].map((_, index) => (
           <div key={index}>
