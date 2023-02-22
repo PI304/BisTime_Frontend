@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
+import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import Button from '@components/common/Button';
+import { useRouter } from 'next/router';
 
 function Home() {
   const router = useRouter();
