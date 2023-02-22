@@ -73,7 +73,6 @@ export default function Event() {
   const members = scheduleListToMembers(scheduleList || []);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
-
   if (isLoading) return <Loader />;
   return (
     <Layout>
