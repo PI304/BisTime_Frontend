@@ -16,7 +16,7 @@ function formatDateWithDayOfWeek(dateString: string): string {
   const year = date.format('YYYY');
   const month = date.format('M');
   const day = date.format('D');
-  const dayOfWeek = date.format('ddd');
+  const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][date.day()];
   const monthStr = `${month}월`;
   return `${year}년 ${monthStr} ${day}일 (${dayOfWeek})`;
 }
