@@ -1,4 +1,5 @@
 import Button from '@components/common/Button';
+import ErrorMessage from '@components/common/ErrorMessage';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
@@ -6,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@features/hooks';
 import { useEffect } from 'react';
 import { TimePicker } from '@components/common/TimePicker';
-import ErrorMessage from '@components/common/ErrorMessage';
 import { usePostEventMutation } from '@apis/event/eventApi.mutation';
 
 type time = {

@@ -1,13 +1,14 @@
+import Button from '@components/common/Button';
+import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
+import Input from '@components/common/Input';
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate/Navigate';
+import ProgressBar from '@components/common/ProgressBar/ProgressBar';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import Navigate from '@components/common/Navigate/Navigate';
-import ProgressBar from '@components/common/ProgressBar/ProgressBar';
-import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
-import Layout from '@components/common/Layout';
-import Input from '@components/common/Input';
-import Button from '@components/common/Button';
+
 interface EventForm {
   title: string;
 }

@@ -20,7 +20,7 @@ export class EventApi {
     return data;
   }
 
-  async getEventById(uuid: string): Promise<EventDate> {
+  async getEventById(uuid: string): Promise<Event> {
     const { data } = await instance({
       method: 'GET',
       url: `/api/events/${uuid}`,

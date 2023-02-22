@@ -1,8 +1,8 @@
+import Loader from '@components/common/Loader/loader';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
-import { useGetEventDateQuery } from '@apis/event/eventApi.query';
-import Loader from '@components/common/Loader/loader';
+import { useGetEventQuery } from '@apis/event/eventApi.query';
 
 export default function Calender() {
   const [date, setDate] = useState(new Date());
@@ -14,7 +14,7 @@ export default function Calender() {
   const eventState = useAppSelector((state) => state.event);
   const { uuid } = router.query;
 
-  const { data, isLoading } = useGetEventDateQuery(uuid as string);
+  const { data, isLoading } = useGetEventQuery(uuid as string);
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);

@@ -15,6 +15,7 @@ module.exports = {
         Gmarket: ['GmarketSans', 'sans-serif'],
       },
       fontSize: {
+        8: '0.5rem',
         10: '0.625rem',
         11: '0.688rem',
         12: '0.75rem',
@@ -68,6 +69,8 @@ module.exports = {
           4: '#C7C7CC',
           5: '#AEAEB2',
           6: '#8E8E93',
+          7: '#828385',
+          8: '#565656',
         },
         primary: {
           green: {

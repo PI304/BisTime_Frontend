@@ -1,13 +1,12 @@
-import { useRouter } from 'next/router';
-import Layout from '@components/common/Layout/Layout';
 import Button from '@components/common/Button';
-import { useEffect, useState } from 'react';
-import Calender from '@components/event/Calender';
-import { useAppSelector } from '@features/hooks';
+import Layout from '@components/common/Layout/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
-import { useGetEventDateQuery } from '@apis/event/eventApi.query';
+import Calender from '@components/event/Calender';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '@features/hooks';
 import { usePostEventDateMutation } from '@apis/event/eventApi.mutation';
 
 function Schedule() {
@@ -18,12 +17,7 @@ function Schedule() {
 
   const eventState = useAppSelector((state) => state.event);
 
-  const { data } = useGetEventDateQuery(uuid as string);
-  const {
-    mutate,
-    isLoading,
-    data: eventDate,
-  } = usePostEventDateMutation(uuid as string);
+  const { mutate, isLoading } = usePostEventDateMutation(uuid as string);
 
   useEffect(() => {
     if (eventState.additionalDates && uuid) {
@@ -41,13 +35,13 @@ function Schedule() {
 
     const uid = uuid as string;
     navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/events/update?uuid=${uid}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/event/update?uuid=${uid}`,
     );
   };
 
   const handleSchedule = () => {
     window.open(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/events/update?uuid=${uuid}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/event?uuid=${uuid}`,
       '_blank',
     );
   };
