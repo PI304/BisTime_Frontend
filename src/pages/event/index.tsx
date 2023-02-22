@@ -1,6 +1,6 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import DashBoard from '@components/event/Calender/DashBoard';
+import DashBoard from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 
