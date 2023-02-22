@@ -4,7 +4,7 @@ interface Event {
   title: string;
   startTime: string;
   endTime: string;
-  availability: string;
+  availability: Record<string, string>;
   createdAt: string;
   updatedAt: string;
 }
