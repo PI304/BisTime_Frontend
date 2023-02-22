@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
+
 import eventApi from './eventApi';
 
-export const useGetEventDateQuery = (uuid: string) => {
-  return useQuery<EventDate, AxiosError>(['event', uuid], () =>
+export const useGetEventQuery = (uuid: string) => {
+  return useQuery<Event, AxiosError>(['event', uuid], () =>
     eventApi.getEventById(uuid),
   );
 };
