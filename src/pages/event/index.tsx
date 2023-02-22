@@ -1,8 +1,18 @@
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import DashBoard from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
+import { formatDate } from '@utils/formatDate';
+import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
+
+const scheduleListToMembers = (scheduleList: Schedule[]) => {
+  const members = scheduleList.map((item) => item.name);
+  const memberSet = new Set(members);
+  const memberArray = Array.from(memberSet);
+  return memberArray;
+};
 
 const TIMETABLE = [
   '00:00',
@@ -58,19 +68,21 @@ const TIMETABLE = [
 export default function Event() {
   const router = useRouter();
   const { uuid } = router.query;
-  const { data } = useGetEventQuery(uuid as string);
+  const { data: event, isLoading } = useGetEventQuery(uuid as string);
+  const { data: scheduleList } = useGetScheduleQuery(uuid as string);
+  const members = scheduleListToMembers(scheduleList || []);
 
-  console.log(data);
+  if (isLoading) return <Loader />;
   return (
     <Layout>
       <Navigate link />
-      <div className="w-full flex flex-col mt-4">
+      <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
-            <div className="text-24">주니 생일</div>
+            <div className="text-24">{event?.title}</div>
             <div className="flex flex-col ml-2 ju font-light text-gray-7 text-8">
-              <p>1월 10일 오후 6:24</p>
-              <p>12명 응답</p>
+              <p>{formatDate(event?.createdAt)}</p>
+              <p>{members ? `${members.length}명 응답` : ''}</p>
             </div>
           </div>
           <div className="flex space-x-1">
