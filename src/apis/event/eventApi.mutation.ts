@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
+import { queryClient } from 'pages/_app';
+
 import eventApi from './eventApi';
 import { EventDatePostParam } from './eventApi.type';
-import { queryClient } from 'pages/_app';
 
 export const usePostEventMutation = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ export const usePostEventMutation = () => {
 
 export const usePostEventDateMutation = (uuid: string) => {
   return useMutation<Event, AxiosError, EventDatePostParam>(
-    ['event'],
+    ['eventDate', uuid],
     (body) => eventApi.postEventDate(uuid, body),
     {
       onSettled: () => {
