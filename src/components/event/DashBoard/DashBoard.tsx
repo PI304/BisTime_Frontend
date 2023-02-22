@@ -74,8 +74,6 @@ export default function DashBoard({
   endIdx,
   availability,
 }: DashBoardProps) {
-  console.log(availability);
-
   return (
     <div className="mt-4">
       <div className="text-12">{date}</div>
@@ -86,7 +84,6 @@ export default function DashBoard({
             .split('')
             .map((availalbe, index) => {
               const opacity = +availalbe / members.length;
-              console.log(opacity);
               const time =
                 startIdx + (index % 2) === 0
                   ? TIMETABLE[startIdx + index].slice(0, 2)
