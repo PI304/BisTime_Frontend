@@ -79,7 +79,15 @@ export default function Event() {
   return (
     <Layout className="relative">
       <Navigate link />
-      <FloatButton type="add" />
+      <FloatButton
+        type="add"
+        onClick={() =>
+          router.push({
+            pathname: 'event/schedule/add01',
+            query: { uuid: uuid },
+          })
+        }
+      />
       <FloatButton type="filter" />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">

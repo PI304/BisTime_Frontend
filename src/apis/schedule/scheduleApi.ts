@@ -16,7 +16,7 @@ export class ScheduleApi {
   ): Promise<Schedule[]> {
     const { data } = await instance({
       method: 'POST',
-      url: `/api/events/${uuid}/schedules`,
+      url: `/api/event/${uuid}/schedule`,
       data: body,
     });
     return data;
