@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@features/hooks';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
+import Loader from '@components/common/Loader';
 
 export default function Calender() {
   const [date, setDate] = useState(new Date());
@@ -10,7 +10,6 @@ export default function Calender() {
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
   const router = useRouter();
-  const eventState = useAppSelector((state) => state.event);
   const { uuid } = router.query;
 
   const { data, isLoading } = useGetEventQuery(uuid as string);
@@ -34,7 +33,7 @@ export default function Calender() {
     }
     setDays(daysArray);
 
-    if (data) {
+    if (data && data.availability) {
       const chosenDaysArray = daysArray.map((day) => {
         if (day !== '') return false;
       });
@@ -49,6 +48,13 @@ export default function Calender() {
       setChosenDays(chosenDaysArray);
     }
   }, [month, year, data, isLoading]);
+
+  useEffect(() => {
+    if (data && data.availability) {
+      const firstMonth = +Object.keys(data?.availability)[0].split('-')[1] - 1;
+      setMonth(firstMonth);
+    }
+  }, [data]);
 
   const nextMonth = () => {
     if (month === 11) {
@@ -67,6 +73,8 @@ export default function Calender() {
       setMonth(month - 1);
     }
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="w-full flex flex-col items-center">
