@@ -1,14 +1,14 @@
-import FloatButton from '@components/common/Button/FloatButton';
+import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
-import DashBoard from '@components/event/DashBoard';
+import ProgressBar from '@components/common/ProgressBar';
+import DashBoard from '@components/schedule/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
-import { useRouter } from 'next/router';
-import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
-import { useAppDispatch } from '@features/hooks';
-import { reset } from '@features/schedule/scheduleSlice';
+import { useRouter } from 'next/router';
+import { usePostScheduleMutation } from '@apis/schedule/scheduleApi.mutation';
+import { useAppSelector } from '@features/hooks';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -16,7 +16,6 @@ const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const memberArray = Array.from(memberSet);
   return memberArray;
 };
-
 const TIMETABLE = [
   '00:00',
   '00:30',
@@ -68,8 +67,9 @@ const TIMETABLE = [
   '23:30',
 ];
 
-export default function Event() {
+export default function Add() {
   const router = useRouter();
+  const scheduleState = useAppSelector((state) => state.schedule);
   const { uuid } = router.query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -77,47 +77,46 @@ export default function Event() {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
 
-  if (isLoading) return <Loader />;
+  const { mutate, isLoading: scheduleLoading } = usePostScheduleMutation(
+    uuid as string,
+  );
+
+  if (isLoading || scheduleLoading) return <Loader />;
 
   return (
     <Layout className="relative">
-      <Navigate link />
-      <FloatButton
-        type="add"
-        onClick={() =>
-          router.push({
-            pathname: '/event/schedule/add01',
-            query: { uuid: uuid },
-          })
-        }
-      />
-      <FloatButton type="filter" />
-      <div className="w-full flex flex-wrap flex-col mt-4">
-        <div className="w-full flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="text-24">{event?.title}</div>
-            <div className="flex flex-col ml-2 ju font-light text-gray-7 text-8">
-              <p>{formatDate(event?.createdAt)}</p>
-              <p>{members ? `${members.length}명 응답` : ''}</p>
-            </div>
+      <Navigate back />
+      <ProgressBar progress="w-full" className="mt-3" />
+      <div className="mt-6 w-full flex flex-col items-center justify-center">
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-18 text-left w-full">
+            모임 시간을 설정하세요.
           </div>
-          <div className="flex space-x-1">
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
-          </div>
+          <div className="text-18 text-left w-full">30분 단위로 가능한</div>
+          <div className="text-18 text-left w-full">시간대에 체크하세요.</div>
         </div>
-        <div>
+        <div className="w-full">
           {Object.keys(event?.availability || {}).map((date) => (
             <DashBoard
               key={date}
               members={members}
-              date={formatDateWithDayOfWeek(date)}
+              date={date}
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}
             />
           ))}
+        </div>
+        <div className="w-full flex items-center justify-center mt-5">
+          <Button
+            loading={isLoading}
+            onClick={() => {
+              mutate(scheduleState);
+            }}
+            className="absolute bottom-4 w-[calc(100%-40px)]"
+          >
+            일정 등록 하기
+          </Button>
         </div>
       </div>
     </Layout>

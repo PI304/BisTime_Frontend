@@ -1,8 +1,7 @@
-import Loader from '@components/common/Loader/loader';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@features/hooks';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
+import Loader from '@components/common/Loader';
 
 export default function Calender() {
   const [date, setDate] = useState(new Date());
@@ -11,10 +10,10 @@ export default function Calender() {
   const [days, setDays] = useState([]);
   const [chosenDays, setChosenDays] = useState([]);
   const router = useRouter();
-  const eventState = useAppSelector((state) => state.event);
   const { uuid } = router.query;
 
   const { data, isLoading } = useGetEventQuery(uuid as string);
+
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -34,22 +33,28 @@ export default function Calender() {
     }
     setDays(daysArray);
 
-    if (data) {
+    if (data && data.availability) {
       const chosenDaysArray = daysArray.map((day) => {
         if (day !== '') return false;
       });
 
-      if (eventState.additionalDates) {
-        eventState.additionalDates.forEach((date) => {
-          const dateArray = date.split('-');
-          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-          }
-        });
-      }
+      Object.keys(data?.availability).forEach((key) => {
+        const dateArray = key.split('-');
+        if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+          chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+        }
+      });
+
       setChosenDays(chosenDaysArray);
     }
   }, [month, year, data, isLoading]);
+
+  useEffect(() => {
+    if (data && data.availability) {
+      const firstMonth = +Object.keys(data?.availability)[0].split('-')[1] - 1;
+      setMonth(firstMonth);
+    }
+  }, [data]);
 
   const nextMonth = () => {
     if (month === 11) {

@@ -61,10 +61,10 @@ const TIMETABLE = [
 
 function getOpacity(n, x) {
   if (x === 0) {
-    return 0.1;
+    return 10;
   }
-  const result = Math.round((n / x) * 10) / 10;
-  return Math.max(0.1, Math.min(1.0, result));
+  const result = Math.round((x / n) * 10) * 10;
+  return Math.max(10, Math.min(100, result));
 }
 
 export default function DashBoard({
@@ -83,11 +83,8 @@ export default function DashBoard({
             ?.slice(startIdx, endIdx)
             .split('')
             .map((availalbe, index) => {
-              const opacity = +availalbe / members.length;
               const time =
-                startIdx + (index % 2) === 0
-                  ? TIMETABLE[startIdx + index].slice(0, 2)
-                  : '';
+                (startIdx + index) % 2 === 0 ? TIMETABLE[startIdx + index] : '';
               return (
                 <div key={index}>
                   {time !== '' ? (
@@ -103,12 +100,76 @@ export default function DashBoard({
                       className="h-4 -translate-x-1 "
                     />
                   )}
-                  <div
-                    className={`w-full aspect-square  bg-primary-green-1 bg-opa bg-opacity-[${getOpacity(
-                      members.length,
-                      +availalbe,
-                    )}]`}
-                  />
+                  {getOpacity(members.length, parseInt(availalbe)) <= 10 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-10">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}
+                  {getOpacity(members.length, parseInt(availalbe)) === 20 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-20">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}
+                  {getOpacity(members.length, parseInt(availalbe)) === 30 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-30">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 40 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-40">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 50 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-50">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 60 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-60">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 70 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-70">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 80 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-80">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 90 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-90">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}{' '}
+                  {getOpacity(members.length, parseInt(availalbe)) === 100 && (
+                    <div className="w-full aspect-square bg-primary-green-1 bg-opacity-100">
+                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p>
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -6,43 +6,48 @@ import Navigate from '@components/common/Navigate/Navigate';
 import ProgressBar from '@components/common/ProgressBar/ProgressBar';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { setTitle } from '@features/event/eventSlice';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { setName } from '@features/schedule/scheduleSlice';
 
-interface EventForm {
-  title: string;
+interface ScheduleForm {
+  name: string;
 }
 
-function Create() {
+export default function Add() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const titleState = useAppSelector((state) => state.event.title);
+  const nameState = useAppSelector((state) => state.schedule.name);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<EventForm>({
+  } = useForm<ScheduleForm>({
     defaultValues: {
-      title: titleState,
+      name: nameState,
     },
   });
 
-  const onSubmit = (form: EventForm) => {
-    const { title } = form;
-    dispatch(setTitle(title));
-    if (title) router.push('/event/create/create02');
+  const onSubmit = (form: ScheduleForm) => {
+    const { name } = form;
+    dispatch(setName(name));
+    if (name)
+      router.push({
+        pathname: '/event/schedule/add02',
+        query: { uuid: router.query.uuid },
+      });
   };
 
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="w-1/4" className="mt-3" />
+      <ProgressBar progress="w-1/3" className="mt-3" />
       <div className="w-full flex flex-col mt-9">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">친구들과 공유할</div>
-          <div className="text-18 text-left w-full">모임의 이름을</div>
-          <div className="text-18 text-left w-full">정해주세요.</div>
+          <div className="text-18 text-left w-full">
+            새로운 일정을 등록합니다.
+          </div>
+          <div className="text-18 text-left w-full">이름을 입력해주세요.</div>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -51,21 +56,18 @@ function Create() {
           <div className="w-full">
             <Input
               name="title"
-              placeholder="50자 이내로 작성하세요."
+              placeholder="이름을 입력해주세요."
               height="lg"
-              register={register('title', {
+              register={register('name', {
                 required: true,
                 maxLength: 50,
                 minLength: 1,
               })}
             />
-            {errors.title && errors.title.type === 'required' && (
-              <ErrorMessage
-                className="mt-2"
-                message="모임 이름을 입력해주세요."
-              />
+            {errors.name && errors.name.type === 'required' && (
+              <ErrorMessage className="mt-2" message="이름을 입력해주세요." />
             )}
-            {errors.title && errors.title.type === 'maxLength' && (
+            {errors.name && errors.name.type === 'maxLength' && (
               <ErrorMessage
                 className="mt-2"
                 message="50자 이내로 작성해주세요."
@@ -78,4 +80,3 @@ function Create() {
     </Layout>
   );
 }
-export default Create;
