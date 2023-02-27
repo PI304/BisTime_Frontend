@@ -21,8 +21,9 @@ const scheduleSlice = createSlice({
       ...state,
       availability: action.payload,
     }),
+    reset: () => initialState,
   },
 });
 
-export const { setName, setAvailability } = scheduleSlice.actions;
+export const { setName, setAvailability, reset } = scheduleSlice.actions;
 export default scheduleSlice.reducer;
