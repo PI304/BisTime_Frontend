@@ -1,8 +1,9 @@
+import Loader from '@components/common/Loader';
+import Image from 'next/image';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setAvailability } from '@features/schedule/scheduleSlice';
 import { formatDateWithDayOfWeek } from '@utils/formatDate';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 interface DashBoardProps {
@@ -106,6 +107,8 @@ export default function DashBoard({
     dispatch(setAvailability(newAvailability));
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <div className="mt-4">
       <div className="text-12">{formatDateWithDayOfWeek(date)}</div>
@@ -161,138 +164,210 @@ export default function DashBoard({
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 20 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-20">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-20">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 30 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-30">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-30">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 40 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-40">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-40">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 50 && (
-                    <div className="w-full cursor-pointer aspect-square bg-primary-green-1 bg-opacity-50">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-50">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 60 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-60">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-60">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 70 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-70">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-70">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 80 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-80">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-80">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 90 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-90">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-90">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 100 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-100">
+                    <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-100">
                       <div className="w-4/5 relative aspect-square">
-                        <Image
-                          className="object-cover"
-                          src="/svg/icons/unchecked.svg"
-                          fill
-                          alt="checked"
-                        />
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
                       </div>
-                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p> */}
                     </div>
                   )}
                 </div>

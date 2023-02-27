@@ -2,12 +2,12 @@ import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
-import { usePostEventMutation } from '@apis/event/eventApi.mutation';
+import DashBoard from '@components/schedule/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useRouter } from 'next/router';
-import { formatDateWithDayOfWeek } from '@utils/formatDate';
-import DashBoard from '@components/schedule/DashBoard';
+import { usePostScheduleMutation } from '@apis/schedule/scheduleApi.mutation';
+import { useAppSelector } from '@features/hooks';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -65,8 +65,10 @@ const TIMETABLE = [
   '23:00',
   '23:30',
 ];
-function Create() {
+
+export default function Add() {
   const router = useRouter();
+  const scheduleState = useAppSelector((state) => state.schedule);
   const { uuid } = router.query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -74,13 +76,13 @@ function Create() {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
 
-  const { mutate } = usePostEventMutation();
+  const { mutate } = usePostScheduleMutation(uuid as string);
 
   return (
     <Layout className="relative">
       <Navigate back />
       <ProgressBar progress="w-full" className="mt-3" />
-      <form className="mt-6 w-full flex flex-col items-center justify-center">
+      <div className="mt-6 w-full flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">
             모임 시간을 설정하세요.
@@ -103,13 +105,15 @@ function Create() {
         <div className="w-full flex items-center justify-center mt-5">
           <Button
             loading={isLoading}
+            onClick={() => {
+              mutate(scheduleState);
+            }}
             className="absolute bottom-4 w-[calc(100%-40px)]"
           >
             일정 등록 하기
           </Button>
         </div>
-      </form>
+      </div>
     </Layout>
   );
 }
-export default Create;

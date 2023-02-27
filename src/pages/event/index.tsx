@@ -1,3 +1,4 @@
+import FloatButton from '@components/common/Button/FloatButton';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
@@ -6,7 +7,8 @@ import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
-import FloatButton from '@components/common/Button/FloatButton';
+import { useAppDispatch } from '@features/hooks';
+import { reset } from '@features/schedule/scheduleSlice';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -74,6 +76,7 @@ export default function Event() {
   const members = scheduleListToMembers(scheduleList || []);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
+
   if (isLoading) return <Loader />;
 
   return (

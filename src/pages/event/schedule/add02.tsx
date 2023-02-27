@@ -2,8 +2,8 @@ import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
-import { useRouter } from 'next/router';
 import Calender from '@components/event/Calender';
+import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useEffect } from 'react';
@@ -21,7 +21,7 @@ export default function Add() {
     if (event) {
       const availability = [];
       Object.keys(event.availability).forEach((key) => {
-        availability.push(event.availability[key].split(''));
+        availability.push(new Array(48).fill('0'));
       });
 
       if (scheduleState.availability.length === 0)
