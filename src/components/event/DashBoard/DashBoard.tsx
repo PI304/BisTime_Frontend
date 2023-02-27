@@ -84,9 +84,7 @@ export default function DashBoard({
             .split('')
             .map((availalbe, index) => {
               const time =
-                startIdx + (index % 2) === 0
-                  ? TIMETABLE[startIdx + index].slice(0, 2)
-                  : '';
+                (startIdx + index) % 2 === 0 ? TIMETABLE[startIdx + index] : '';
               return (
                 <div key={index}>
                   {time !== '' ? (

@@ -1,4 +1,3 @@
-import Loader from '@components/common/Loader/loader';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
@@ -68,8 +67,6 @@ export default function Calender() {
       setMonth(month - 1);
     }
   };
-
-  if (isLoading) return <Loader />;
 
   return (
     <div className="w-full flex flex-col items-center">
