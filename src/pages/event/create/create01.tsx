@@ -66,7 +66,10 @@ function Create() {
               />
             )}
             {errors.title && errors.title.type === 'maxLength' && (
-              <ErrorMessage message="50자 이내로 작성해주세요." />
+              <ErrorMessage
+                className="mt-2"
+                message="50자 이내로 작성해주세요."
+              />
             )}
           </div>
           <Button>다음</Button>

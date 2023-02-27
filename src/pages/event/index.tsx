@@ -83,7 +83,7 @@ export default function Event() {
         type="add"
         onClick={() =>
           router.push({
-            pathname: 'event/schedule/add01',
+            pathname: '/event/schedule/add01',
             query: { uuid: uuid },
           })
         }
