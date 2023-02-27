@@ -41,7 +41,7 @@ export default function Add() {
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="w-1/4" className="mt-3" />
+      <ProgressBar progress="w-1/3" className="mt-3" />
       <div className="w-full flex flex-col mt-9">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">

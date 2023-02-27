@@ -53,7 +53,7 @@ function Create() {
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="w-3/4" className="mt-3" />
+      <ProgressBar progress="w-full" className="mt-3" />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-6 w-full space-y-5 flex flex-col items-center justify-center"

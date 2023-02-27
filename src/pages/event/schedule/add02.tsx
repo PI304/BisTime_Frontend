@@ -10,7 +10,7 @@ export default function Add() {
   return (
     <Layout>
       <Navigate back />
-      <ProgressBar progress="w-1/2" className="mt-3" />
+      <ProgressBar progress="w-2/3" className="mt-3" />
       <div className="mt-6 w-full space-y-5 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">날짜를 확인하고</div>
