@@ -9,7 +9,6 @@ const initialState: globalEvent = {
   title: '',
   startTime: '',
   endTime: '',
-  availability: '',
 
   additionalDates: [],
 };
