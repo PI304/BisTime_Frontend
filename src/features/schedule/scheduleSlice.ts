@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface scheduleState {
   name: string;
-  availability: string[];
+  availability: any[];
 }
 const initialState: scheduleState = {
   name: '',
