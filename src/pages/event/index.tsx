@@ -6,6 +6,7 @@ import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
+import FloatButton from '@components/common/Button/FloatButton';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -76,8 +77,10 @@ export default function Event() {
   if (isLoading) return <Loader />;
 
   return (
-    <Layout>
+    <Layout className="relative">
       <Navigate link />
+      <FloatButton type="add" />
+      <FloatButton type="filter" />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
