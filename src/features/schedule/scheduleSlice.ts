@@ -1,16 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface scheduleState {
+interface scheduleState {
   name: string;
-  event: number | string | undefined;
-  current: string;
-  availability: object;
+  availability: string[];
 }
 const initialState: scheduleState = {
   name: '',
-  event: undefined,
-  current: '',
-  availability: {},
+  availability: [],
 };
 
 const scheduleSlice = createSlice({
@@ -21,24 +17,12 @@ const scheduleSlice = createSlice({
       ...state,
       name: action.payload,
     }),
-    setEvent: (state, action) => ({
-      ...state,
-      event: action.payload,
-    }),
     setAvailability: (state, action) => ({
       ...state,
-      availability: {
-        ...state.availability,
-        [action.payload.date]: action.payload.availability,
-      },
-    }),
-    setCurrnet: (state, action) => ({
-      ...state,
-      current: action.payload,
+      availability: action.payload,
     }),
   },
 });
 
-export const { setName, setEvent, setAvailability, setCurrnet } =
-  scheduleSlice.actions;
+export const { setName, setAvailability } = scheduleSlice.actions;
 export default scheduleSlice.reducer;
