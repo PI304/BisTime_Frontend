@@ -115,7 +115,11 @@ export default function DashBoard({
       <div className="grid mt-1 grid-cols-6 gap-y-1 grid-rows-1">
         {event &&
           event.availability &&
+          scheduleState.availability &&
           members &&
+          scheduleState.availability[
+            Object.keys(event.availability).indexOf(date)
+          ] &&
           availability
             ?.slice(startIdx, endIdx)
             .split('')

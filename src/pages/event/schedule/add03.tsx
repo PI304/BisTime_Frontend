@@ -1,5 +1,6 @@
 import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
 import DashBoard from '@components/schedule/DashBoard';
@@ -76,7 +77,11 @@ export default function Add() {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
 
-  const { mutate } = usePostScheduleMutation(uuid as string);
+  const { mutate, isLoading: scheduleLoading } = usePostScheduleMutation(
+    uuid as string,
+  );
+
+  if (isLoading || scheduleLoading) return <Loader />;
 
   return (
     <Layout className="relative">
