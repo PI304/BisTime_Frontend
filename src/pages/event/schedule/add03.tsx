@@ -93,7 +93,7 @@ function Create() {
             <DashBoard
               key={date}
               members={members}
-              date={formatDateWithDayOfWeek(date)}
+              date={date}
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}
