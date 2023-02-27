@@ -14,6 +14,7 @@ export default function Calender() {
   const { uuid } = router.query;
 
   const { data, isLoading } = useGetEventQuery(uuid as string);
+
   useEffect(() => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -38,14 +39,13 @@ export default function Calender() {
         if (day !== '') return false;
       });
 
-      if (eventState.additionalDates) {
-        eventState.additionalDates.forEach((date) => {
-          const dateArray = date.split('-');
-          if (+dateArray[0] === year && +dateArray[1] === month + 1) {
-            chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
-          }
-        });
-      }
+      Object.keys(data?.availability).forEach((key) => {
+        const dateArray = key.split('-');
+        if (+dateArray[0] === year && +dateArray[1] === month + 1) {
+          chosenDaysArray[+dateArray[2] + firstDayIndex - 1] = true;
+        }
+      });
+
       setChosenDays(chosenDaysArray);
     }
   }, [month, year, data, isLoading]);
