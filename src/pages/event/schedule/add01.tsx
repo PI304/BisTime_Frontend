@@ -16,7 +16,7 @@ interface ScheduleForm {
 export default function Add() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const name = useAppSelector((state) => state.schedule.name);
+  const nameState = useAppSelector((state) => state.schedule.name);
 
   const {
     handleSubmit,
@@ -24,17 +24,18 @@ export default function Add() {
     formState: { errors },
   } = useForm<ScheduleForm>({
     defaultValues: {
-      name: name,
+      name: nameState,
     },
   });
-
-  const { uuid } = router.query;
 
   const onSubmit = (form: ScheduleForm) => {
     const { name } = form;
     dispatch(setName(name));
     if (name)
-      router.push({ pathname: 'event/schedule/add02', query: { uuid: uuid } });
+      router.push({
+        pathname: '/event/schedule/add02',
+        query: { uuid: router.query.uuid },
+      });
   };
 
   return (
@@ -55,7 +56,7 @@ export default function Add() {
           <div className="w-full">
             <Input
               name="title"
-              placeholder="50자 이내로 작성하세요."
+              placeholder="이름을 입력해주세요."
               height="lg"
               register={register('name', {
                 required: true,
@@ -67,7 +68,10 @@ export default function Add() {
               <ErrorMessage className="mt-2" message="이름을 입력해주세요." />
             )}
             {errors.name && errors.name.type === 'maxLength' && (
-              <ErrorMessage message="50자 이내로 작성해주세요." />
+              <ErrorMessage
+                className="mt-2"
+                message="50자 이내로 작성해주세요."
+              />
             )}
           </div>
           <Button>다음</Button>
