@@ -4,7 +4,7 @@ import Navigate from '@components/common/Navigate';
 import ProgressBar from '@components/common/ProgressBar';
 import { useRouter } from 'next/router';
 import Calender from '@components/event/Calender';
-import { useAppDispatch } from '@features/hooks';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useEffect } from 'react';
 import { setAvailability } from '@features/schedule/scheduleSlice';
@@ -12,6 +12,7 @@ import { setAvailability } from '@features/schedule/scheduleSlice';
 export default function Add() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const scheduleState = useAppSelector((state) => state.schedule);
   const { data: event, isLoading } = useGetEventQuery(
     router.query.uuid as string,
   );
@@ -22,7 +23,9 @@ export default function Add() {
       Object.keys(event.availability).forEach((key) => {
         availability.push(event.availability[key].split(''));
       });
-      dispatch(setAvailability(availability));
+
+      if (scheduleState.availability.length === 0)
+        dispatch(setAvailability(availability));
     }
   }, [event]);
 

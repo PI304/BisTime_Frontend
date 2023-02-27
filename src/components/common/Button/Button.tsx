@@ -23,7 +23,7 @@ export default function Button({
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`bg-primary-green-1 cursor-pointer text-18 flex items-center justify-center font-light w-full hover:opacity-90 text-white rounded transition ${
+      className={`bg-primary-green-1 cursor-pointer text-18 flex items-center justify-center font-medium w-full hover:opacity-90 text-white rounded transition ${
         size === 'lg'
           ? 'h-11'
           : size === 'md'
