@@ -1,4 +1,9 @@
+import { useGetEventQuery } from '@apis/event/eventApi.query';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { setAvailability } from '@features/schedule/scheduleSlice';
+import { formatDateWithDayOfWeek } from '@utils/formatDate';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface DashBoardProps {
   date: string;
@@ -74,11 +79,40 @@ export default function DashBoard({
   endIdx,
   availability,
 }: DashBoardProps) {
+  const dispatch = useAppDispatch();
+
+  const scheduleState = useAppSelector((state) => state.schedule);
+
+  const router = useRouter();
+  const { data: event, isLoading } = useGetEventQuery(
+    router.query.uuid as string,
+  );
+
+  const handleClick = (index: number) => {
+    if (!event) return;
+    const key = Object.keys(event.availability).indexOf(date);
+    const newAvailabilityArray: string[] = [];
+    for (let i = 0; i < scheduleState.availability[key].length; i++) {
+      if (i === index) {
+        if (scheduleState.availability[key][i] === '1')
+          newAvailabilityArray.push('0');
+        else newAvailabilityArray.push('1');
+      } else {
+        newAvailabilityArray.push(scheduleState.availability[key][i]);
+      }
+    }
+    const newAvailability = [...scheduleState.availability];
+    newAvailability[key] = newAvailabilityArray;
+    dispatch(setAvailability(newAvailability));
+  };
+
   return (
     <div className="mt-4">
-      <div className="text-12">{date}</div>
+      <div className="text-12">{formatDateWithDayOfWeek(date)}</div>
       <div className="grid mt-1 grid-cols-6 gap-y-1 grid-rows-1">
-        {members &&
+        {event &&
+          event.availability &&
+          members &&
           availability
             ?.slice(startIdx, endIdx)
             .split('')
@@ -86,7 +120,7 @@ export default function DashBoard({
               const time =
                 (startIdx + index) % 2 === 0 ? TIMETABLE[startIdx + index] : '';
               return (
-                <div key={index}>
+                <div key={index} onClick={() => handleClick(startIdx + index)}>
                   {time !== '' ? (
                     <p className={`text-left font-light text-10 h-4 `}>
                       {time}
@@ -103,6 +137,32 @@ export default function DashBoard({
                   {getOpacity(members.length, parseInt(availalbe)) <= 10 && (
                     <div className="w-full flex justify-center items-center cursor-pointer relative aspect-square bg-primary-green-1 bg-opacity-10">
                       <div className="w-4/5 relative aspect-square">
+                        {scheduleState.availability[
+                          Object.keys(event.availability).indexOf(date)
+                        ][startIdx + index] === '0' ? (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/unchecked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        ) : (
+                          <Image
+                            className="object-cover"
+                            src="/svg/icons/checked.svg"
+                            fill
+                            alt="checked"
+                          />
+                        )}
+                      </div>
+                      {/* <p className="w-full absolute z-100 text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                        {availalbe + '/' + members.length}
+                      </p> */}
+                    </div>
+                  )}
+                  {getOpacity(members.length, parseInt(availalbe)) === 20 && (
+                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-20">
+                      <div className="w-4/5 relative aspect-square">
                         <Image
                           className="object-cover"
                           src="/svg/icons/unchecked.svg"
@@ -110,48 +170,39 @@ export default function DashBoard({
                           alt="checked"
                         />
                       </div>
-                      <p className="w-full absolute z-100 text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      {/* <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
-                    </div>
-                  )}
-                  {getOpacity(members.length, parseInt(availalbe)) === 20 && (
-                    <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-20">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3 aspect-square flex justify-center items-center opacity-0 transition hover:opacity-100">
-                        {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
                   )}
                   {getOpacity(members.length, parseInt(availalbe)) === 30 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-30">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 40 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-40">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
                   )}{' '}
                   {getOpacity(members.length, parseInt(availalbe)) === 50 && (
@@ -159,79 +210,89 @@ export default function DashBoard({
                       <div className="w-4/5 relative aspect-square">
                         <Image
                           className="object-cover"
-                          src="/svg/icons/checked.svg"
+                          src="/svg/icons/unchecked.svg"
                           fill
                           alt="checked"
                         />
                       </div>
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
                   )}{' '}
                   {getOpacity(members.length, parseInt(availalbe)) === 60 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-60">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 70 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-70">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 80 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-80">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 90 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-90">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
-                  )}{' '}
+                  )}
                   {getOpacity(members.length, parseInt(availalbe)) === 100 && (
                     <div className="w-full relative cursor-pointer aspect-square bg-primary-green-1 bg-opacity-100">
-                      <Image
-                        className="object-cover"
-                        src="/svg/icons/checked.svg"
-                        fill
-                        alt="checked"
-                      />
-                      <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
+                      <div className="w-4/5 relative aspect-square">
+                        <Image
+                          className="object-cover"
+                          src="/svg/icons/unchecked.svg"
+                          fill
+                          alt="checked"
+                        />
+                      </div>
+                      {/* <p className="w-full text-12 text-primary-green-3  flex justify-center items-center opacity-0 transition hover:opacity-100">
                         {availalbe + '/' + members.length}
-                      </p>
+                      </p> */}
                     </div>
                   )}
                 </div>
