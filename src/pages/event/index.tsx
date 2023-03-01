@@ -2,13 +2,11 @@ import FloatButton from '@components/common/Button/FloatButton';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
-import DashBoard from '@components/event/DashBoard';
+import { DashBoard } from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
-import { useAppDispatch } from '@features/hooks';
-import { reset } from '@features/schedule/scheduleSlice';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
