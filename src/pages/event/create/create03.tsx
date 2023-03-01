@@ -84,7 +84,7 @@ function Create() {
           />
         </div>
         <div className="w-full flex items-center justify-center mt-5">
-          <Button loading={isLoading}>이벤트 만들기</Button>
+          <Button loading={isLoading}>모임 만들기</Button>
         </div>
       </form>
     </Layout>
