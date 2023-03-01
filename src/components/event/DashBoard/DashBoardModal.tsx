@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function DashBoardModal() {
   return (
-    <Layout className="h-screen bg-white absolute inset-0 m-auto z-10">
+    <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
       <div className="absolute top-0 max-w-[335px] w-full bg-white flex py-4 items-center">
         <div className="cursor-pointer">
           <Image
@@ -32,14 +32,14 @@ export default function DashBoardModal() {
       <div className="flex flex-col space-y-4 mt-4">
         <div className="flex flex-col">
           <div className="flex justify-between font-14 items-center">
-            <div>18:00 - 19:00</div>
+            <div>18:00 - 18:30</div>
             <div>2명</div>
           </div>
           <div className="text-12 mt-1.5 text-gray-6">지수, 태준</div>
         </div>
         <div className="flex flex-col">
           <div className="flex justify-between font-14 items-center">
-            <div>18:00 - 19:00</div>
+            <div>18:30 - 19:00</div>
             <div>2명</div>
           </div>
           <div className="text-12 mt-1.5 text-gray-6">지수, 태준</div>
