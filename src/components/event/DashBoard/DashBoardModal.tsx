@@ -1,11 +1,14 @@
 import Layout from '@components/common/Layout';
 import Image from 'next/image';
+interface DashBoardModalProps {
+  onClose: () => void;
+}
 
-export default function DashBoardModal() {
+export default function DashBoardModal({ onClose }: DashBoardModalProps) {
   return (
     <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
       <div className="absolute top-0 max-w-[335px] w-full bg-white flex py-4 items-center">
-        <div className="cursor-pointer">
+        <div onClick={onClose} className="cursor-pointer">
           <Image
             src="/svg/icons/caret_left.svg"
             width={24}

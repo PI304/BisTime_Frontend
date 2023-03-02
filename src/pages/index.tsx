@@ -1,14 +1,12 @@
 import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import { DashBoardModal } from '@components/event/DashBoard';
 import { useRouter } from 'next/router';
 
 function Home() {
   const router = useRouter();
   return (
     <Layout>
-      <DashBoardModal />
       <Navigate />
       <div className="w-full flex flex-col items-center justify-center h-full">
         <div className="w-full flex flex-col items-center justify-center mb-4">

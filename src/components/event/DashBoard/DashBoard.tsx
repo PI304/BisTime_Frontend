@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { useState } from 'react';
+import DashBoardModal from './DashBoardModal';
 
 interface DashBoardProps {
   date: string;
@@ -74,10 +76,23 @@ export default function DashBoard({
   endIdx,
   availability,
 }: DashBoardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="mt-4">
-      <div className="text-12">{date}</div>
-      <div className="grid mt-1 grid-cols-6 gap-y-1 grid-rows-1">
+      {isModalOpen && <DashBoardModal onClose={() => setIsModalOpen(false)} />}
+      <div
+        onClick={() => setIsModalOpen(true)}
+        className="cursor-pointer text-14 flex justify-between items-center"
+      >
+        <div className="align-bottom">{date}</div>
+        <Image
+          src="/svg/icons/caret_right.svg"
+          width={24}
+          height={24}
+          alt="down"
+        />
+      </div>
+      <div className="grid mt-1 grid-cols-6 gap-y-2 grid-rows-1">
         {members &&
           availability
             ?.slice(startIdx, endIdx)

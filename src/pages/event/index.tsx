@@ -7,6 +7,7 @@ import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
+import { useState } from 'react';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -66,6 +67,17 @@ const TIMETABLE = [
   '23:30',
 ];
 
+const MOCK_DATA = {
+  '18:00': ['지수', '태준'],
+  '18:30': ['지수', '태준'],
+  '19:00': ['지수', '태준'],
+  '19:30': ['지수', '태준'],
+};
+
+interface ScheduleByTime {
+  [time: string]: string[];
+}
+
 export default function Event() {
   const router = useRouter();
   const { uuid } = router.query;
@@ -74,8 +86,13 @@ export default function Event() {
   const members = scheduleListToMembers(scheduleList || []);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
+  const [ScheduleByTimeList, setScheduleByTimeList] = useState<
+    ScheduleByTime[]
+  >([]);
 
   if (isLoading) return <Loader />;
+
+  console.log('scheduleList', scheduleList);
 
   return (
     <Layout className="relative">
