@@ -4,8 +4,6 @@ interface DashBoardModalProps {
   onClose: () => void;
   date: string;
   startIdx: number;
-  endIdx: number;
-  members: string[];
   detail: string[][];
 }
 
@@ -63,11 +61,11 @@ const TIMETABLE = [
 export default function DashBoardModal({
   date,
   startIdx,
-  endIdx,
-  members,
   detail,
   onClose,
 }: DashBoardModalProps) {
+  const members = new Set(detail?.flat());
+
   return (
     <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
       <div className="absolute top-0 max-w-[335px] w-full bg-white flex py-4 items-center">
@@ -85,7 +83,7 @@ export default function DashBoardModal({
       </div>
       <div className="flex justify-between w-full mt-2">
         <div className="text-12 font-medium text-gray-6">
-          전체 {members?.length}명 응답
+          전체 {members?.size}명 응답
         </div>
         <div className="text-12 items-center flex font-medium translate-x-1 text-gray-6">
           <p>시간 순</p>

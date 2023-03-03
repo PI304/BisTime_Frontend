@@ -105,9 +105,17 @@ interface ScheduleByTime {
   [time: string]: string[];
 }
 
-export default function Event() {
+export async function getServerSideProps({ query }) {
+  return {
+    props: {
+      query,
+    },
+  };
+}
+
+export default function Event({ query }) {
   const router = useRouter();
-  const { uuid } = router.query;
+  const { uuid } = query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);

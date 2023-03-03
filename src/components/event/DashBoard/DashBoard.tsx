@@ -84,9 +84,7 @@ export default function DashBoard({
       {isModalOpen && (
         <DashBoardModal
           date={date}
-          members={members}
           startIdx={startIdx}
-          endIdx={endIdx}
           detail={detail}
           onClose={() => setIsModalOpen(false)}
         />
