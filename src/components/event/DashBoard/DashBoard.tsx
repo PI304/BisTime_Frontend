@@ -8,6 +8,7 @@ interface DashBoardProps {
   startIdx: number;
   endIdx: number;
   availability: string;
+  detail: string[][];
 }
 
 const TIMETABLE = [
@@ -75,11 +76,21 @@ export default function DashBoard({
   startIdx,
   endIdx,
   availability,
+  detail,
 }: DashBoardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="mt-4">
-      {isModalOpen && <DashBoardModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <DashBoardModal
+          date={date}
+          members={members}
+          startIdx={startIdx}
+          endIdx={endIdx}
+          detail={detail}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
       <div
         onClick={() => setIsModalOpen(true)}
         className="cursor-pointer text-14 flex justify-between items-center"
