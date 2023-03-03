@@ -2,19 +2,52 @@ import FloatButton from '@components/common/Button/FloatButton';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
-import DashBoard from '@components/event/DashBoard';
+import { DashBoard } from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
-import { useAppDispatch } from '@features/hooks';
-import { reset } from '@features/schedule/scheduleSlice';
+import { useEffect, useState } from 'react';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
   const memberSet = new Set(members);
   const memberArray = Array.from(memberSet);
   return memberArray;
+};
+
+const scheduleListToAvailableMember = (
+  scheduleList: Schedule[],
+  event: Event,
+) => {
+  const availableMember = {};
+
+  scheduleList.map((schedule) => {
+    const { name, date, availability } = schedule;
+    const startIndex = TIMETABLE.indexOf(event?.startTime);
+    const endIndex = TIMETABLE.indexOf(event?.endTime);
+
+    availability
+      .slice(startIndex, endIndex + 1)
+      .split('')
+      .forEach((available, index) => {
+        if (availableMember[date]) {
+          if (available === '1') {
+            if (availableMember[date][index])
+              availableMember[date][index].push(name);
+            else availableMember[date][index] = [name];
+          }
+        } else {
+          availableMember[date] = [];
+          if (available === '1') {
+            if (availableMember[date][index])
+              availableMember[date][index].push(name);
+            else availableMember[date][index] = [name];
+          }
+        }
+      });
+  });
+  return availableMember;
 };
 
 const TIMETABLE = [
@@ -68,14 +101,34 @@ const TIMETABLE = [
   '23:30',
 ];
 
-export default function Event() {
+interface ScheduleByTime {
+  [time: string]: string[];
+}
+
+export async function getServerSideProps({ query }) {
+  return {
+    props: {
+      query,
+    },
+  };
+}
+
+export default function Event({ query }) {
   const router = useRouter();
-  const { uuid } = router.query;
+  const { uuid } = query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
+  const [availableMember, setAvailableMember] = useState({});
+
+  useEffect(() => {
+    if (scheduleList && event) {
+      const detail = scheduleListToAvailableMember(scheduleList, event);
+      setAvailableMember(detail);
+    }
+  }, [scheduleList, event]);
 
   if (isLoading) return <Loader />;
 
@@ -116,6 +169,7 @@ export default function Event() {
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}
+              detail={availableMember[date]}
             />
           ))}
         </div>
