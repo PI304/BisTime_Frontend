@@ -7,13 +7,47 @@ import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
   const memberSet = new Set(members);
   const memberArray = Array.from(memberSet);
   return memberArray;
+};
+
+const scheduleListToAvailableMember = (
+  scheduleList: Schedule[],
+  event: Event,
+) => {
+  const availableMember = {};
+
+  scheduleList.map((schedule) => {
+    const { name, date, availability } = schedule;
+    const startIndex = TIMETABLE.indexOf(event?.startTime);
+    const endIndex = TIMETABLE.indexOf(event?.endTime);
+
+    availability
+      .slice(startIndex, endIndex + 1)
+      .split('')
+      .forEach((available, index) => {
+        if (availableMember[date]) {
+          if (available === '1') {
+            if (availableMember[date][index])
+              availableMember[date][index].push(name);
+            else availableMember[date][index] = [name];
+          }
+        } else {
+          availableMember[date] = [];
+          if (available === '1') {
+            if (availableMember[date][index])
+              availableMember[date][index].push(name);
+            else availableMember[date][index] = [name];
+          }
+        }
+      });
+  });
+  return availableMember;
 };
 
 const TIMETABLE = [
@@ -67,13 +101,6 @@ const TIMETABLE = [
   '23:30',
 ];
 
-const MOCK_DATA = {
-  '18:00': ['지수', '태준'],
-  '18:30': ['지수', '태준'],
-  '19:00': ['지수', '태준'],
-  '19:30': ['지수', '태준'],
-};
-
 interface ScheduleByTime {
   [time: string]: string[];
 }
@@ -86,13 +113,16 @@ export default function Event() {
   const members = scheduleListToMembers(scheduleList || []);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
-  const [ScheduleByTimeList, setScheduleByTimeList] = useState<
-    ScheduleByTime[]
-  >([]);
+  const [availableMember, setAvailableMember] = useState({});
+
+  useEffect(() => {
+    if (scheduleList && event) {
+      const detail = scheduleListToAvailableMember(scheduleList, event);
+      setAvailableMember(detail);
+    }
+  }, [scheduleList, event]);
 
   if (isLoading) return <Loader />;
-
-  console.log('scheduleList', scheduleList);
 
   return (
     <Layout className="relative">
@@ -131,6 +161,7 @@ export default function Event() {
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}
+              detail={availableMember[date]}
             />
           ))}
         </div>
