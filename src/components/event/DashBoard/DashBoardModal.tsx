@@ -101,7 +101,7 @@ export default function DashBoardModal({
           return (
             <div key={index} className="flex flex-col">
               <div className="flex justify-between font-14 items-center">
-                <div>{TIMETABLE[idx] + '-' + TIMETABLE[idx + 1]}</div>
+                <div>{TIMETABLE[idx] + ' - ' + TIMETABLE[idx + 1]}</div>
                 <div>{members.length}명</div>
               </div>
               <div className="text-12 mt-1.5 text-gray-6">
