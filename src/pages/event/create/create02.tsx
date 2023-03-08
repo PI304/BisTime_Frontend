@@ -38,7 +38,17 @@ function Create() {
         message: '오늘 이전의 날짜는 선택할 수 없습니다.',
       });
       return;
-    } else router.push('/event/create/create03');
+    }
+
+    if (eventState.additionalDates.length === 0) {
+      setError('date', {
+        type: 'manual',
+        message: '날짜를 선택해주세요.',
+      });
+      return;
+    }
+
+    router.push('/event/create/create03');
   };
 
   useEffect(() => {
