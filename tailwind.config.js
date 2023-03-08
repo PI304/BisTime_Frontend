@@ -97,6 +97,7 @@ module.exports = {
         bounce1: 'bounce 2s ease-in-out infinite ',
         bounce2: 'bounce 2s 0.5s ease-in-out infinite ',
         bounce3: 'bounce 2s 1s ease-in-out infinite ',
+        toast: 'toast 2s linear infinite',
       },
       keyframes: {
         bounce: {
@@ -106,6 +107,14 @@ module.exports = {
           },
           '85%, 100%': {
             trasnsform: `translate(0,0)`,
+          },
+        },
+        toast: {
+          '0%': {
+            transform: 'translateY(15%)',
+          },
+          '100%': {
+            transform: 'translateY(0%)',
           },
         },
       },
