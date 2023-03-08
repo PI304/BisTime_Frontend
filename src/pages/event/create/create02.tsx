@@ -1,4 +1,4 @@
-import Button from '@components/common/Button';
+import { Button } from '@components/common/Button';
 import Calender from '@components/common/Calender';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Layout from '@components/common/Layout';
