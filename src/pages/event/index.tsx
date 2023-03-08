@@ -1,4 +1,3 @@
-import FloatButton from '@components/common/Button/FloatButton';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
@@ -8,6 +7,7 @@ import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useEffect, useState } from 'react';
+import { FloatButton } from '@components/common/Button';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -101,10 +101,6 @@ const TIMETABLE = [
   '23:30',
 ];
 
-interface ScheduleByTime {
-  [time: string]: string[];
-}
-
 export async function getServerSideProps({ query }) {
   return {
     props: {
@@ -115,6 +111,7 @@ export async function getServerSideProps({ query }) {
 
 export default function Event({ query }) {
   const router = useRouter();
+
   const { uuid } = query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -144,6 +141,7 @@ export default function Event({ query }) {
           })
         }
       />
+
       <FloatButton type="filter" />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">

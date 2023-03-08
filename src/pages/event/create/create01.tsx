@@ -1,4 +1,4 @@
-import Button from '@components/common/Button';
+import { Button } from '@components/common/Button';
 import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
 import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';

@@ -15,7 +15,7 @@ export default function FloatButton({
   if (type === 'add')
     return (
       <button
-        className={`absolute right-5 bottom-10 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
+        className={`fixed right-5 bottom-10 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
         onClick={onClick}
         {...rest}
       >
@@ -31,7 +31,7 @@ export default function FloatButton({
   if (type === 'filter')
     return (
       <button
-        className={`absolute right-5 bottom-24 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
+        className={`fixed right-5 bottom-24 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
         onClick={onClick}
         {...rest}
       >

@@ -1,4 +1,4 @@
-import Button from '@components/common/Button';
+import { Button } from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
@@ -87,7 +87,7 @@ export default function Add() {
     <Layout className="relative">
       <Navigate back />
       <ProgressBar progress="w-full" className="mt-3" />
-      <div className="mt-6 w-full flex flex-col items-center justify-center">
+      <div className="mt-6 w-full pb-16 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">
             모임 시간을 설정하세요.
