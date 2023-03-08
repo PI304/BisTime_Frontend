@@ -9,7 +9,7 @@ export default function Document() {
           content="upgrade-insecure-requests"
         /> */}
       </Head>
-      <body style={{ fontSize: '16px' }}>
+      <body className="text-16">
         <Main />
         <NextScript />
       </body>
