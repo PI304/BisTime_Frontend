@@ -76,7 +76,6 @@ export default function ScheduleDetail({ query }) {
     }
   }, [scheduleList, event]);
 
-  console.log(date);
   return (
     <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
       <Detail
