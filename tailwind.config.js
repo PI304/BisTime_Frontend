@@ -97,7 +97,7 @@ module.exports = {
         bounce1: 'bounce 2s ease-in-out infinite ',
         bounce2: 'bounce 2s 0.5s ease-in-out infinite ',
         bounce3: 'bounce 2s 1s ease-in-out infinite ',
-        toast: 'toast 2s linear infinite',
+        toast: 'toast 1s linear infinite',
       },
       keyframes: {
         bounce: {

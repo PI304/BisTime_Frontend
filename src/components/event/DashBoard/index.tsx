@@ -1,2 +1,1 @@
-export { default as DashBoard } from './DashBoard';
-export { default as DashBoardModal } from './DashBoardModal';
+export { default } from './DashBoard';

@@ -1,54 +1,18 @@
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
-import { DashBoard } from '@components/event/DashBoard';
+import DashBoard from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
 import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useEffect, useState } from 'react';
 import { FloatButton } from '@components/common/Button';
-
-const scheduleListToMembers = (scheduleList: Schedule[]) => {
-  const members = scheduleList.map((item) => item.name);
-  const memberSet = new Set(members);
-  const memberArray = Array.from(memberSet);
-  return memberArray;
-};
-
-const scheduleListToAvailableMember = (
-  scheduleList: Schedule[],
-  event: Event,
-) => {
-  const availableMember = {};
-
-  scheduleList.map((schedule) => {
-    const { name, date, availability } = schedule;
-    const startIndex = TIMETABLE.indexOf(event?.startTime);
-    const endIndex = TIMETABLE.indexOf(event?.endTime);
-
-    availability
-      .slice(startIndex, endIndex + 1)
-      .split('')
-      .forEach((available, index) => {
-        if (availableMember[date]) {
-          if (available === '1') {
-            if (availableMember[date][index])
-              availableMember[date][index].push(name);
-            else availableMember[date][index] = [name];
-          }
-        } else {
-          availableMember[date] = [];
-          if (available === '1') {
-            if (availableMember[date][index])
-              availableMember[date][index].push(name);
-            else availableMember[date][index] = [name];
-          }
-        }
-      });
-  });
-  return availableMember;
-};
+import Drawer from '@components/common/Drawer';
+import {
+  scheduleListToAvailableMember,
+  scheduleListToMembers,
+} from '@utils/scheduleAsMember';
 
 const TIMETABLE = [
   '00:00',
@@ -119,7 +83,7 @@ export default function Event({ query }) {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (scheduleList && event) {
       const detail = scheduleListToAvailableMember(scheduleList, event);
@@ -141,8 +105,10 @@ export default function Event({ query }) {
           })
         }
       />
-
-      <FloatButton type="filter" />
+      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        하이
+      </Drawer>
+      <FloatButton type="filter" onClick={() => setIsOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
@@ -164,6 +130,7 @@ export default function Event({ query }) {
               key={date}
               members={members}
               date={formatDateWithDayOfWeek(date)}
+              mapKey={date}
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}

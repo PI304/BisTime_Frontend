@@ -1,7 +1,7 @@
-import Layout from '@components/common/Layout';
+import { formatDateWithDayOfWeek } from '@utils/formatDate';
 import Image from 'next/image';
-interface DashBoardModalProps {
-  onClose: () => void;
+import { useRouter } from 'next/router';
+interface DetailProps {
   date: string;
   startIdx: number;
   detail: string[][];
@@ -58,18 +58,13 @@ const TIMETABLE = [
   '23:30',
 ];
 
-export default function DashBoardModal({
-  date,
-  startIdx,
-  detail,
-  onClose,
-}: DashBoardModalProps) {
+export default function Detail({ date, startIdx, detail }: DetailProps) {
   const members = new Set(detail?.flat());
-
+  const router = useRouter();
   return (
-    <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
+    <>
       <div className="absolute top-0 max-w-[335px] w-full bg-white flex py-4 items-center">
-        <div onClick={onClose} className="cursor-pointer">
+        <div onClick={() => router.back()} className="cursor-pointer">
           <Image
             src="/svg/icons/caret_left.svg"
             width={24}
@@ -78,7 +73,7 @@ export default function DashBoardModal({
             className="-translate-x-2"
           />
         </div>
-        <div className="text-14 mx-auto">{date}</div>
+        <div className="text-14 mx-auto">{formatDateWithDayOfWeek(date)}</div>
         <div className="w-6 aspect-square"></div>
       </div>
       <div className="flex justify-between w-full mt-2">
@@ -112,6 +107,6 @@ export default function DashBoardModal({
         })}
       </div>
       <div className="grid grid-cols-2 gap-3"></div>
-    </Layout>
+    </>
   );
 }
