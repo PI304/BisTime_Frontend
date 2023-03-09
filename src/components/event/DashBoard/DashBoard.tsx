@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DashBoardModal from './DashBoardModal';
 
@@ -9,6 +10,7 @@ interface DashBoardProps {
   endIdx: number;
   availability: string;
   detail: string[][];
+  mapKey: string;
 }
 
 const TIMETABLE = [
@@ -72,25 +74,22 @@ function getOpacity(n, x) {
 
 export default function DashBoard({
   date,
+  mapKey,
   members,
   startIdx,
   endIdx,
   availability,
-  detail,
 }: DashBoardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
   return (
     <div className="mt-4">
-      {isModalOpen && (
-        <DashBoardModal
-          date={date}
-          startIdx={startIdx}
-          detail={detail}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
       <div
-        onClick={() => setIsModalOpen(true)}
+        onClick={() =>
+          router.push({
+            pathname: '/event/schedule/detail',
+            query: { date: mapKey, uuid: router.query.uuid },
+          })
+        }
         className="cursor-pointer text-14 flex justify-between items-center"
       >
         <div className="align-bottom">{date}</div>

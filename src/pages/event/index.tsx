@@ -130,6 +130,7 @@ export default function Event({ query }) {
               key={date}
               members={members}
               date={formatDateWithDayOfWeek(date)}
+              mapKey={date}
               startIdx={startIndex}
               endIdx={endIndex}
               availability={event?.availability[date]}
