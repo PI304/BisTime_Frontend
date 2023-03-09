@@ -9,47 +9,10 @@ import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useEffect, useState } from 'react';
 import { FloatButton } from '@components/common/Button';
 import Drawer from '@components/common/Drawer';
-
-const scheduleListToMembers = (scheduleList: Schedule[]) => {
-  const members = scheduleList.map((item) => item.name);
-  const memberSet = new Set(members);
-  const memberArray = Array.from(memberSet);
-  return memberArray;
-};
-
-const scheduleListToAvailableMember = (
-  scheduleList: Schedule[],
-  event: Event,
-) => {
-  const availableMember = {};
-
-  scheduleList.map((schedule) => {
-    const { name, date, availability } = schedule;
-    const startIndex = TIMETABLE.indexOf(event?.startTime);
-    const endIndex = TIMETABLE.indexOf(event?.endTime);
-
-    availability
-      .slice(startIndex, endIndex + 1)
-      .split('')
-      .forEach((available, index) => {
-        if (availableMember[date]) {
-          if (available === '1') {
-            if (availableMember[date][index])
-              availableMember[date][index].push(name);
-            else availableMember[date][index] = [name];
-          }
-        } else {
-          availableMember[date] = [];
-          if (available === '1') {
-            if (availableMember[date][index])
-              availableMember[date][index].push(name);
-            else availableMember[date][index] = [name];
-          }
-        }
-      });
-  });
-  return availableMember;
-};
+import {
+  scheduleListToAvailableMember,
+  scheduleListToMembers,
+} from '@utils/scheduleAsMember';
 
 const TIMETABLE = [
   '00:00',
