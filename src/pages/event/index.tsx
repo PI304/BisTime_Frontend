@@ -8,6 +8,7 @@ import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useEffect, useState } from 'react';
 import { FloatButton } from '@components/common/Button';
+import Drawer from '@components/common/Drawer';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -119,7 +120,7 @@ export default function Event({ query }) {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (scheduleList && event) {
       const detail = scheduleListToAvailableMember(scheduleList, event);
@@ -141,8 +142,10 @@ export default function Event({ query }) {
           })
         }
       />
-
-      <FloatButton type="filter" />
+      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        하이
+      </Drawer>
+      <FloatButton type="filter" onClick={() => setIsOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
