@@ -115,7 +115,7 @@ export default function Event({ query }) {
               query: { uuid: uuid },
             });
           }}
-          className="bg-primary-green-1 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
+          className="bg-primary-green-1 mb-2 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
         >
           <div>내 일정 등록하기</div>
           <div className="bg-[#53C2A3] w-10 aspect-square rounded-full flex">
@@ -128,7 +128,26 @@ export default function Event({ query }) {
             />
           </div>
         </button>
-        <button>등록된 일정 수정하기</button>
+        <button
+          onClick={() => {
+            router.push({
+              pathname: '/event/schedule/add01',
+              query: { uuid: uuid },
+            });
+          }}
+          className="bg-primary-green-1 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
+        >
+          <div>등록된 일정 수정하기</div>
+          <div className="bg-[#53C2A3] w-10 aspect-square rounded-full flex">
+            <Image
+              src="/svg/icons/plus.svg"
+              alt="filter"
+              width={28}
+              height={28}
+              className="m-auto"
+            />
+          </div>
+        </button>{' '}
       </Drawer>
       <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-4">

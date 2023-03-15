@@ -57,6 +57,7 @@ function Create() {
                 required: true,
                 maxLength: 50,
                 minLength: 1,
+                validate: (value) => value.trim().length > 0,
               })}
             />
             {errors.title && errors.title.type === 'required' && (
