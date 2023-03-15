@@ -89,9 +89,6 @@ export default function Add() {
       <ProgressBar progress="w-full" className="mt-3" />
       <div className="mt-6 w-full pb-16 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">
-            모임 시간을 설정하세요.
-          </div>
           <div className="text-18 text-left w-full">30분 단위로 가능한</div>
           <div className="text-18 text-left w-full">시간대에 체크하세요.</div>
         </div>

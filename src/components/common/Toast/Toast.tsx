@@ -15,8 +15,8 @@ export default function Toast({ setToast, text }: ToastProps) {
     };
   }, [setToast]);
   return (
-    <div className="absolute right-5 bottom-8 z-50 m-auto flex justify-center animate-toast items-center rounded-md bg-[#F5F5F5] p-5 opacity-95">
-      <p className="text-11">{text}</p>
+    <div className="absolute inset-0 w-52 h-20 z-50 m-auto animate-toast flex justify-center items-center rounded-xl bg-[#F5F5F5] p-5 opacity-95">
+      <p className="text-12">{text}</p>
     </div>
   );
 }

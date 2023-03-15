@@ -111,7 +111,7 @@ module.exports = {
         },
         toast: {
           '0%': {
-            transform: 'translateY(15%)',
+            transform: 'translateY(5%)',
           },
           '100%': {
             transform: 'translateY(0%)',

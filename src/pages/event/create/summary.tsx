@@ -8,10 +8,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '@features/hooks';
 import { usePostEventDateMutation } from '@apis/event/eventApi.mutation';
+import Toast from '@components/common/Toast';
 
 function Schedule() {
   const router = useRouter();
   const { uuid } = router.query;
+  const [toast, setToast] = useState(false);
 
   const [copyLoading, setCopyLoading] = useState(false);
 
@@ -28,11 +30,7 @@ function Schedule() {
   }, [eventState.additionalDates, uuid]);
 
   const handleShareLink = () => {
-    setCopyLoading(true);
-    setTimeout(() => {
-      setCopyLoading(false);
-    }, 200);
-
+    setToast(true);
     navigator.clipboard.writeText(
       `${process.env.NEXT_PUBLIC_BASE_URL}/event?uuid=${uuid}`,
     );
@@ -74,6 +72,7 @@ function Schedule() {
           </Button>
         </div>
       </div>
+      {toast && <Toast setToast={setToast} text="링크가 복사되었습니다." />}
     </Layout>
   );
 }
