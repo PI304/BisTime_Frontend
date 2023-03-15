@@ -77,6 +77,7 @@ export async function getServerSideProps({ query }) {
 export default function Event({ query }) {
   const router = useRouter();
   const { uuid } = query;
+  0;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
@@ -101,13 +102,16 @@ export default function Event({ query }) {
       <FloatButton
         type="add"
         onClick={() => {
-          setIsAddOpen(true);
+          router.push({
+            pathname: '/event/schedule/add01',
+            query: { uuid: uuid },
+          });
         }}
       />
       <Drawer isOpen={isFillterOpen} onClose={() => setIsFillterOpen(false)}>
         하이
       </Drawer>
-      <Drawer isOpen={isAddOpen} onClose={() => setIsAddOpen(false)}>
+      {/* <Drawer isOpen={isAddOpen} onClose={() => setIsAddOpen(false)}>
         <button
           onClick={() => {
             router.push({
@@ -148,7 +152,7 @@ export default function Event({ query }) {
             />
           </div>
         </button>{' '}
-      </Drawer>
+      </Drawer> */}
       <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
