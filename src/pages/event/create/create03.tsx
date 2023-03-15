@@ -32,10 +32,10 @@ function Create() {
   const { mutate, isLoading } = usePostEventMutation();
   const onSubmit = (form: ScheuleForm) => {
     const { startTime, endTime } = form;
-    if (startTime.value > endTime.value) {
+    if (startTime.value >= endTime.value) {
       setError('startTime', {
         type: 'manual',
-        message: '시작시간이 종료시간보다 늦을 수 없습니다.',
+        message: '종료시간은 시작시간보다 늦어야 합니다.',
       });
       return;
     }
