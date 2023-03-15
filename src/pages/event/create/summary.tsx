@@ -51,9 +51,11 @@ function Schedule() {
       <ProgressBar progress="w-full" className="mt-3" />
       <div className="mt-6 w-full space-y-5 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">모임이 생성되었습니다.</div>
-          <div className="text-18 text-left w-full">가장 먼저 자신의</div>
-          <div className="text-18 text-left w-full">일정을 등록하고,</div>
+          <div className="text-18 text-left w-full">모임을 만들었어요!</div>
+          <div className="text-18 text-left w-full">
+            먼저 자신의 일정을 등록하고,
+          </div>
+          <div className="text-18 text-left w-full"></div>
           <div className="text-18 text-left w-full">
             친구들에게 링크를 공유하세요.
           </div>

@@ -153,17 +153,17 @@ export default function Event({ query }) {
       </Drawer> */}
       <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-2">
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center justify-center">
           <div className="text-24">{event?.title}</div>
-          <div className="flex flex-col ml-2 text-right font-light text-gray-7 text-8">
+          {/* <div className="flex flex-col ml-2 text-right font-light text-gray-7 text-8">
             <p>{formatDate(event?.createdAt)}</p>
-            <p>{members ? `${members.length}명 응답` : ''}</p>
-          </div>
-          {/* <div className="flex space-x-1">
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
-            <div className="w-1 aspect-square rounded-full bg-gray-5" />
           </div> */}
+        </div>
+        <div className="text-14 mt-2 flex flex-col justify-between border-primary-green-1">
+          <p className="mb-1">참여하는 사람 : {members.length}명</p>
+          <div className="flex text-11 font-light flex-wrap">
+            {members.join(', ')}
+          </div>
         </div>
         <div>
           {Object.keys(event?.availability || {}).map((date) => (
