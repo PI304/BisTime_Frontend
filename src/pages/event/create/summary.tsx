@@ -33,9 +33,8 @@ function Schedule() {
       setCopyLoading(false);
     }, 200);
 
-    const uid = uuid as string;
     navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/event/update?uuid=${uid}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/event?uuid=${uuid}`,
     );
   };
 
