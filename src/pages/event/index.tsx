@@ -13,6 +13,7 @@ import {
   scheduleListToAvailableMember,
   scheduleListToMembers,
 } from '@utils/scheduleAsMember';
+import Image from 'next/image';
 
 const TIMETABLE = [
   '00:00',
@@ -75,7 +76,6 @@ export async function getServerSideProps({ query }) {
 
 export default function Event({ query }) {
   const router = useRouter();
-
   const { uuid } = query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -83,7 +83,9 @@ export default function Event({ query }) {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFillterOpen, setIsFillterOpen] = useState(false);
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
   useEffect(() => {
     if (scheduleList && event) {
       const detail = scheduleListToAvailableMember(scheduleList, event);
@@ -98,17 +100,37 @@ export default function Event({ query }) {
       <Navigate link />
       <FloatButton
         type="add"
-        onClick={() =>
-          router.push({
-            pathname: '/event/schedule/add01',
-            query: { uuid: uuid },
-          })
-        }
+        onClick={() => {
+          setIsAddOpen(true);
+        }}
       />
-      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Drawer isOpen={isFillterOpen} onClose={() => setIsFillterOpen(false)}>
         하이
       </Drawer>
-      <FloatButton type="filter" onClick={() => setIsOpen(true)} />
+      <Drawer isOpen={isAddOpen} onClose={() => setIsAddOpen(false)}>
+        <button
+          onClick={() => {
+            router.push({
+              pathname: '/event/schedule/add01',
+              query: { uuid: uuid },
+            });
+          }}
+          className="bg-primary-green-1 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
+        >
+          <div>내 일정 등록하기</div>
+          <div className="bg-[#53C2A3] w-10 aspect-square rounded-full flex">
+            <Image
+              src="/svg/icons/plus.svg"
+              alt="filter"
+              width={28}
+              height={28}
+              className="m-auto"
+            />
+          </div>
+        </button>
+        <button>등록된 일정 수정하기</button>
+      </Drawer>
+      <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
       <div className="w-full flex flex-wrap flex-col mt-4">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center">
