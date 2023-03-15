@@ -13,7 +13,6 @@ import {
   scheduleListToAvailableMember,
   scheduleListToMembers,
 } from '@utils/scheduleAsMember';
-import Image from 'next/image';
 
 const TIMETABLE = [
   '00:00',
@@ -85,7 +84,6 @@ export default function Event({ query }) {
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
   const [isFillterOpen, setIsFillterOpen] = useState(false);
-  const [isAddOpen, setIsAddOpen] = useState(false);
 
   useEffect(() => {
     if (scheduleList && event) {

@@ -111,7 +111,22 @@ export default function DashBoard({
 
   return (
     <div className="mt-4">
-      <div className="text-12">{formatDateWithDayOfWeek(date)}</div>
+      <div className="flex justify-between">
+        <div className="text-12">{formatDateWithDayOfWeek(date)}</div>
+        <Image
+          onClick={() =>
+            router.push({
+              pathname: '/event/schedule/detail',
+              query: { date, uuid: router.query.uuid },
+            })
+          }
+          src="/svg/icons/caret_right.svg"
+          width={24}
+          height={24}
+          className="cursor-pointer"
+          alt="down"
+        />
+      </div>
       <div className="grid mt-1 grid-cols-6 gap-y-1 grid-rows-1">
         {event &&
           event.availability &&
