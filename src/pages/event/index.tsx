@@ -76,7 +76,7 @@ export async function getServerSideProps({ query }) {
 export default function Event({ query }) {
   const router = useRouter();
   const { uuid } = query;
-  0;
+
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
@@ -152,20 +152,18 @@ export default function Event({ query }) {
         </button>{' '}
       </Drawer> */}
       <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
-      <div className="w-full flex flex-wrap flex-col mt-4">
+      <div className="w-full flex flex-wrap flex-col mt-2">
         <div className="w-full flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="text-24">{event?.title}</div>
-            <div className="flex flex-col ml-2 ju font-light text-gray-7 text-8">
-              <p>{formatDate(event?.createdAt)}</p>
-              <p>{members ? `${members.length}명 응답` : ''}</p>
-            </div>
+          <div className="text-24">{event?.title}</div>
+          <div className="flex flex-col ml-2 text-right font-light text-gray-7 text-8">
+            <p>{formatDate(event?.createdAt)}</p>
+            <p>{members ? `${members.length}명 응답` : ''}</p>
           </div>
-          <div className="flex space-x-1">
+          {/* <div className="flex space-x-1">
             <div className="w-1 aspect-square rounded-full bg-gray-5" />
             <div className="w-1 aspect-square rounded-full bg-gray-5" />
             <div className="w-1 aspect-square rounded-full bg-gray-5" />
-          </div>
+          </div> */}
         </div>
         <div>
           {Object.keys(event?.availability || {}).map((date) => (
