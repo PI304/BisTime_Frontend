@@ -8,10 +8,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '@features/hooks';
 import { usePostEventDateMutation } from '@apis/event/eventApi.mutation';
+import Toast from '@components/common/Toast';
 
 function Schedule() {
   const router = useRouter();
   const { uuid } = router.query;
+  const [toast, setToast] = useState(false);
 
   const [copyLoading, setCopyLoading] = useState(false);
 
@@ -28,14 +30,9 @@ function Schedule() {
   }, [eventState.additionalDates, uuid]);
 
   const handleShareLink = () => {
-    setCopyLoading(true);
-    setTimeout(() => {
-      setCopyLoading(false);
-    }, 200);
-
-    const uid = uuid as string;
+    setToast(true);
     navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/event/update?uuid=${uid}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/event?uuid=${uuid}`,
     );
   };
 
@@ -52,13 +49,13 @@ function Schedule() {
     <Layout>
       <Navigate back />
       <ProgressBar progress="w-full" className="mt-3" />
-      <div className="mt-9 w-full space-y-5 flex flex-col items-center justify-center">
+      <div className="mt-6 w-full space-y-5 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
+          <div className="text-18 text-left w-full">모임을 만들었어요!</div>
           <div className="text-18 text-left w-full">
-            이벤트 링크가 생성되었습니다.
+            먼저 자신의 일정을 등록하고,
           </div>
-          <div className="text-18 text-left w-full">가장 먼저 자신의</div>
-          <div className="text-18 text-left w-full">일정을 등록하고,</div>
+          <div className="text-18 text-left w-full"></div>
           <div className="text-18 text-left w-full">
             친구들에게 링크를 공유하세요.
           </div>
@@ -75,6 +72,7 @@ function Schedule() {
           </Button>
         </div>
       </div>
+      {toast && <Toast setToast={setToast} text="링크가 복사되었습니다." />}
     </Layout>
   );
 }

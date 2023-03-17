@@ -38,7 +38,7 @@ function Create() {
     <Layout>
       <Navigate back />
       <ProgressBar progress="w-1/4" className="mt-3" />
-      <div className="w-full flex flex-col mt-9">
+      <div className="w-full flex flex-col mt-6">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">친구들과 공유할</div>
           <div className="text-18 text-left w-full">모임의 이름을</div>
@@ -57,6 +57,7 @@ function Create() {
                 required: true,
                 maxLength: 50,
                 minLength: 1,
+                validate: (value) => value.trim().length > 0,
               })}
             />
             {errors.title && errors.title.type === 'required' && (

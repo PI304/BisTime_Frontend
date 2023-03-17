@@ -10,14 +10,14 @@ export const scheduleListToAvailableMember = (
   event: Event,
 ) => {
   const availableMember = {};
+  console.log('scheduleList', scheduleList);
 
   scheduleList.map((schedule) => {
     const { name, date, availability } = schedule;
     const startIndex = TIMETABLE.indexOf(event?.startTime);
-    const endIndex = TIMETABLE.indexOf(event?.endTime);
 
     availability
-      .slice(startIndex, endIndex + 1)
+      .slice(startIndex)
       .split('')
       .forEach((available, index) => {
         if (availableMember[date]) {
@@ -36,6 +36,7 @@ export const scheduleListToAvailableMember = (
         }
       });
   });
+  console.log('availableMember', availableMember);
   return availableMember;
 };
 

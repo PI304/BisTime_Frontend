@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setName } from '@features/schedule/scheduleSlice';
+import Image from 'next/image';
 
 interface ScheduleForm {
   name: string;
@@ -44,11 +45,20 @@ export default function Add() {
       <ProgressBar progress="w-1/3" className="mt-3" />
       <div className="w-full flex flex-col mt-9">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">
-            새로운 일정을 등록합니다.
-          </div>
+          <div className="text-18 text-left w-full">내 일정을 등록합니다.</div>
           <div className="text-18 text-left w-full">이름을 입력해주세요.</div>
         </div>
+        <p className="w-full mt-1 text-left flex text-primary-green-1 text-12 font-light">
+          <span className="mr-0.5 ">
+            <Image
+              src="/svg/icons/info_circle_green.svg"
+              width={14}
+              height={14}
+              alt="info"
+            />
+          </span>
+          이전에 등록한 이름인 경우 새로운 일정으로 덮어쓰기 됩니다.
+        </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mt-6 w-full space-y-5 flex flex-col items-center justify-center"
