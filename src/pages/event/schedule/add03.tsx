@@ -8,7 +8,9 @@ import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useRouter } from 'next/router';
 import { usePostScheduleMutation } from '@apis/schedule/scheduleApi.mutation';
-import { useAppSelector } from '@features/hooks';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { useEffect } from 'react';
+import { setAvailability } from '@features/schedule/scheduleSlice';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
   const members = scheduleList.map((item) => item.name);
@@ -70,6 +72,7 @@ const TIMETABLE = [
 export default function Add() {
   const router = useRouter();
   const scheduleState = useAppSelector((state) => state.schedule);
+  const dispatch = useAppDispatch();
   const { uuid } = router.query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -80,6 +83,45 @@ export default function Add() {
   const { mutate, isLoading: scheduleLoading } = usePostScheduleMutation(
     uuid as string,
   );
+
+  console.log(scheduleList);
+  console.log(scheduleState);
+
+  useEffect(() => {
+    if (!scheduleList || !event) return;
+    scheduleList.map((schedule) => {
+      if (schedule.name !== scheduleState.name) return;
+      const key = Object.keys(event.availability).indexOf(schedule.date);
+      const newAvailabilityArray: string[] = [];
+      console.log(schedule.availability);
+      for (let i = 0; i < schedule.availability.length; i++) {
+        if (schedule.availability.split('')[i] === '1')
+          newAvailabilityArray.push('1');
+        else newAvailabilityArray.push('0');
+      }
+      const newAvailability = [...scheduleState.availability];
+      newAvailability[key] = newAvailabilityArray;
+      dispatch(setAvailability(newAvailability));
+    });
+  }, [scheduleList, event]);
+
+  // const handleClick = (index: number) => {
+  //   if (!event) return;
+  //   const key = Object.keys(event.availability).indexOf(date);
+  //   const newAvailabilityArray: string[] = [];
+  //   for (let i = 0; i < scheduleState.availability[key].length; i++) {
+  //     if (i === index) {
+  //       if (scheduleState.availability[key][i] === '1')
+  //         newAvailabilityArray.push('0');
+  //       else newAvailabilityArray.push('1');
+  //     } else {
+  //       newAvailabilityArray.push(scheduleState.availability[key][i]);
+  //     }
+  //   }
+  //   const newAvailability = [...scheduleState.availability];
+  //   newAvailability[key] = newAvailabilityArray;
+  //   dispatch(setAvailability(newAvailability));
+  // };
 
   if (isLoading || scheduleLoading) return <Loader />;
 
