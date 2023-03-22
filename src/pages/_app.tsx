@@ -5,6 +5,7 @@ import store from '../features/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import MetaHead from '@components/MetaHeda';
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="font-Gmarket font-medium mx-auto w-full max-w-[375px]">
+        <MetaHead />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Component {...pageProps} />
