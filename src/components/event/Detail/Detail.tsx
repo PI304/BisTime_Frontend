@@ -80,15 +80,6 @@ export default function Detail({ date, startIdx, detail }: DetailProps) {
         <div className="text-12 font-medium text-gray-6">
           전체 {members?.size}명 응답
         </div>
-        <div className="text-12 items-center flex font-medium translate-x-1 text-gray-6">
-          <p>시간 순</p>
-          <Image
-            src="/svg/icons/caret_down.svg"
-            width={18}
-            height={18}
-            alt="down"
-          />
-        </div>
       </div>
       <div className="flex flex-col space-y-5 mt-5">
         {detail?.map((members, index) => {
