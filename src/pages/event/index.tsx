@@ -83,7 +83,6 @@ export default function Event({ query }) {
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const endIndex = TIMETABLE.indexOf(event?.endTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
-  const [isFillterOpen, setIsFillterOpen] = useState(false);
 
   useEffect(() => {
     if (scheduleList && event) {
@@ -106,58 +105,10 @@ export default function Event({ query }) {
           });
         }}
       />
-      <Drawer isOpen={isFillterOpen} onClose={() => setIsFillterOpen(false)}>
-        하이
-      </Drawer>
-      {/* <Drawer isOpen={isAddOpen} onClose={() => setIsAddOpen(false)}>
-        <button
-          onClick={() => {
-            router.push({
-              pathname: '/event/schedule/add01',
-              query: { uuid: uuid },
-            });
-          }}
-          className="bg-primary-green-1 mb-2 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
-        >
-          <div>내 일정 등록하기</div>
-          <div className="bg-[#53C2A3] w-10 aspect-square rounded-full flex">
-            <Image
-              src="/svg/icons/plus.svg"
-              alt="filter"
-              width={28}
-              height={28}
-              className="m-auto"
-            />
-          </div>
-        </button>
-        <button
-          onClick={() => {
-            router.push({
-              pathname: '/event/schedule/add01',
-              query: { uuid: uuid },
-            });
-          }}
-          className="bg-primary-green-1 items-center text-white flex justify-between w-full py-2 px-4 rounded-lg"
-        >
-          <div>등록된 일정 수정하기</div>
-          <div className="bg-[#53C2A3] w-10 aspect-square rounded-full flex">
-            <Image
-              src="/svg/icons/plus.svg"
-              alt="filter"
-              width={28}
-              height={28}
-              className="m-auto"
-            />
-          </div>
-        </button>{' '}
-      </Drawer> */}
-      <FloatButton type="filter" onClick={() => setIsFillterOpen(true)} />
+
       <div className="w-full flex flex-wrap flex-col mt-2">
         <div className="w-full flex items-center justify-center">
           <div className="text-24">{event?.title}</div>
-          {/* <div className="flex flex-col ml-2 text-right font-light text-gray-7 text-8">
-            <p>{formatDate(event?.createdAt)}</p>
-          </div> */}
         </div>
         <div className="text-14 mt-2 flex flex-col justify-between border-primary-green-1">
           <p className="mb-1">참여하는 사람 : {members.length}명</p>
