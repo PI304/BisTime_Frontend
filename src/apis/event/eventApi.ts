@@ -1,38 +1,18 @@
-import { AxiosInstance } from 'axios';
-
 import instance from '@apis/_axios/instance';
 
-import {
-  EventDateParamDTOType,
-  EventDTOType,
-  EventParamGetType,
-  EventParamPatchType,
-} from './eventApi.type';
+import { EventDatePostParam, EventPatchParam } from './eventApi.type';
 
 export class EventApi {
-  axios: AxiosInstance = instance;
-  constructor(axios?: AxiosInstance) {
-    if (axios) this.axios = axios;
-  }
-
-  async getEventList(): Promise<EventDTOType[]> {
-    const { data } = await this.axios({
+  async getEventList(): Promise<Event[]> {
+    const { data } = await instance({
       method: 'GET',
       url: `/api/events`,
     });
     return data;
   }
 
-  async getEventById(id: string): Promise<EventDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/api/events/${id}`,
-    });
-    return data;
-  }
-
-  async postEvent(body: EventDTOType): Promise<EventDTOType> {
-    const { data } = await this.axios({
+  async postEvent(body: Partial<Event>): Promise<Event> {
+    const { data } = await instance({
       method: 'POST',
       url: `/api/events`,
       data: body,
@@ -40,8 +20,25 @@ export class EventApi {
     return data;
   }
 
-  async patchEvent(req: EventParamPatchType): Promise<EventDTOType> {
-    const { data } = await this.axios({
+  async getEventById(uuid: string): Promise<Event> {
+    const { data } = await instance({
+      method: 'GET',
+      url: `/api/events/${uuid}`,
+    });
+    return data;
+  }
+
+  async postEventDate(uuid: string, body: EventDatePostParam): Promise<Event> {
+    const { data } = await instance({
+      method: 'POST',
+      url: `/api/events/${uuid}/dates`,
+      data: body,
+    });
+    return data;
+  }
+
+  async patchEvent(req: EventPatchParam): Promise<Event> {
+    const { data } = await instance({
       method: 'PATCH',
       url: `/api/events/${req.id}`,
       data: req.data,
@@ -49,19 +46,18 @@ export class EventApi {
     return data;
   }
 
-  async deleteEvent(id: string): Promise<boolean> {
-    const { data } = await this.axios({
+  async deleteEvent(uuid: string): Promise<boolean> {
+    const { data } = await instance({
       method: 'DELETE',
-      url: `/api/events/${id}`,
+      url: `/api/events/${uuid}`,
     });
     return data;
   }
 
-  async postEventDate(req: EventDateParamDTOType): Promise<EventDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/api/events/${req.id}/dates`,
-      data: req.data,
+  async getEventDateById(uuid: string): Promise<EventDate> {
+    const { data } = await instance({
+      method: 'GET',
+      url: `/api/events/${uuid}/dates`,
     });
     return data;
   }

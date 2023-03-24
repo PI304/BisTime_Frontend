@@ -4,12 +4,12 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta
+        {/* <meta
           httpEquiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
-        />
+        /> */}
       </Head>
-      <body>
+      <body className="text-16">
         <Main />
         <NextScript />
       </body>
