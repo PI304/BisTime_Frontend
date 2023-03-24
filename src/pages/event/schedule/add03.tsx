@@ -84,44 +84,18 @@ export default function Add() {
     uuid as string,
   );
 
-  console.log(scheduleList);
-  console.log(scheduleState);
-
   useEffect(() => {
     if (!scheduleList || !event) return;
+
+    const newAvailability = [];
+
     scheduleList.map((schedule) => {
       if (schedule.name !== scheduleState.name) return;
-      const key = Object.keys(event.availability).indexOf(schedule.date);
-      const newAvailabilityArray: string[] = [];
-      console.log(schedule.availability);
-      for (let i = 0; i < schedule.availability.length; i++) {
-        if (schedule.availability.split('')[i] === '1')
-          newAvailabilityArray.push('1');
-        else newAvailabilityArray.push('0');
-      }
-      const newAvailability = [...scheduleState.availability];
-      newAvailability[key] = newAvailabilityArray;
-      dispatch(setAvailability(newAvailability));
+      newAvailability.push(schedule.availability.split(''));
     });
-  }, [scheduleList, event]);
 
-  // const handleClick = (index: number) => {
-  //   if (!event) return;
-  //   const key = Object.keys(event.availability).indexOf(date);
-  //   const newAvailabilityArray: string[] = [];
-  //   for (let i = 0; i < scheduleState.availability[key].length; i++) {
-  //     if (i === index) {
-  //       if (scheduleState.availability[key][i] === '1')
-  //         newAvailabilityArray.push('0');
-  //       else newAvailabilityArray.push('1');
-  //     } else {
-  //       newAvailabilityArray.push(scheduleState.availability[key][i]);
-  //     }
-  //   }
-  //   const newAvailability = [...scheduleState.availability];
-  //   newAvailability[key] = newAvailabilityArray;
-  //   dispatch(setAvailability(newAvailability));
-  // };
+    if (newAvailability.length > 0) dispatch(setAvailability(newAvailability));
+  }, [scheduleList, event]);
 
   if (isLoading || scheduleLoading) return <Loader />;
 
