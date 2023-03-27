@@ -56,17 +56,9 @@ const TIMETABLE = [
   '23:30',
 ];
 
-// export async function getServerSideProps({ query }) {
-//   return {
-//     props: {
-//       query,
-//     },
-//   };
-// }
 export default function ScheduleDetail() {
   const router = useRouter();
   const { uuid, date } = router.query;
-
   const { data: event } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');

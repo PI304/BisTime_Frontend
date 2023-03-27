@@ -64,14 +64,6 @@ const TIMETABLE = [
   '23:30',
 ];
 
-// export async function getServerSideProps({ query }) {
-//   return {
-//     props: {
-//       query,
-//     },
-//   };
-// }
-
 export default function Event() {
   const router = useRouter();
   const { uuid } = router.query;
