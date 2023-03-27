@@ -4,11 +4,11 @@ import Navigate from '@components/common/Navigate';
 import DashBoard from '@components/event/DashBoard';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useRouter } from 'next/router';
-import { formatDate, formatDateWithDayOfWeek } from '@utils/formatDate';
+import { formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useEffect, useState } from 'react';
 import { FloatButton } from '@components/common/Button';
-import Drawer from '@components/common/Drawer';
+
 import {
   scheduleListToAvailableMember,
   scheduleListToMembers,
@@ -65,17 +65,9 @@ const TIMETABLE = [
   '23:30',
 ];
 
-export async function getServerSideProps({ query }) {
-  return {
-    props: {
-      query,
-    },
-  };
-}
-
-export default function Event({ query }) {
+export default function Event() {
   const router = useRouter();
-  const { uuid } = query;
+  const { uuid } = router.query;
 
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
