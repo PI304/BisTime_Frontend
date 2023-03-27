@@ -3,6 +3,7 @@ import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import Layout from '@components/common/Layout';
 import Detail from '@components/event/Detail';
 import { scheduleListToAvailableMember } from '@utils/scheduleAsMember';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 const TIMETABLE = [
   '00:00',
@@ -55,15 +56,16 @@ const TIMETABLE = [
   '23:30',
 ];
 
-export async function getServerSideProps({ query }) {
-  return {
-    props: {
-      query,
-    },
-  };
-}
-export default function ScheduleDetail({ query }) {
-  const { uuid, date } = query;
+// export async function getServerSideProps({ query }) {
+//   return {
+//     props: {
+//       query,
+//     },
+//   };
+// }
+export default function ScheduleDetail() {
+  const router = useRouter();
+  const { uuid, date } = router.query;
 
   const { data: event } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
@@ -78,11 +80,13 @@ export default function ScheduleDetail({ query }) {
 
   return (
     <Layout className="h-screen bg-white absolute mx-auto max-w-[375px] inset-0 z-10">
-      <Detail
-        detail={availableMember[date]}
-        date={date}
-        startIdx={startIndex}
-      />
+      {date && (
+        <Detail
+          detail={availableMember[date as string]}
+          date={date as string}
+          startIdx={startIndex}
+        />
+      )}
     </Layout>
   );
 }
