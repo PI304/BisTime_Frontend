@@ -4,6 +4,7 @@ import Layout from '@components/common/Layout';
 import Detail from '@components/event/Detail';
 import { scheduleListToAvailableMember } from '@utils/scheduleAsMember';
 import { useRouter } from 'next/router';
+
 import { useEffect, useState } from 'react';
 const TIMETABLE = [
   '00:00',
@@ -79,6 +80,7 @@ export default function ScheduleDetail() {
           startIdx={startIndex}
         />
       )}
+
     </Layout>
   );
 }
