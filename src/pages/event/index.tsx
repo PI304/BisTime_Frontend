@@ -98,13 +98,13 @@ export default function Event() {
         }}
       />
 
-      <div className="w-full flex flex-wrap flex-col mt-2">
+      <div className="w-full flex flex-wrap flex-col mt-2 ">
         <div className="w-full flex items-center justify-center">
           <div className="text-24">{event?.title}</div>
         </div>
         <div className="text-14 mt-2 flex flex-col justify-between border-primary-green-1">
           <p className="mb-1">참여하는 사람 : {members.length}명</p>
-          <div className="flex text-11 font-light flex-wrap">
+          <div className="flex text-14 font-light flex-wrap">
             {members.join(', ')}
           </div>
         </div>
@@ -121,6 +121,7 @@ export default function Event() {
               detail={availableMember[date]}
             />
           ))}
+          <div className="h-8" />
         </div>
       </div>
     </Layout>
