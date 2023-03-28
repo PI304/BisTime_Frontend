@@ -35,8 +35,11 @@ export default function MetaHead() {
         name="viewport"
         content="initial-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no"
       />
-      <meta name="og:description" content="편리한 시간관리 도구, 비즈타임" />
-      <meta property="description" content="편리한 시간관리 도구, 비즈타임" />
+      <meta
+        property="og:description"
+        content="편리한 시간관리 도구, 비즈타임"
+      />
+      <meta name="description" content="편리한 시간관리 도구, 비즈타임" />
       <meta property="og:title" content="BISTIME" />
       <meta property="og:type" content="website" />
     </Head>
