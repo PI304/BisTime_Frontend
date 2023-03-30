@@ -1,3 +1,4 @@
+import feedbackApi from '@apis/feedback/feedbackApi';
 import { Button } from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate/Navigate';
@@ -19,9 +20,10 @@ function Feedback() {
     },
   });
 
-  const onSubmit = (form: FeedbackForm) => {
+  const onSubmit = async (form: FeedbackForm) => {
     const { feedback } = form;
-    if (feedback) router.push('/event/create/create02');
+    const data = await feedbackApi.postFeedback({ content: feedback });
+    if (data) router.back();
   };
 
   return (
