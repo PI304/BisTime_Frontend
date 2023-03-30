@@ -9,7 +9,7 @@ export default function Footer() {
           <span className="underline ml-2">문의하러 가기</span>
         </Link>
       </div>
-      <div className="w-full flex justify-center items-center pl-2 h-10 space-x-2 mb-4">
+      <div className="w-full flex justify-center items-center  h-10 space-x-2 mb-4">
         <div className="text-12 text-gray-8">made by </div>
         <Link className="flex items-center" href="https://github.com/joooonis">
           <svg
