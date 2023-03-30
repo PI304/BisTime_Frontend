@@ -1,10 +1,17 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Footer() {
+  const router = useRouter();
   return (
     <div className="w-full mt-20 flex flex-col items-center justify-center">
       <div className="text-12  text-gray-8 my-4">
-        <Link href="/event/feedback">
+        <Link
+          href={{
+            pathname: '/event/feedback',
+            query: { uuid: router.query.uuid },
+          }}
+        >
           사용에 불편한 점이 있다면 알려주세요!
           <span className="underline ml-2">문의하러 가기</span>
         </Link>

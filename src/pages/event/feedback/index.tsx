@@ -10,34 +10,25 @@ interface FeedbackForm {
 
 function Feedback() {
   const router = useRouter();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FeedbackForm>({
-    defaultValues: {
-      feedback: '',
-    },
-  });
+  const { handleSubmit, register } = useForm<FeedbackForm>();
 
   const onSubmit = async (form: FeedbackForm) => {
     const { feedback } = form;
     const data = await feedbackApi.postFeedback({ content: feedback });
-    if (data) router.back();
+    if (data)
+      router.push({
+        pathname: '/event',
+        query: { uuid: router.query.uuid },
+      });
   };
 
   return (
     <Layout>
       <Navigate back />
-      <div className="w-full flex flex-col mt-6">
-        <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-14 text-center w-full">
-            BISTIME을 사용해주셔서 감사합니다!
-          </div>
-        </div>
+      <div className="w-full flex flex-col mt-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-6 w-full space-y-5 flex flex-col items-center justify-center"
+          className="w-full space-y-5 flex flex-col items-center justify-center"
         >
           <div className="w-full">
             <textarea
