@@ -13,6 +13,7 @@ import {
   scheduleListToAvailableMember,
   scheduleListToMembers,
 } from '@utils/scheduleAsMember';
+import Footer from '@components/common/Footer';
 
 const TIMETABLE = [
   '00:00',
@@ -122,6 +123,7 @@ export default function Event() {
             />
           ))}
           <div className="h-8" />
+          <Footer />
         </div>
       </div>
     </Layout>

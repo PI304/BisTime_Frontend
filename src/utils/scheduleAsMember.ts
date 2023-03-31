@@ -10,7 +10,6 @@ export const scheduleListToAvailableMember = (
   event: Event,
 ) => {
   const availableMember = {};
-  console.log('scheduleList', scheduleList);
 
   scheduleList.map((schedule) => {
     const { name, date, availability } = schedule;
@@ -36,7 +35,6 @@ export const scheduleListToAvailableMember = (
         }
       });
   });
-  console.log('availableMember', availableMember);
   return availableMember;
 };
 
