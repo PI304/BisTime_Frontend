@@ -35,13 +35,13 @@ export default function MetaHead() {
         name="viewport"
         content="initial-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no"
       />
-      <meta
-        property="og:description"
-        content="편리한 시간관리 도구, 비즈타임"
-      />
       <meta name="description" content="편리한 시간관리 도구, 비즈타임" />
-      <meta property="og:title" content="BISTIME" />
       <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://bistime.app" />
+      <meta property="og:title" content="편리한 시간관리 도구, 비즈타임" />
+      <meta property="og:description" content="모임을 만들고 관리하세요." />
+      <meta property="og:site_name" content="BISTIME" />
+      <meta property="og:locale" content="en_US" />
     </Head>
   );
 }
