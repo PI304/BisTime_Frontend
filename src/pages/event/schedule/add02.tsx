@@ -35,8 +35,8 @@ export default function Add() {
       <ProgressBar progress="w-2/3" className="mt-3" />
       <div className="mt-6 w-full space-y-5 flex flex-col items-center justify-center">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">날짜를 확인하고</div>
-          <div className="text-18 text-left w-full">일정을 등록해주세요.</div>
+          <div className="text-18 text-left w-full">날짜를 확인하셨다면</div>
+          <div className="text-18 text-left w-full">'다음' 버튼을 눌러주세요.</div>
         </div>
         <div className="w-full flex items-center justify-center">
           <Calender />

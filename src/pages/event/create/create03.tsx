@@ -60,10 +60,11 @@ function Create() {
       >
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">
-            모임 시간을 설정하세요.
+            [시작시간] 부터 [종료시간] 까지의
           </div>
-          <div className="text-18 text-left w-full">30분 단위로</div>
-          <div className="text-18 text-left w-full">가능여부를 조사합니다.</div>
+          <div className="text-18 text-left w-full">
+            일정을 조사합니다.
+          </div>
           {errors.startTime && (
             <ErrorMessage message={errors.startTime.message} />
           )}
