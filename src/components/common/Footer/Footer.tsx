@@ -45,7 +45,12 @@ export default function Footer() {
       <div className="flex text-11">
         Powered By PlayIdea
         <div className="ml-1.5 w-4 relative">
-          <Image src="/static/logo.png" fill className="object-contain" />
+          <Image
+            src="/static/logo.png"
+            alt="logo"
+            fill
+            className="object-contain"
+          />
         </div>
       </div>
     </div>
