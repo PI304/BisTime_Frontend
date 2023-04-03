@@ -40,7 +40,6 @@ function Create() {
       <ProgressBar progress="w-1/4" className="mt-3" />
       <div className="w-full flex flex-col mt-6">
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-18 text-left w-full">친구들과 공유할</div>
           <div className="text-18 text-left w-full">모임의 이름을</div>
           <div className="text-18 text-left w-full">정해주세요.</div>
         </div>
