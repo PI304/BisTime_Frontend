@@ -103,7 +103,7 @@ export default function Add() {
     <Layout className="relative">
       <Navigate back />
       <ProgressBar progress="w-full" className="mt-3" />
-      <div className="mt-6 w-full pb-16 flex flex-col items-center justify-center">
+      <div className="mt-6 w-full pb-16 flex flex-col h-full items-center justify-start">
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">30분 단위로 가능한</div>
           <div className="text-18 text-left w-full">시간대에 체크하세요.</div>
@@ -126,7 +126,6 @@ export default function Add() {
             onClick={() => {
               mutate(scheduleState);
             }}
-            className="absolute bottom-4 w-[calc(100%-40px)]"
           >
             일정 등록 하기
           </Button>
