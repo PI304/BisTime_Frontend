@@ -53,7 +53,7 @@ function Schedule() {
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">모임을 만들었어요!</div>
           <div className="text-18 text-left w-full">
-            자신의 일정을 등록하거나,
+            자신의 일정을 등록하거나
           </div>
           <div className="text-18 text-left w-full"></div>
           <div className="text-18 text-left w-full">
