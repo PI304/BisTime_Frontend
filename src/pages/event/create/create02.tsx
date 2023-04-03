@@ -65,10 +65,10 @@ function Create() {
       >
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">모임을 희망하는</div>
-          <div className="text-18 text-left w-full">날짜를 선택하세요.</div>
           <div className="text-18 text-left w-full">
-            여러 날의 선택이 가능합니다.
+            날짜를 모두 선택하세요.
           </div>
+
           {errors.date && (
             <ErrorMessage message={errors.date.message as string} />
           )}

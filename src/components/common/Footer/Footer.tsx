@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Footer() {
@@ -40,6 +41,12 @@ export default function Footer() {
           </svg>
           <p className="ml-1 text-12 text-gray-8">EarthlyZ9</p>
         </Link>
+      </div>
+      <div className="flex text-11">
+        Powered By PlayIdea
+        <div className="ml-1.5 w-4 relative">
+          <Image src="/static/logo.png" fill className="object-contain" />
+        </div>
       </div>
     </div>
   );
