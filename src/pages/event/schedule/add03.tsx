@@ -84,25 +84,10 @@ export default function Add() {
     uuid as string,
   );
 
-  const isDirty = scheduleState.isDirty;
-
   useEffect(() => {
     if (!uuid) return;
     if (!scheduleState.name) router.push(`/event/?uuid=${uuid}`);
   }, [scheduleState.name, uuid]);
-
-  useEffect(() => {
-    if (!scheduleList || !event) return;
-    if (isDirty) return;
-    const newAvailability = [];
-
-    scheduleList.map((schedule) => {
-      if (schedule.name !== scheduleState.name) return;
-      newAvailability.push(schedule.availability.split(''));
-    });
-
-    if (newAvailability.length > 0) dispatch(setAvailability(newAvailability));
-  }, [scheduleList, event, dispatch]);
 
   if (isLoading || scheduleLoading) return <Loader />;
 

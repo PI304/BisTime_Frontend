@@ -8,14 +8,18 @@ import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useEffect } from 'react';
 import { setAvailability } from '@features/schedule/scheduleSlice';
+import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 
 export default function Add() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const scheduleState = useAppSelector((state) => state.schedule);
-  const { data: event } = useGetEventQuery(router.query.uuid as string);
 
   const uuid = router.query.uuid as string;
+
+  const { data: event } = useGetEventQuery(uuid as string);
+  const { data: scheduleList } = useGetScheduleQuery(uuid as string);
+  const isDirty = scheduleState.isDirty;
 
   useEffect(() => {
     if (!uuid) return;
@@ -23,6 +27,8 @@ export default function Add() {
   }, [scheduleState.name, router, uuid]);
 
   useEffect(() => {
+    if (!scheduleList || !event) return;
+
     if (event) {
       const availability = [];
       Object.keys(event.availability).forEach((key) => {
@@ -32,7 +38,18 @@ export default function Add() {
       if (scheduleState.availability.length === 0)
         dispatch(setAvailability(availability));
     }
-  }, [event]);
+
+    if (isDirty) return;
+
+    const newAvailability = [];
+
+    scheduleList.map((schedule) => {
+      if (schedule.name !== scheduleState.name) return;
+      newAvailability.push(schedule.availability.split(''));
+    });
+
+    if (newAvailability?.length > 0) dispatch(setAvailability(newAvailability));
+  }, [event, scheduleList, isDirty]);
 
   return (
     <Layout>
