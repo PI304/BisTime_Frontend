@@ -1,6 +1,5 @@
 import '../styles/globals.css';
 
-import MetaHead from '@components/MetaHeda';
 import store from '@features/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
