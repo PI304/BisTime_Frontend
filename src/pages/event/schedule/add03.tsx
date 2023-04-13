@@ -9,7 +9,7 @@ import { useGetScheduleQuery } from '@apis/schedule/scheduleApi.query';
 import { useRouter } from 'next/router';
 import { usePostScheduleMutation } from '@apis/schedule/scheduleApi.mutation';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { setAvailability } from '@features/schedule/scheduleSlice';
 
 const scheduleListToMembers = (scheduleList: Schedule[]) => {
@@ -85,6 +85,11 @@ export default function Add() {
   );
 
   const isDirty = scheduleState.isDirty;
+
+  useEffect(() => {
+    if (!uuid) return;
+    if (!scheduleState.name) router.push(`/event/schedule/add01?uuid=${uuid}`);
+  }, [scheduleState.name, router, uuid]);
 
   useEffect(() => {
     if (!scheduleList || !event) return;
