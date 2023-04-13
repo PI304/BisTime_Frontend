@@ -3,10 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 interface scheduleState {
   name: string;
   availability: any[];
+  isDirty: boolean;
 }
 const initialState: scheduleState = {
   name: '',
   availability: [],
+  isDirty: false,
 };
 
 const scheduleSlice = createSlice({
@@ -21,9 +23,14 @@ const scheduleSlice = createSlice({
       ...state,
       availability: action.payload,
     }),
+    setIsDirty: (state, action) => ({
+      ...state,
+      isDirty: action.payload,
+    }),
     reset: () => initialState,
   },
 });
 
-export const { setName, setAvailability, reset } = scheduleSlice.actions;
+export const { setName, setAvailability, setIsDirty, reset } =
+  scheduleSlice.actions;
 export default scheduleSlice.reducer;

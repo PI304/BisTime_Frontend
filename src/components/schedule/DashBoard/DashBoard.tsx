@@ -2,7 +2,7 @@ import Loader from '@components/common/Loader';
 import Image from 'next/image';
 import { useGetEventQuery } from '@apis/event/eventApi.query';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { setAvailability } from '@features/schedule/scheduleSlice';
+import { setAvailability, setIsDirty } from '@features/schedule/scheduleSlice';
 import { formatDateWithDayOfWeek } from '@utils/formatDate';
 import { useRouter } from 'next/router';
 
@@ -90,6 +90,7 @@ export default function DashBoard({
   );
 
   const handleClick = (index: number) => {
+    dispatch(setIsDirty(true));
     if (!event) return;
     const key = Object.keys(event.availability).indexOf(date);
     const newAvailabilityArray: string[] = [];
