@@ -20,10 +20,19 @@ function Create() {
 
   const router = useRouter();
   const eventState = useAppSelector((state) => state.event);
+
   const onSubmit = () => {
     const today = moment();
 
     let isDateValid = true;
+
+    if (eventState.additionalDates.length > 19) {
+      setError('date', {
+        type: 'manual',
+        message: '날짜는 20개 아래로 선택할 수 있습니다',
+      });
+      return;
+    }
 
     eventState.additionalDates.map((date) => {
       const someDate = moment(date);
