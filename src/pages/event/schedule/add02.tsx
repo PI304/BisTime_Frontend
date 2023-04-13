@@ -13,15 +13,13 @@ export default function Add() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const scheduleState = useAppSelector((state) => state.schedule);
-  const { data: event, isLoading } = useGetEventQuery(
-    router.query.uuid as string,
-  );
+  const { data: event } = useGetEventQuery(router.query.uuid as string);
 
   const uuid = router.query.uuid as string;
 
   useEffect(() => {
     if (!uuid) return;
-    if (!scheduleState.name) router.push(`/event/schedule/add01?uuid=${uuid}`);
+    if (!scheduleState.name) router.push(`/event/?uuid=${uuid}`);
   }, [scheduleState.name, router, uuid]);
 
   useEffect(() => {

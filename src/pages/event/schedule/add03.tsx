@@ -88,8 +88,8 @@ export default function Add() {
 
   useEffect(() => {
     if (!uuid) return;
-    if (!scheduleState.name) router.push(`/event/schedule/add01?uuid=${uuid}`);
-  }, [scheduleState.name, router, uuid]);
+    if (!scheduleState.name) router.push(`/event/?uuid=${uuid}`);
+  }, [scheduleState.name, uuid]);
 
   useEffect(() => {
     if (!scheduleList || !event) return;

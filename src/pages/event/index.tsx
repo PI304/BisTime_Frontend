@@ -14,6 +14,8 @@ import {
   scheduleListToMembers,
 } from '@utils/scheduleAsMember';
 import Footer from '@components/common/Footer';
+import { useAppDispatch } from '@features/hooks';
+import { reset } from '@features/schedule/scheduleSlice';
 
 const TIMETABLE = [
   '00:00',
@@ -69,7 +71,7 @@ const TIMETABLE = [
 export default function Event() {
   const router = useRouter();
   const { uuid } = router.query;
-
+  const dispatch = useAppDispatch();
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const members = scheduleListToMembers(scheduleList || []);
@@ -81,6 +83,8 @@ export default function Event() {
     if (scheduleList && event) {
       const detail = scheduleListToAvailableMember(scheduleList, event);
       setAvailableMember(detail);
+      // 새로 일정을 등록하고 온 경우
+      dispatch(reset());
     }
   }, [scheduleList, event]);
 
