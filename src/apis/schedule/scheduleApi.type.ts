@@ -3,9 +3,3 @@ export type SchedulePostParam = {
   availability: string[];
 };
 
-export interface ScheduleResponse {
-  count: number;
-  next: string;
-  previous: string;
-  results: Schedule[];
-}
