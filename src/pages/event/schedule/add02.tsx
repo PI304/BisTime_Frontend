@@ -17,6 +17,13 @@ export default function Add() {
     router.query.uuid as string,
   );
 
+  const uuid = router.query.uuid as string;
+
+  useEffect(() => {
+    if (!uuid) return;
+    if (!scheduleState.name) router.push(`/event/schedule/add01?uuid=${uuid}`);
+  }, [scheduleState.name, router, uuid]);
+
   useEffect(() => {
     if (event) {
       const availability = [];
