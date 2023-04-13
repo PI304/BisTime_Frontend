@@ -7,7 +7,14 @@ import { persistStore } from 'redux-persist';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import type { AppProps } from 'next/app';
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchInterval: 1000,
+    },
+  },
+});
 
 const persistor = persistStore(store);
 
