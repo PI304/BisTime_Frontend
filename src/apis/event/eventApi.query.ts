@@ -14,7 +14,10 @@ export const useGetEventQuery = (uuid: string) => {
           obj[key] = data.availability[key];
           return obj;
         }, {});
-        return { ...data, availability: sortedObj };
+        return {
+          ...data,
+          availability: sortedObj,
+        };
       },
     },
   );

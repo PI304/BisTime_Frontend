@@ -1,9 +1,9 @@
 import instance from '@apis/_axios/instance';
 
-import { SchedulePostParam, ScheduleResponse } from './scheduleApi.type';
+import { SchedulePostParam } from './scheduleApi.type';
 
 export class ScheduleApi {
-  async getSchedule(uuid: string): Promise<ScheduleResponse> {
+  async getSchedule(uuid: string): Promise<Schedule[]> {
     const { data } = await instance({
       method: 'GET',
       url: `/api/events/${uuid}/schedules`,

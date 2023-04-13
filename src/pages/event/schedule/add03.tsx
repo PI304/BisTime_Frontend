@@ -72,7 +72,6 @@ const TIMETABLE = [
 export default function Add() {
   const router = useRouter();
   const scheduleState = useAppSelector((state) => state.schedule);
-  const dispatch = useAppDispatch();
   const { uuid } = router.query;
   const { data: event, isLoading } = useGetEventQuery(uuid as string);
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
