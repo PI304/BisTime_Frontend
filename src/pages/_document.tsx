@@ -1,14 +1,10 @@
-import { Html, Head, Main, NextScript } from 'next/document';
+import MetaHead from '@components/MetaHeda';
+import { Html, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
     <Html>
-      <Head>
-        {/* <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        /> */}
-      </Head>
+      <MetaHead />
       <body className="text-16">
         <Main />
         <NextScript />

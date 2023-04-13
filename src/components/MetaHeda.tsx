@@ -45,7 +45,7 @@ export default function MetaHead() {
         property="og:title"
         content="모임 시간을 잡는 손쉬운 방법, 비즈타임"
       />
-      <meta property="og:description" content="모임을 만들고 관리하세요." />
+      <meta property="og:image" content="/static/og-image.png" />
       <meta property="og:site_name" content="BISTIME" />
       <meta property="og:locale" content="en_US" />
     </Head>
