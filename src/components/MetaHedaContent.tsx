@@ -1,8 +1,6 @@
-import Head from 'next/head';
-
-export default function MetaHead() {
+export default function MetaHeadContent() {
   return (
-    <Head>
+    <>
       <link rel="shortcut icon" href="/static/favicon.ico" />
       <link
         rel="apple-touch-icon"
@@ -48,6 +46,6 @@ export default function MetaHead() {
       <meta property="og:image" content="/static/og-image.png" />
       <meta property="og:site_name" content="BISTIME" />
       <meta property="og:locale" content="en_US" />
-    </Head>
+    </>
   );
 }

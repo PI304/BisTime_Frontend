@@ -1,10 +1,12 @@
-import MetaHead from '@components/MetaHeda';
-import { Html, Main, NextScript } from 'next/document';
+import MetaHeadContent from '@components/MetaHedaContent';
+import { Html, Main, NextScript, Head } from 'next/document';
 
 export default function Document() {
   return (
     <Html>
-      <MetaHead />
+      <Head>
+        <MetaHeadContent />
+      </Head>
       <body className="text-16">
         <Main />
         <NextScript />
