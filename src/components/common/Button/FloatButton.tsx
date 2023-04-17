@@ -43,7 +43,7 @@ export default function FloatButton({
         <button
           className={`${
             isFlipped && 'bg-red-400'
-          } fixed transition-colors ease-linear right-5 bottom-10 mobile:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          } fixed transition-colors ease-linear right-5 bottom-10 web:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
           onClick={() => setIsFlipped(!isFlipped)}
           {...rest}
         >
