@@ -1,4 +1,7 @@
+import { isFulfilled } from '@reduxjs/toolkit';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 interface FloatButtonProps {
   type?: 'add' | 'filter';
@@ -12,26 +15,62 @@ export default function FloatButton({
   className,
   ...rest
 }: FloatButtonProps) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const router = useRouter();
+
   if (type === 'add')
     return (
-      <button
-        className={`fixed right-5 bottom-15 mobile:right-[calc(50vw-175px)] w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
-        onClick={onClick}
-        {...rest}
-      >
-        <Image
-          src="/svg/icons/plus.svg"
-          width={28}
-          height={28}
-          alt="filter"
-          className="m-auto"
-        />
-      </button>
+      <div>
+        <button
+          className={`${
+            isFlipped && '-translate-y-[4.5rem]'
+          } fixed right-5 bottom-20 transition-all text-white text-12 mobile:right-[calc(50vw-175px)] w-16 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          onClick={onClick}
+          {...rest}
+        >
+          일정 <br /> 추가
+        </button>
+        <button
+          className={`${
+            isFlipped && '-translate-y-[9rem]'
+          } fixed right-5 bottom-20 transition-all text-white text-12 mobile:right-[calc(50vw-175px)] w-16 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          onClick={() => router.push('/event/create/create01')}
+          {...rest}
+        >
+          새로운 <br /> 모임
+        </button>
+        <button
+          className={`${
+            isFlipped && 'bg-red-400'
+          } fixed transition-colors ease-linear right-5 bottom-20 mobile:right-[calc(50vw-175px)] w-16 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          onClick={() => setIsFlipped(!isFlipped)}
+          {...rest}
+        >
+          {!isFlipped ? (
+            <Image
+              src="/svg/icons/plus.svg"
+              width={28}
+              height={28}
+              alt="filter"
+              className="m-auto"
+            />
+          ) : (
+            <Image
+              src="/svg/icons/cross.svg"
+              width={28}
+              height={28}
+              alt="filter"
+              className="m-auto"
+            />
+          )}
+        </button>
+      </div>
     );
   if (type === 'filter')
     return (
       <button
-        className={`fixed right-5 bottom-24 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
+        className={`fixed right-5 bottom-24 w-16 aspect-square rounded-full bg-primary-green-1 ${className}`}
         onClick={onClick}
         {...rest}
       >
