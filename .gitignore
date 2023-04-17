@@ -6,7 +6,6 @@
 .pnp.js
 .pnp.*
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -52,4 +51,5 @@ next-env.d.ts
 .env.production.local
 .env.local
 
-
+# IDEA
+.idea
