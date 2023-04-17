@@ -119,7 +119,7 @@ module.exports = {
         },
       },
       screens: {
-        mobile: '375px',
+        web: '375px',
       },
     },
   },

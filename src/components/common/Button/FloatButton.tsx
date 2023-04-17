@@ -25,7 +25,7 @@ export default function FloatButton({
         <button
           className={`${
             isFlipped && '-translate-y-[4rem]'
-          } fixed right-5 bottom-20 text-center transition-all text-white text-11 mobile:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          } fixed right-5 bottom-10 text-center transition-all text-white text-11 web:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
           onClick={onClick}
           {...rest}
         >
@@ -34,7 +34,7 @@ export default function FloatButton({
         <button
           className={`${
             isFlipped && '-translate-y-[8rem]'
-          } fixed right-5 bottom-20 transition-all text-center text-white text-11 mobile:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          } fixed right-5 bottom-10 transition-all text-center text-white text-11 web:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
           onClick={() => router.push('/event/create/create01')}
           {...rest}
         >
@@ -43,7 +43,7 @@ export default function FloatButton({
         <button
           className={`${
             isFlipped && 'bg-red-400'
-          } fixed transition-colors ease-linear right-5 bottom-20 mobile:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
+          } fixed transition-colors ease-linear right-5 bottom-10 mobile:right-[calc(50vw-175px)] w-14 aspect-square rounded-full bg-primary-green-1 ${className}`}
           onClick={() => setIsFlipped(!isFlipped)}
           {...rest}
         >
