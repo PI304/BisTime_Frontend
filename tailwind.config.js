@@ -118,6 +118,9 @@ module.exports = {
           },
         },
       },
+      screens: {
+        mobile: '375px',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar')],

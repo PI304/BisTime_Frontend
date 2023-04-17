@@ -15,7 +15,7 @@ export default function FloatButton({
   if (type === 'add')
     return (
       <button
-        className={`fixed right-5 bottom-10 w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
+        className={`fixed right-5 bottom-15 mobile:right-[calc(50vw-175px)] w-12 aspect-square rounded-full bg-primary-green-1 ${className}`}
         onClick={onClick}
         {...rest}
       >

@@ -64,6 +64,7 @@ export default function ScheduleDetail() {
   const { data: scheduleList } = useGetScheduleQuery(uuid as string);
   const startIndex = TIMETABLE.indexOf(event?.startTime || '00:00');
   const [availableMember, setAvailableMember] = useState({});
+
   useEffect(() => {
     if (scheduleList && event) {
       const detail = scheduleListToAvailableMember(scheduleList, event);
@@ -80,7 +81,6 @@ export default function ScheduleDetail() {
           startIdx={startIndex}
         />
       )}
-
     </Layout>
   );
 }
