@@ -1,11 +1,10 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Select from '../Select';
-import Toggle from './Toggle';
 
 import type { FieldPath, UseFormSetValue, FieldValues } from 'react-hook-form';
-const dayTimeZone = [
+const fullTimeZone = [
   { value: '00:00' },
   { value: '00:30' },
   { value: '01:00' },
@@ -31,9 +30,7 @@ const dayTimeZone = [
   { value: '11:00' },
   { value: '11:30' },
   { value: '12:00' },
-];
-
-const nightTimeZone = [
+  { value: '12:30' },
   { value: '13:00' },
   { value: '13:30' },
   { value: '14:00' },
@@ -62,7 +59,6 @@ const nightTimeZone = [
 interface TimePickerProps<T extends FieldValues> {
   name: FieldPath<T>;
   setValue: UseFormSetValue<T>;
-  dayOrNight: boolean;
   label?: string;
   className?: string;
 }
@@ -70,33 +66,19 @@ interface TimePickerProps<T extends FieldValues> {
 export default function TimePicker<T extends FieldValues>({
   name,
   setValue,
-  dayOrNight,
   label,
   className,
 }: TimePickerProps<T>) {
-  const [isDayOrNight, setIsDayOrNight] = useState(dayOrNight);
-  const [options, setOptions] = useState(dayTimeZone);
+  const [options, setOptions] = useState(fullTimeZone);
 
-  useEffect(() => {
-    if (isDayOrNight) setOptions(nightTimeZone);
-    else setOptions(dayTimeZone);
-  }, [isDayOrNight]);
 
   return (
-    <div className="flex flex-col">
-      <div className="text-16 text-primary-green-3 text-left w-full">
+    <div className="flex flex-row">
+      <div className="text-16 text-primary-green-3 text-left w-full leading-10 me-8">
         {label}
       </div>
       <div className={`flex justify-center items-center ${className}`}>
         <Select name={name} setValue={setValue} options={options} />
-        <Toggle
-          enabled={isDayOrNight}
-          onClick={() => {
-            setIsDayOrNight(!isDayOrNight);
-          }}
-          toggleMenu={['오전', '오후']}
-          className="ml-1"
-        />
       </div>
     </div>
   );

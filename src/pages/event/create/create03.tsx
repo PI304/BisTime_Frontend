@@ -35,7 +35,7 @@ function Create() {
     if (startTime.value >= endTime.value) {
       setError('startTime', {
         type: 'manual',
-        message: '종료시간은 시작시간보다 늦어야 합니다.',
+        message: '시작시간은 종료시간 이전으로 설정해야 합니다.',
       });
       return;
     }
@@ -60,10 +60,10 @@ function Create() {
       >
         <div className="w-full flex flex-col items-center justify-center">
           <div className="text-18 text-left w-full">
-            [시간시간] 부터 [종료시간]
+            [시작시간] 부터 [종료시간] 까지의
           </div>
           <div className="text-18 text-left w-full">
-            까지의 일정을 조사합니다.
+            일정을 조사합니다.
           </div>
           {errors.startTime && (
             <ErrorMessage message={errors.startTime.message} />
@@ -74,13 +74,11 @@ function Create() {
           <TimePicker
             name="startTime"
             label="시작시간"
-            dayOrNight={false}
             setValue={setValue}
           />
           <TimePicker
             name="endTime"
             label="종료시간"
-            dayOrNight={true}
             setValue={setValue}
           />
         </div>
