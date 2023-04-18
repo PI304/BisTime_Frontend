@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
@@ -30,8 +30,8 @@ jobs:
           push: true
           tags: earthlyz9/bistime-app:latest
           build-args: |
-            NEXT_PUBLIC_API_BASE_URL=https://api.bistime.app
-            NEXT_PUBLIC_DOMAIN=https://bistime.app
+            "NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}"
+            "NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}"
 
       # SSH into the EC2 instance, pull the Docker image, and start the container
       - name: Deploy to EC2
