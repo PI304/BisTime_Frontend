@@ -30,8 +30,8 @@ jobs:
           push: true
           tags: earthlyz9/bistime-app:latest
           build-args: |
-            NEXT_PUBLIC_API_BASE_URL =${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
-            NEXT_PUBLIC_BASE_URL =${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
+            NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}
 
       # SSH into the EC2 instance, pull the Docker image, and start the container
       - name: Deploy to EC2

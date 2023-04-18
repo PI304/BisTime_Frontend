@@ -25,10 +25,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ARG NEXT_PUBLIC_API_BASE_URL
-ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_DOMAIN
 
-ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
-ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL ${NEXT_PUBLIC_API_BASE_URL}
+ENV NEXT_PUBLIC_DOMAIN ${NEXT_PUBLIC_DOMAIN}
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
