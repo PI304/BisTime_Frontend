@@ -11,7 +11,7 @@ services:
 
   server:
     build: ./infra/nginx
-    container_name: convey-nginx
+    container_name: bistime-nginx
     ports:
       - "80:80"
       - "443:443"
