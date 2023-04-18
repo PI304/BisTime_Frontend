@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,8 +29,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: earthlyz9/bistime-app:latest
-  deploy:
-    steps:
+
       # SSH into the EC2 instance, pull the Docker image, and start the container
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
