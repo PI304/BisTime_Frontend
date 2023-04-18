@@ -39,4 +39,5 @@ jobs:
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           port: 22
           script: |
+            cd /home/ubuntu/BisTime_Frontend
             ./rebuild_container.sh
