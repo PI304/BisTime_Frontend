@@ -404,7 +404,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:18.0.24":
+"@types/react@npm:*":
+  version: 18.0.37
+  resolution: "@types/react@npm:18.0.37"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 6a6c8feada1d6aa2d01a38c44ce09598d93688e97ed21511d5e34fd7fe748b760dd957a5ac0725f5643d8d7e1a0ade6478ebd4be96c9605c5d6816b17ad35d2d
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:18.0.24":
   version: 18.0.24
   resolution: "@types/react@npm:18.0.24"
   dependencies:
@@ -1247,9 +1258,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.366
-  resolution: "electron-to-chromium@npm:1.4.366"
-  checksum: e8217ef43a0b2eeefd92bcc9118488f73986b556978952c5ad335c3bb8ad50de8a28a5b85aa8bc18187119a7bf168bcd17324ef1d6f8086534e9b81e9713774f
+  version: 1.4.367
+  resolution: "electron-to-chromium@npm:1.4.367"
+  checksum: 721e4958945a16ff21a63896d4e112da7b8f3fd5540a27280d5777c196fe4e1f1b51359f86c6fe83a267e81f127e4753ec9171547f094f86481a421c809473b0
   languageName: node
   linkType: hard
 
@@ -1934,7 +1945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.7, glob@npm:^7.1.3":
+"glob@npm:7.1.7":
   version: 7.1.7
   resolution: "glob@npm:7.1.7"
   dependencies:
@@ -1948,7 +1959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.1.4, glob@npm:^7.2.0":
+"glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.0":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -2860,14 +2871,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.2, ms@npm:^2.1.1":
+"ms@npm:2.1.2":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
   checksum: 673cdb2c3133eb050c745908d8ce632ed2c02d85640e2edb3ace856a2266a813b30c613569bf3354fdf4ea7d1a1494add3bfa95e2713baa27d0c2c71fc44f58f
   languageName: node
   linkType: hard
 
-"ms@npm:^2.0.0":
+"ms@npm:^2.0.0, ms@npm:^2.1.1":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: aa92de608021b242401676e35cfa5aa42dd70cbdc082b916da7fb925c542173e36bce97ea3e804923fe92c0ad991434e4a38327e15a1b5b5f945d66df615ae6d
