@@ -32,6 +32,7 @@ jobs:
           build-args: |
             "NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}"
             "NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}"
+            "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}"
 
       # SSH into the EC2 instance, pull the Docker image, and start the container
       - name: Deploy to EC2
