@@ -35,3 +35,6 @@ yarn remove <package>
 # 개발 서버 실행
 yarn dev
 ```
+
+
+<!-- Security scan triggered at 2025-09-01 22:48:51 -->
